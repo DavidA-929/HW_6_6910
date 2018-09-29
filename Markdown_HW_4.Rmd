@@ -1,0 +1,19 @@
+---
+title: 'STAT 6910: HW 3'
+author: "David Angeles"
+output:
+  pdf_document:
+    keep_tex: yes
+  html_document:
+    df_print: paged
+fontsize: 12pt
+---
+
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(pwr)
+library("emmeans")
+```
+
+## Problem 1
