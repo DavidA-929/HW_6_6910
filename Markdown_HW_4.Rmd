@@ -38,7 +38,7 @@ Post_grams <- matrix(c(Post[,1],Post[,2],Post[,3],
                      ncol = 2,nrow = 30)
 
 ```
-The data displayed below is prepresented by the codes 1, 2, 3, 4, 5, and 6 which denote the frying fat content at 10%, 15%, and 20% and the grilling fat content at 10%, 15% and 20% respectively, for the post-cooking weight data (in grams) for the meat cooking experiment.
+The data displayed below is represented by the codes 1, 2, 3, 4, 5, and 6 which denote the frying fat content at 10%, 15%, and 20% and the grilling fat content at 10%, 15% and 20% respectively for the post-cooking weight data (in grams) for the meat cooking experiment.
 ```{r}
 head(Post_grams) 
 colnames(Post_grams) <- c( "Weight", "Code")
@@ -47,7 +47,7 @@ Post_grams$Code <- factor(Post_grams$Code)
 summary(Post_grams)
 ```
 
-We can see that the contrasts 1 - 2, 1 - 3, 1 - 4, 1 - 5, 1 - 6, 2 - 3, 2 - 4, 2 - 5, 2 - 6, 3 - 4, 3 - 5, 3 - 6, 4 - 5, 4 - 6, and 5 - 6 have the following 95% overall confidence intervals respectively.
+We can see that the contrasts 1 - 2, 1 - 3, 1 - 4, 1 - 5, 1 - 6, 2 - 3, 2 - 4, 2 - 5, 2 - 6, 3 - 4, 3 - 5, 3 - 6, 4 - 5, 4 - 6, and 5 - 6 have the following 95% overall confidence intervals respectively using Scheffe's method of multiple comparisons and a 95% overall confidence level.
 
 ```{r}
 Post_weight_model <- aov(Weight ~ Code , data = Post_grams)
@@ -68,7 +68,7 @@ Exercise 15 of Chap. 3 (p. 67) concerns a study of the effects of four levels of
 (a) Compare the four treatments using Tukey’s method of pairwise comparisons and a 99% overall confidence level.
 
 
-The Tukey’s method of pairwise comparisons and  99% overall confidence level are displyed below.
+The Tukey’s method of pairwise comparisons and  99% overall confidence level are displayed below.
 
 ```{r}
 Hemoglobin_2 <- matrix(c( rep(1, each = 10), rep(2, each = 10), 
@@ -92,11 +92,11 @@ summary(hemo.tukey,infer = c(TRUE,TRUE), level = .99)
 
 (b) Compare the effect of no sulfamerazine on the hemoglobin content of trout blood with the average effect of the other three levels. The overall confidence level of all intervals in parts (a) and (b) should be at least 98%.
 
-Using a FWER $\leq .02$ and the code below, our data do not provide evidence that no sulfamerazine on the hemoglobin content of trout blood with the average effect of the other three levels.
+Using a FWER $\leq .02$ and the code below, we obtain a $p$-value of $p=0.03$ for the contract $(3,-1,-1,-1)$ which is greater that the FWER. So our data do not provide evidence that no sulfamerazine on the hemoglobin content of trout blood with the average effect of the other three levels.
 
 ```{r}
 contrast(hemoglobin_means,method = list(c(3,-1,-1,-1)))
-````
+```
 
 
 ## Problem 3 (7a and b)
@@ -107,7 +107,7 @@ The soap experiment was described in Sect. 2.5.1, p. 20, and an analysis was giv
 
 
 
-Since it is being assumed that the experimenter migh have been intersted only in one contrast, there isn't a need to use a family-eise error rate. Therefore, using an $\alpha$-level of $\alpha=.05$ and results on pg. 51, we can calcualte a confidence interval for this single contrast as follow:
+Since it is being assumed that the experimenter might have been interested only in one contrast, there isn't a need to use a family-wise error rate. Therefore, using an $\alpha$-level of $\alpha=.05$ and results on pg. 51, we can calculate a confidence interval for this single contrast as follow:
 
 $$
 \begin{aligned}
@@ -119,7 +119,7 @@ $$
 &= -2.38125 \pm .38487
 \end{aligned}
 $$
-Therefore the 95% confidence interval for the specific constrast is (-2.76612,-1.99638).
+Therefore the 95% confidence interval for the specific contrast is (-2.76612,-1.99638).
 
  (b) Test the hypothesis that the regular soap has the same average weight loss as the average of the other two soaps. Do this via your confidence interval in part (a) and also via (4.3.13) and (4.3.15).
  

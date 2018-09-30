@@ -154,9 +154,9 @@ the data were given in Table 3.14, p.~68.
   method of multiple comparisons and a 95\% overall confidence level.
 \end{enumerate}
 
-The data displayed below is prepresented by the codes 1, 2, 3, 4, 5, and
+The data displayed below is represented by the codes 1, 2, 3, 4, 5, and
 6 which denote the frying fat content at 10\%, 15\%, and 20\% and the
-grilling fat content at 10\%, 15\% and 20\% respectively, for the
+grilling fat content at 10\%, 15\% and 20\% respectively for the
 post-cooking weight data (in grams) for the meat cooking experiment.
 
 \begin{Shaded}
@@ -196,7 +196,9 @@ post-cooking weight data (in grams) for the meat cooking experiment.
 
 We can see that the contrasts 1 - 2, 1 - 3, 1 - 4, 1 - 5, 1 - 6, 2 - 3,
 2 - 4, 2 - 5, 2 - 6, 3 - 4, 3 - 5, 3 - 6, 4 - 5, 4 - 6, and 5 - 6 have
-the following 95\% overall confidence intervals respectively.
+the following 95\% overall confidence intervals respectively using
+Scheffe's method of multiple comparisons and a 95\% overall confidence
+level.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -248,7 +250,7 @@ significance level \(\alpha=0.01\).
 \end{enumerate}
 
 The Tukey's method of pairwise comparisons and 99\% overall confidence
-level are displyed below.
+level are displayed below.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -296,9 +298,11 @@ level are displyed below.
   be at least 98\%.
 \end{enumerate}
 
-Using a FWER \(\leq .02\) and the code below, our data do not provide
-evidence that no sulfamerazine on the hemoglobin content of trout blood
-with the average effect of the other three levels.
+Using a FWER \(\leq .02\) and the code below, we obtain a \(p\)-value of
+\(p=0.03\) for the contract \((3,-1,-1,-1)\) which is greater that the
+FWER. So our data do not provide evidence that no sulfamerazine on the
+hemoglobin content of trout blood with the average effect of the other
+three levels.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -326,11 +330,11 @@ was given in Sect. 3.7.2, p.~50.
   two soaps. Calculate a confidence interval for this single contrast.
 \end{enumerate}
 
-Since it is being assumed that the experimenter migh have been intersted
-only in one contrast, there isn't a need to use a family-eise error
-rate. Therefore, using an \(\alpha\)-level of \(\alpha=.05\) and results
-on pg. 51, we can calcualte a confidence interval for this single
-contrast as follow:
+Since it is being assumed that the experimenter might have been
+interested only in one contrast, there isn't a need to use a family-wise
+error rate. Therefore, using an \(\alpha\)-level of \(\alpha=.05\) and
+results on pg. 51, we can calculate a confidence interval for this
+single contrast as follow:
 
 \[
 \begin{aligned}
@@ -341,7 +345,7 @@ contrast as follow:
 &= -2.38125 \pm 2.262\sqrt{0.0772 \left( \frac{3}{8}  \right)}\\
 &= -2.38125 \pm .38487
 \end{aligned}
-\] Therefore the 95\% confidence interval for the specific constrast is
+\] Therefore the 95\% confidence interval for the specific contrast is
 (-2.76612,-1.99638).
 
 \begin{enumerate}
@@ -370,7 +374,7 @@ Next, using Equation 4.3.13 we get
 \[
  \begin{aligned}
  \Bigg| \frac{\sum c_i \bar{y}_i}{\sqrt{msE \sum c_i^2/r_i}}  \Bigg|
- &=  \Bigg| \frac{-2.38125}{\sqrt{0.0772 \left( \frac{3}{8} \right)}}  \Bigg| = 13.99525 > 2.201.
+ &=  \Bigg| \frac{-2.38125}{\sqrt{0.0772 \left( \frac{3}{8} \right)}}  \Bigg| = 13.99525 > 2.262 = t_{9,.025}.
   \end{aligned}
  \] So we can reject the null hypothesis again. Lastly, Using Equation
 4.3.15 we get
@@ -379,19 +383,10 @@ Next, using Equation 4.3.13 we get
  \begin{aligned}
  \Bigg| \frac{ \frac{\left(\sum c_i \bar{y}_i\right)^2}{\sum c_i^2/r_i} }{ msE }  \Bigg|
  &=   \Bigg| \frac{ \frac{5.67035 }{3/8} }{ .0772 }  \Bigg|\\
- &=195.8671 > 4.75.
+ &=195.8671 > 5.12 = F_{1,9,.05}.
   \end{aligned}
- \]
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{qf}\NormalTok{(.}\DecValTok{95}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{12}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 4.747225
-\end{verbatim}
+ \] and therefore we can reject the null hypothesis in favor of the
+alternative hypothesis again.
 
 \subsection{Problem 4 (10)}\label{problem-4-10}
 
@@ -407,6 +402,33 @@ Consider again the trout experiment in Exercise 15 of Chap. 3.
   length of each interval in a set of simultaneous 95\% confidence
   intervals for pairwise comparisons should be at most 2 g per 100 ml?
 \end{enumerate}
+
+Assuming that we want to look at all pairwise comparisons, we know that
+tukey's method will provide the narrowest confidence interval set of
+simultaneous 95\% confidence intervals for pairwise comparisons.
+Therefore, using \(q_{4,12,.05} = 4.20\), I'll assume \(\sigma^2 = 2.5\)
+from the code below and also that \(r_i = r\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sd}\NormalTok{(Hemoglobin_}\DecValTok{2}\OperatorTok{$}\NormalTok{Hemo)}\OperatorTok{^}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.135224
+\end{verbatim}
+
+So we want
+
+\[
+1 = \text{ interval half-width }= \frac{1}{\sqrt{2}} q_{4,12,.05} \sqrt{\sigma^2 \left( \frac{2}{r}\right)}.
+\] By trial and error we have that \(r= 27\) observations should be
+taken on each treatment so that the length of each interval in a set of
+simultaneous 95\% confidence intervals for pairwise comparisons is at
+most 2 g per 100 ml.
+
+\[ \frac{1}{\sqrt{2}} 4.20  \sqrt{1.5 \left( \frac{2}{27}\right)} = .9899\]
 
 
 \end{document}
