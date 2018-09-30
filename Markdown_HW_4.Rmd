@@ -146,7 +146,7 @@ So we can reject the null hypothesis again. Lastly, Using Equation 4.3.15 we get
  &=195.8671 > 5.12 = F_{1,9,.05}.
   \end{aligned}
  $$
-and therefore can reject the null hypothesis in favor of the alternative hypothesis again.
+and therefore we can reject the null hypothesis in favor of the alternative hypothesis again.
 
 
 ## Problem 4 (10)
@@ -158,6 +158,22 @@ Consider again the trout experiment in Exercise 15 of Chap. 3.
 
 
 (b) How many observations should be taken on each treatment so that the length of each interval in a set of simultaneous 95% confidence intervals for pairwise comparisons should be at most 2 g per 100 ml?
+
+Assuming that we want to look at all pairwise comparisons, we know that tukey's method will provide the narrowest confidence interval set of simultaneous 95% confidence intervals for pairwise comparisons. Therefore, using $q_{4,12,.05} = 4.20$, I'll assume $\sigma^2 = 2.5$ from the code below and also that $r_i = r$.
+```{r}
+sd(Hemoglobin_2$Hemo)^2
+```
+
+So we want
+
+$$
+1 = \text{ interval half-width }= \frac{1}{\sqrt{2}} q_{4,12,.05} \sqrt{\sigma^2 \left( \frac{2}{r}\right)}.
+$$
+By trial and error we have that $r= 27$ observations should be taken on each treatment so that the length of each interval in a set of simultaneous 95% confidence intervals for pairwise comparisons is at most 2 g per 100 ml.
+
+
+$$ \frac{1}{\sqrt{2}} 4.20  \sqrt{1.5 \left( \frac{2}{27}\right)} = .9899$$
+
 
 
 
