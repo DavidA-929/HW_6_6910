@@ -1,5 +1,5 @@
 ---
-title: 'STAT 6910: HW 3'
+title: 'STAT 6910: HW 4'
 author: "David Angeles"
 output:
   pdf_document:
@@ -16,4 +16,150 @@ library(pwr)
 library("emmeans")
 ```
 
-## Problem 1
+## Problem 1 (3a)
+
+The meat cooking experiment was described in Exercise 14 of Chap. 3, and the data were given in Table 3.14, p. 68.
+
+(a) Compare the effects of the six treatments, pairwise, using Scheffe's method of multiple comparisons and a 95% overall confidence level.
+
+
+```{r, echo=FALSE}
+Post <- matrix(c(81, 85, 71, 84, 83, 78, 
+                        88, 80, 77, 84, 88, 75, 
+                        85, 82, 72,  82, 85, 78,
+                        84, 80, 80,  81, 86, 79, 
+                        84, 82, 80, 86, 88, 82), 
+                          ncol=6,nrow =5, byrow = TRUE)
+
+Post_grams <- matrix(c(Post[,1],Post[,2],Post[,3], 
+                       Post[,4],Post[,5],Post[,6], 
+                       rep(1,5), rep(2,5),rep(3,5),
+                       rep(4,5),rep(5,5),rep(6,5)),
+                     ncol = 2,nrow = 30)
+
+```
+The data displayed below is prepresented by the codes 1, 2, 3, 4, 5, and 6 which denote the frying fat content at 10%, 15%, and 20% and the grilling fat content at 10%, 15% and 20% respectively, for the post-cooking weight data (in grams) for the meat cooking experiment.
+```{r}
+head(Post_grams) 
+colnames(Post_grams) <- c( "Weight", "Code")
+Post_grams <- data.frame(Post_grams)
+Post_grams$Code <- factor(Post_grams$Code)
+summary(Post_grams)
+```
+
+We can see that the contrasts 1 - 2, 1 - 3, 1 - 4, 1 - 5, 1 - 6, 2 - 3, 2 - 4, 2 - 5, 2 - 6, 3 - 4, 3 - 5, 3 - 6, 4 - 5, 4 - 6, and 5 - 6 have the following 95% overall confidence intervals respectively.
+
+```{r}
+Post_weight_model <- aov(Weight ~ Code , data = Post_grams)
+weight_means <- emmeans(object = Post_weight_model, specs = "Code")
+estimates <- contrast(weight_means,method = "pairwise", adjust = "bonferroni")
+alpha <- 0.05
+v = 6
+n = 30
+wS <- sqrt((v-1) * qf(1-alpha,v-1,n-v))
+cbind(summary(estimates)[,"estimate"] - wS* summary(estimates)[,"SE"],
+      summary(estimates)[,"estimate"] + wS* summary(estimates)[,"SE"])
+```
+
+## Problem 2 (5)
+
+Exercise 15 of Chap. 3 (p. 67) concerns a study of the effects of four levels of sulfamerazine (0, 5, 10, 15 g per 100 lb of fish) on the hemoglobin content of trout blood. An analysis of variance test rejected the hypothesis that the four treatment effects are the same at significance level $\alpha=0.01$.
+
+(a) Compare the four treatments using Tukey’s method of pairwise comparisons and a 99% overall confidence level.
+
+
+The Tukey’s method of pairwise comparisons and  99% overall confidence level are displyed below.
+
+```{r}
+Hemoglobin_2 <- matrix(c( rep(1, each = 10), rep(2, each = 10), 
+                        rep(3, each = 10), rep(4, each = 10),
+          6.7, 7.8, 5.5, 8.4 ,7.0, 7.8, 8.6,7.4 ,5.8, 7.0, 
+          9.9, 8.4 ,10.4, 9.3 ,10.7 ,11.9, 7.1, 6.4 ,8.6, 10.6, 
+          10.4,8.1 ,10.6, 8.7, 10.7, 9.1, 8.8,8.1, 7.8, 8.0, 
+          9.3, 9.3 ,7.2, 7.8, 9.3, 10.2, 8.7, 8.6, 9.3, 7.2), 
+          byrow = FALSE, ncol = 2 )
+Hemoglobin_2 <- data.frame(Hemoglobin_2)
+Hemoglobin_2$X1 <- as.factor(Hemoglobin_2$X1)
+colnames(Hemoglobin_2) <- c("Codes", "Hemo")
+
+hem<- aov(Hemo ~ Codes, data = Hemoglobin_2)
+hemoglobin_means<- emmeans(object = hem, specs = "Codes")
+
+hemo.tukey <- contrast(hemoglobin_means,method = "pairwise", adjust = "tukey")
+summary(hemo.tukey,infer = c(TRUE,TRUE), level = .99)
+```
+
+
+(b) Compare the effect of no sulfamerazine on the hemoglobin content of trout blood with the average effect of the other three levels. The overall confidence level of all intervals in parts (a) and (b) should be at least 98%.
+
+Using a FWER $\leq .02$ and the code below, our data do not provide evidence that no sulfamerazine on the hemoglobin content of trout blood with the average effect of the other three levels.
+
+```{r}
+contrast(hemoglobin_means,method = list(c(3,-1,-1,-1)))
+````
+
+
+## Problem 3 (7a and b)
+
+The soap experiment was described in Sect. 2.5.1, p. 20, and an analysis was given in Sect. 3.7.2, p. 50.
+
+(a) Suppose that the experimenter had been interested only in the contrast $\tau_1 - \frac{1}{2}(\tau_2 + \tau_3)$, which compares the weight loss for the regular soap with the average weight loss for the other two soaps. Calculate a confidence interval for this single contrast.
+
+
+
+Since it is being assumed that the experimenter migh have been intersted only in one contrast, there isn't a need to use a family-eise error rate. Therefore, using an $\alpha$-level of $\alpha=.05$ and results on pg. 51, we can calcualte a confidence interval for this single contrast as follow:
+
+$$
+\begin{aligned}
+& \sum_{i=1}^v b_i\hat{Y}_{i\bullet} \pm t_{n-v,\alpha/2} \sqrt{MSE \sum_{i=1}^v \frac{b_i^2}{r_i}}\\
+&= -0.035- \frac{1}{2}(2.7) - \frac{1}{2}(1.9925) \pm t_{9,.025}
+ \sqrt{0.0772 \sum_{i=1}^v \frac{b_i^2}{r_i}}\\
+&= -2.38125 \pm 2.262\sqrt{0.0772 \left( \frac{1}{4} + \frac{1/4}{4} + \frac{1/4}{4} \right)}\\
+&= -2.38125 \pm 2.262\sqrt{0.0772 \left( \frac{3}{8}  \right)}\\
+&= -2.38125 \pm .38487
+\end{aligned}
+$$
+Therefore the 95% confidence interval for the specific constrast is (-2.76612,-1.99638).
+
+ (b) Test the hypothesis that the regular soap has the same average weight loss as the average of the other two soaps. Do this via your confidence interval in part (a) and also via (4.3.13) and (4.3.15).
+ 
+ For this test, we will use the following:
+ \begin{center}
+ The Null Hypothesis of No Difference Between Regular Soap and Others  $H_0 : \tau_1 = \frac{1}{2}(\tau_2+ \tau_4)$ \\
+ vs. The Alternative Hypothesis of Some Difference Between Regular Soap and Others $H_A : \tau_1 \neq \frac{1}{2}(\tau_2+ \tau_4)$
+\end{center}
+ 
+ Using the confidence interval, we see that 0 is not in the interval and therefore we can reject the null hypothesis at the $\alpha=.05$ level in favor of the alternative hypothesis that the regular soap does not have the same average weight loss as the average of the other two soaps. Next, using Equation 4.3.13 we get
+ 
+ $$
+ \begin{aligned}
+ \Bigg| \frac{\sum c_i \bar{y}_i}{\sqrt{msE \sum c_i^2/r_i}}  \Bigg|
+ &=  \Bigg| \frac{-2.38125}{\sqrt{0.0772 \left( \frac{3}{8} \right)}}  \Bigg| = 13.99525 > 2.262 = t_{9,.025}.
+  \end{aligned}
+ $$
+So we can reject the null hypothesis again. Lastly, Using Equation 4.3.15 we get 
+
+ $$
+ \begin{aligned}
+ \Bigg| \frac{ \frac{\left(\sum c_i \bar{y}_i\right)^2}{\sum c_i^2/r_i} }{ msE }  \Bigg|
+ &=   \Bigg| \frac{ \frac{5.67035 }{3/8} }{ .0772 }  \Bigg|\\
+ &=195.8671 > 5.12 = F_{1,9,.05}.
+  \end{aligned}
+ $$
+and therefore can reject the null hypothesis in favor of the alternative hypothesis again.
+
+
+## Problem 4 (10)
+
+Consider again the trout experiment in Exercise 15 of Chap. 3.
+
+(a) Suppose the experiment were to be repeated. Suggest the largest likely value for the error mean square $msE$.
+
+
+
+(b) How many observations should be taken on each treatment so that the length of each interval in a set of simultaneous 95% confidence intervals for pairwise comparisons should be at most 2 g per 100 ml?
+
+
+
+
+

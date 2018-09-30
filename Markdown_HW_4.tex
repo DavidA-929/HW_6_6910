@@ -24,11 +24,51 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 \hypersetup{unicode=true,
-            pdftitle={STAT 6910: HW 3},
+            pdftitle={STAT 6910: HW 4},
             pdfauthor={David Angeles},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -74,7 +114,7 @@
 
 \setlength{\droptitle}{-2em}
 
-  \title{STAT 6910: HW 3}
+  \title{STAT 6910: HW 4}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
     \author{David Angeles}
@@ -101,7 +141,272 @@
 ##       You may use 'cld' only if you have package:multcomp attached.
 \end{verbatim}
 
-\subsection{Problem 1}\label{problem-1}
+\subsection{Problem 1 (3a)}\label{problem-1-3a}
+
+The meat cooking experiment was described in Exercise 14 of Chap. 3, and
+the data were given in Table 3.14, p.~68.
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\tightlist
+\item
+  Compare the effects of the six treatments, pairwise, using Scheffe's
+  method of multiple comparisons and a 95\% overall confidence level.
+\end{enumerate}
+
+The data displayed below is prepresented by the codes 1, 2, 3, 4, 5, and
+6 which denote the frying fat content at 10\%, 15\%, and 20\% and the
+grilling fat content at 10\%, 15\% and 20\% respectively, for the
+post-cooking weight data (in grams) for the meat cooking experiment.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(Post_grams) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1] [,2]
+## [1,]   81    1
+## [2,]   88    1
+## [3,]   85    1
+## [4,]   84    1
+## [5,]   84    1
+## [6,]   85    2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{colnames}\NormalTok{(Post_grams) <-}\StringTok{ }\KeywordTok{c}\NormalTok{( }\StringTok{"Weight"}\NormalTok{, }\StringTok{"Code"}\NormalTok{)}
+\NormalTok{Post_grams <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(Post_grams)}
+\NormalTok{Post_grams}\OperatorTok{$}\NormalTok{Code <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(Post_grams}\OperatorTok{$}\NormalTok{Code)}
+\KeywordTok{summary}\NormalTok{(Post_grams)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      Weight      Code 
+##  Min.   :71.00   1:5  
+##  1st Qu.:80.00   2:5  
+##  Median :82.00   3:5  
+##  Mean   :81.67   4:5  
+##  3rd Qu.:84.75   5:5  
+##  Max.   :88.00   6:5
+\end{verbatim}
+
+We can see that the contrasts 1 - 2, 1 - 3, 1 - 4, 1 - 5, 1 - 6, 2 - 3,
+2 - 4, 2 - 5, 2 - 6, 3 - 4, 3 - 5, 3 - 6, 4 - 5, 4 - 6, and 5 - 6 have
+the following 95\% overall confidence intervals respectively.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Post_weight_model <-}\StringTok{ }\KeywordTok{aov}\NormalTok{(Weight }\OperatorTok{~}\StringTok{ }\NormalTok{Code , }\DataTypeTok{data =}\NormalTok{ Post_grams)}
+\NormalTok{weight_means <-}\StringTok{ }\KeywordTok{emmeans}\NormalTok{(}\DataTypeTok{object =}\NormalTok{ Post_weight_model, }\DataTypeTok{specs =} \StringTok{"Code"}\NormalTok{)}
+\NormalTok{estimates <-}\StringTok{ }\KeywordTok{contrast}\NormalTok{(weight_means,}\DataTypeTok{method =} \StringTok{"pairwise"}\NormalTok{, }\DataTypeTok{adjust =} \StringTok{"bonferroni"}\NormalTok{)}
+\NormalTok{alpha <-}\StringTok{ }\FloatTok{0.05}
+\NormalTok{v =}\StringTok{ }\DecValTok{6}
+\NormalTok{n =}\StringTok{ }\DecValTok{30}
+\NormalTok{wS <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{((v}\OperatorTok{-}\DecValTok{1}\NormalTok{) }\OperatorTok{*}\StringTok{ }\KeywordTok{qf}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{alpha,v}\OperatorTok{-}\DecValTok{1}\NormalTok{,n}\OperatorTok{-}\NormalTok{v))}
+\KeywordTok{cbind}\NormalTok{(}\KeywordTok{summary}\NormalTok{(estimates)[,}\StringTok{"estimate"}\NormalTok{] }\OperatorTok{-}\StringTok{ }\NormalTok{wS}\OperatorTok{*}\StringTok{ }\KeywordTok{summary}\NormalTok{(estimates)[,}\StringTok{"SE"}\NormalTok{],}
+      \KeywordTok{summary}\NormalTok{(estimates)[,}\StringTok{"estimate"}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{wS}\OperatorTok{*}\StringTok{ }\KeywordTok{summary}\NormalTok{(estimates)[,}\StringTok{"SE"}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              [,1]      [,2]
+##  [1,]  -3.5714537  8.771454
+##  [2,]   2.2285463 14.571454
+##  [3,]  -5.1714537  7.171454
+##  [4,]  -7.7714537  4.571454
+##  [5,]  -0.1714537 12.171454
+##  [6,]  -0.3714537 11.971454
+##  [7,]  -7.7714537  4.571454
+##  [8,] -10.3714537  1.971454
+##  [9,]  -2.7714537  9.571454
+## [10,] -13.5714537 -1.228546
+## [11,] -16.1714537 -3.828546
+## [12,]  -8.5714537  3.771454
+## [13,]  -8.7714537  3.571454
+## [14,]  -1.1714537 11.171454
+## [15,]   1.4285463 13.771454
+\end{verbatim}
+
+\subsection{Problem 2 (5)}\label{problem-2-5}
+
+Exercise 15 of Chap. 3 (p.~67) concerns a study of the effects of four
+levels of sulfamerazine (0, 5, 10, 15 g per 100 lb of fish) on the
+hemoglobin content of trout blood. An analysis of variance test rejected
+the hypothesis that the four treatment effects are the same at
+significance level \(\alpha=0.01\).
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\tightlist
+\item
+  Compare the four treatments using Tukey's method of pairwise
+  comparisons and a 99\% overall confidence level.
+\end{enumerate}
+
+The Tukey's method of pairwise comparisons and 99\% overall confidence
+level are displyed below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Hemoglobin_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{( }\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DataTypeTok{each =} \DecValTok{10}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DataTypeTok{each =} \DecValTok{10}\NormalTok{), }
+                        \KeywordTok{rep}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DataTypeTok{each =} \DecValTok{10}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DataTypeTok{each =} \DecValTok{10}\NormalTok{),}
+          \FloatTok{6.7}\NormalTok{, }\FloatTok{7.8}\NormalTok{, }\FloatTok{5.5}\NormalTok{, }\FloatTok{8.4}\NormalTok{ ,}\FloatTok{7.0}\NormalTok{, }\FloatTok{7.8}\NormalTok{, }\FloatTok{8.6}\NormalTok{,}\FloatTok{7.4}\NormalTok{ ,}\FloatTok{5.8}\NormalTok{, }\FloatTok{7.0}\NormalTok{, }
+          \FloatTok{9.9}\NormalTok{, }\FloatTok{8.4}\NormalTok{ ,}\FloatTok{10.4}\NormalTok{, }\FloatTok{9.3}\NormalTok{ ,}\FloatTok{10.7}\NormalTok{ ,}\FloatTok{11.9}\NormalTok{, }\FloatTok{7.1}\NormalTok{, }\FloatTok{6.4}\NormalTok{ ,}\FloatTok{8.6}\NormalTok{, }\FloatTok{10.6}\NormalTok{, }
+          \FloatTok{10.4}\NormalTok{,}\FloatTok{8.1}\NormalTok{ ,}\FloatTok{10.6}\NormalTok{, }\FloatTok{8.7}\NormalTok{, }\FloatTok{10.7}\NormalTok{, }\FloatTok{9.1}\NormalTok{, }\FloatTok{8.8}\NormalTok{,}\FloatTok{8.1}\NormalTok{, }\FloatTok{7.8}\NormalTok{, }\FloatTok{8.0}\NormalTok{, }
+          \FloatTok{9.3}\NormalTok{, }\FloatTok{9.3}\NormalTok{ ,}\FloatTok{7.2}\NormalTok{, }\FloatTok{7.8}\NormalTok{, }\FloatTok{9.3}\NormalTok{, }\FloatTok{10.2}\NormalTok{, }\FloatTok{8.7}\NormalTok{, }\FloatTok{8.6}\NormalTok{, }\FloatTok{9.3}\NormalTok{, }\FloatTok{7.2}\NormalTok{), }
+          \DataTypeTok{byrow =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{2}\NormalTok{ )}
+\NormalTok{Hemoglobin_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(Hemoglobin_}\DecValTok{2}\NormalTok{)}
+\NormalTok{Hemoglobin_}\DecValTok{2}\OperatorTok{$}\NormalTok{X1 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(Hemoglobin_}\DecValTok{2}\OperatorTok{$}\NormalTok{X1)}
+\KeywordTok{colnames}\NormalTok{(Hemoglobin_}\DecValTok{2}\NormalTok{) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Codes"}\NormalTok{, }\StringTok{"Hemo"}\NormalTok{)}
+
+\NormalTok{hem<-}\StringTok{ }\KeywordTok{aov}\NormalTok{(Hemo }\OperatorTok{~}\StringTok{ }\NormalTok{Codes, }\DataTypeTok{data =}\NormalTok{ Hemoglobin_}\DecValTok{2}\NormalTok{)}
+\NormalTok{hemoglobin_means<-}\StringTok{ }\KeywordTok{emmeans}\NormalTok{(}\DataTypeTok{object =}\NormalTok{ hem, }\DataTypeTok{specs =} \StringTok{"Codes"}\NormalTok{)}
+
+\NormalTok{hemo.tukey <-}\StringTok{ }\KeywordTok{contrast}\NormalTok{(hemoglobin_means,}\DataTypeTok{method =} \StringTok{"pairwise"}\NormalTok{, }\DataTypeTok{adjust =} \StringTok{"tukey"}\NormalTok{)}
+\KeywordTok{summary}\NormalTok{(hemo.tukey,}\DataTypeTok{infer =} \KeywordTok{c}\NormalTok{(}\OtherTok{TRUE}\NormalTok{,}\OtherTok{TRUE}\NormalTok{), }\DataTypeTok{level =}\NormalTok{ .}\DecValTok{99}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  contrast estimate        SE df  lower.CL    upper.CL t.ratio p.value
+##  1 - 2       -2.13 0.5601141 36 -4.003146 -0.25685355  -3.803  0.0029
+##  1 - 3       -1.83 0.5601141 36 -3.703146  0.04314645  -3.267  0.0122
+##  1 - 4       -1.49 0.5601141 36 -3.363146  0.38314645  -2.660  0.0539
+##  2 - 3        0.30 0.5601141 36 -1.573146  2.17314645   0.536  0.9498
+##  2 - 4        0.64 0.5601141 36 -1.233146  2.51314645   1.143  0.6660
+##  3 - 4        0.34 0.5601141 36 -1.533146  2.21314645   0.607  0.9292
+## 
+## Confidence level used: 0.99 
+## Conf-level adjustment: tukey method for comparing a family of 4 estimates 
+## P value adjustment: tukey method for comparing a family of 4 estimates
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Compare the effect of no sulfamerazine on the hemoglobin content of
+  trout blood with the average effect of the other three levels. The
+  overall confidence level of all intervals in parts (a) and (b) should
+  be at least 98\%.
+\end{enumerate}
+
+Using a FWER \(\leq .02\) and the code below, our data do not provide
+evidence that no sulfamerazine on the hemoglobin content of trout blood
+with the average effect of the other three levels.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{contrast}\NormalTok{(hemoglobin_means,}\DataTypeTok{method =} \KeywordTok{list}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\OperatorTok{-}\DecValTok{1}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  contrast         estimate       SE df t.ratio p.value
+##  c(3, -1, -1, -1)    -5.45 1.371994 36  -3.972  0.0003
+\end{verbatim}
+
+\subsection{Problem 3 (7a and b)}\label{problem-3-7a-and-b}
+
+The soap experiment was described in Sect. 2.5.1, p.~20, and an analysis
+was given in Sect. 3.7.2, p.~50.
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\tightlist
+\item
+  Suppose that the experimenter had been interested only in the contrast
+  \(\tau_1 - \frac{1}{2}(\tau_2 + \tau_3)\), which compares the weight
+  loss for the regular soap with the average weight loss for the other
+  two soaps. Calculate a confidence interval for this single contrast.
+\end{enumerate}
+
+Since it is being assumed that the experimenter migh have been intersted
+only in one contrast, there isn't a need to use a family-eise error
+rate. Therefore, using an \(\alpha\)-level of \(\alpha=.05\) and results
+on pg. 51, we can calcualte a confidence interval for this single
+contrast as follow:
+
+\[
+\begin{aligned}
+& \sum_{i=1}^v b_i\hat{Y}_{i\bullet} \pm t_{n-v,\alpha/2} \sqrt{MSE \sum_{i=1}^v \frac{b_i^2}{r_i}}\\
+&= -0.035- \frac{1}{2}(2.7) - \frac{1}{2}(1.9925) \pm t_{9,.025}
+ \sqrt{0.0772 \sum_{i=1}^v \frac{b_i^2}{r_i}}\\
+&= -2.38125 \pm 2.262\sqrt{0.0772 \left( \frac{1}{4} + \frac{1/4}{4} + \frac{1/4}{4} \right)}\\
+&= -2.38125 \pm 2.262\sqrt{0.0772 \left( \frac{3}{8}  \right)}\\
+&= -2.38125 \pm .38487
+\end{aligned}
+\] Therefore the 95\% confidence interval for the specific constrast is
+(-2.76612,-1.99638).
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Test the hypothesis that the regular soap has the same average weight
+  loss as the average of the other two soaps. Do this via your
+  confidence interval in part (a) and also via (4.3.13) and (4.3.15).
+\end{enumerate}
+
+For this test, we will use the following:
+
+\begin{center}
+ The Null Hypothesis of No Difference Between Regular Soap and Others  $H_0 : \tau_1 = \frac{1}{2}(\tau_2+ \tau_4)$ \\
+ vs. The Alternative Hypothesis of Some Difference Between Regular Soap and Others $H_A : \tau_1 \neq \frac{1}{2}(\tau_2+ \tau_4)$
+\end{center}
+
+Using the confidence interval, we see that 0 is not in the interval and
+therefore we can reject the null hypothesis at the \(\alpha=.05\) level
+in favor of the alternative hypothesis that the regular soap does not
+have the same average weight loss as the average of the other two soaps.
+Next, using Equation 4.3.13 we get
+
+\[
+ \begin{aligned}
+ \Bigg| \frac{\sum c_i \bar{y}_i}{\sqrt{msE \sum c_i^2/r_i}}  \Bigg|
+ &=  \Bigg| \frac{-2.38125}{\sqrt{0.0772 \left( \frac{3}{8} \right)}}  \Bigg| = 13.99525 > 2.201.
+  \end{aligned}
+ \] So we can reject the null hypothesis again. Lastly, Using Equation
+4.3.15 we get
+
+\[
+ \begin{aligned}
+ \Bigg| \frac{ \frac{\left(\sum c_i \bar{y}_i\right)^2}{\sum c_i^2/r_i} }{ msE }  \Bigg|
+ &=   \Bigg| \frac{ \frac{5.67035 }{3/8} }{ .0772 }  \Bigg|\\
+ &=195.8671 > 4.75.
+  \end{aligned}
+ \]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qf}\NormalTok{(.}\DecValTok{95}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{12}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.747225
+\end{verbatim}
+
+\subsection{Problem 4 (10)}\label{problem-4-10}
+
+Consider again the trout experiment in Exercise 15 of Chap. 3.
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\item
+  Suppose the experiment were to be repeated. Suggest the largest likely
+  value for the error mean square \(msE\).
+\item
+  How many observations should be taken on each treatment so that the
+  length of each interval in a set of simultaneous 95\% confidence
+  intervals for pairwise comparisons should be at most 2 g per 100 ml?
+\end{enumerate}
 
 
 \end{document}
