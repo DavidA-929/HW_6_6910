@@ -179,7 +179,7 @@ $$
 By trial and error we have that $r= 27$ observations should be taken on each treatment so that the length of each interval in a set of simultaneous 95% confidence intervals for pairwise comparisons is at most 2 g per 100 ml.
 
 
-$$ \frac{1}{\sqrt{2}} 4.20  \sqrt{2.43 \left( \frac{2}{27}\right)} = .9984$$
+$$ \frac{1}{\sqrt{2}} 4.20  \sqrt{2.43 \left( \frac{2}{43}\right)} = .9984$$
 
 
 
