@@ -129,8 +129,8 @@ Therefore the 95% confidence interval for the specific contrast is (-2.76612,-1.
  
  For this test, we will use the following:
  \begin{center}
- The Null Hypothesis of No Difference Between Regular Soap and Others  $H_0 : \tau_1 = \frac{1}{2}(\tau_2+ \tau_4)$ \\
- vs. The Alternative Hypothesis of Some Difference Between Regular Soap and Others $H_A : \tau_1 \neq \frac{1}{2}(\tau_2+ \tau_4)$
+ The Null Hypothesis of No Difference Between Regular Soap and Others  $H_0 : \tau_1 = \frac{1}{2}(\tau_2+ \tau_3)$ \\
+ vs. The Alternative Hypothesis of Some Difference Between Regular Soap and Others $H_A : \tau_1 \neq \frac{1}{2}(\tau_2+ \tau_3)$
 \end{center}
  
  Using the confidence interval, we see that 0 is not in the interval and therefore we can reject the null hypothesis at the $\alpha=.05$ level in favor of the alternative hypothesis that the regular soap does not have the same average weight loss as the average of the other two soaps. Next, using Equation 4.3.13 we get
