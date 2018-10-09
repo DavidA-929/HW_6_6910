@@ -141,7 +141,7 @@
 ##       You may use 'cld' only if you have package:multcomp attached.
 \end{verbatim}
 
-\subsection{Problem 1 (3a)}\label{problem-1-3a}
+\subsection{Problem 1}\label{problem-1}
 
 The meat cooking experiment was described in Exercise 14 of Chap. 3, and
 the data were given in Table 3.14, p.~68.
@@ -161,18 +161,42 @@ post-cooking weight data (in grams) for the meat cooking experiment.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{head}\NormalTok{(Post_grams) }
+\NormalTok{Post_grams }
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##      [,1] [,2]
-## [1,]   81    1
-## [2,]   88    1
-## [3,]   85    1
-## [4,]   84    1
-## [5,]   84    1
-## [6,]   85    2
+##       [,1] [,2]
+##  [1,]   81    1
+##  [2,]   88    1
+##  [3,]   85    1
+##  [4,]   84    1
+##  [5,]   84    1
+##  [6,]   85    2
+##  [7,]   80    2
+##  [8,]   82    2
+##  [9,]   80    2
+## [10,]   82    2
+## [11,]   71    3
+## [12,]   77    3
+## [13,]   72    3
+## [14,]   80    3
+## [15,]   80    3
+## [16,]   84    4
+## [17,]   84    4
+## [18,]   82    4
+## [19,]   81    4
+## [20,]   86    4
+## [21,]   83    5
+## [22,]   88    5
+## [23,]   85    5
+## [24,]   86    5
+## [25,]   88    5
+## [26,]   78    6
+## [27,]   75    6
+## [28,]   78    6
+## [29,]   79    6
+## [30,]   82    6
 \end{verbatim}
 
 \begin{Shaded}
@@ -194,8 +218,8 @@ post-cooking weight data (in grams) for the meat cooking experiment.
 ##  Max.   :88.00   6:5
 \end{verbatim}
 
-Assume the \(\tau_1,\tau_2,...,\tau_6\) represent the true mean of the
-coded \(1,2,..,.6\) respectively. We can see that the contrasts have the
+Let \(\tau_1,\tau_2,...,\tau_6\) represent the true mean of the codes
+\(1,2,..,.6\) respectively. We can see that the contrasts have the
 following 95\% overall confidence intervals respectively using Scheffe's
 method of multiple comparisons and a 95\% overall confidence level.
 
@@ -234,10 +258,11 @@ method of multiple comparisons and a 95\% overall confidence level.
 
 We can observe that the contrasts
 \(\tau_1 - \tau_3, \tau_3 - \tau_4, \tau_3 - \tau_5,\) and
-\(\tau_5 - \tau_6\) don't include 0 and therfore can conclude that
+\(\tau_5 - \tau_6\) don't include 0 and therefore can conclude that
 \(\tau_1 \neq \tau_3, \tau_3 \neq \tau_4, \tau_3 \neq \tau_5,\) and
-\(\tau_5 \neq \tau_6\) at the overall \(\alpha=.05\) level. \#\# Problem
-2 (5)
+\(\tau_5 \neq \tau_6\) at the overall \(\alpha=.05\) level.
+
+\subsection{Problem 2}\label{problem-2}
 
 Exercise 15 of Chap. 3 (p.~67) concerns a study of the effects of four
 levels of sulfamerazine (0, 5, 10, 15 g per 100 lb of fish) on the
@@ -252,6 +277,10 @@ significance level \(\alpha=0.01\).
   Compare the four treatments using Tukey's method of pairwise
   comparisons and a 99\% overall confidence level.
 \end{enumerate}
+
+Let \(\tau_1,\tau_2,\tau_3,\) and \(\tau_6\) represent the true mean of
+the effects of four levels of sulfamerazine 0, 5, 10, and 15 g per 100
+lb of fish on the hemoglobin content of trout blood, respectively.
 
 The Tukey's method of pairwise comparisons and 99\% overall confidence
 level are displayed below.
@@ -292,7 +321,8 @@ level are displayed below.
 \end{verbatim}
 
 We can see from the data that the only contrast that has a \(p\)-value
-less that \(0.01\) is \(\tau_1-\tau_2\).
+less that \(0.01\) is \(\tau_1-\tau_2\). So we can conclude that
+\(\tau_1 \neq \tau_2\) at the \(\alpha=0.1\) level.
 
 \begin{enumerate}
 \def\labelenumi{(\alph{enumi})}
@@ -308,7 +338,7 @@ less that \(0.01\) is \(\tau_1-\tau_2\).
 We will use an \(\alpha = .01\) level in order to keep the overall
 confidence level of all intervals at least 98\%. From the code below, we
 obtain a \(p\)-value of \(p=0.03\) for the contract \((3,-1,-1,-1)\)
-which is greater that the \(\alpha\). So our data do not provide
+which is greater than \(\alpha=.01\). So our data do not provide
 evidence that no sulfamerazine on the hemoglobin content differs from
 the average effect of the other three levels.
 
@@ -323,7 +353,7 @@ the average effect of the other three levels.
 ##  c(3, -1, -1, -1)    -5.45 1.371994 36  -3.972  0.0003
 \end{verbatim}
 
-\subsection{Problem 3 (7a and b)}\label{problem-3-7a-and-b}
+\subsection{Problem 3}\label{problem-3}
 
 The soap experiment was described in Sect. 2.5.1, p.~20, and an analysis
 was given in Sect. 3.7.2, p.~50.
@@ -396,7 +426,7 @@ Next, using Equation 4.3.13 we get
  \] and therefore we can reject the null hypothesis in favor of the
 alternative hypothesis again.
 
-\subsection{Problem 4 (10)}\label{problem-4-10}
+\subsection{Problem 4}\label{problem-4}
 
 Consider again the trout experiment in Exercise 15 of Chap. 3.
 
@@ -409,7 +439,7 @@ Consider again the trout experiment in Exercise 15 of Chap. 3.
 \end{enumerate}
 
 From the code below we have that a 95\% upper confidence limit for
-\(\sigma^2\) is 2.43. Therefore, the largest likey value for the erroe
+\(\sigma^2\) is 2.43. Therefore, the largest likely value for the error
 mean square \(msE\) is \(2.43\).
 
 \begin{Shaded}
@@ -455,19 +485,29 @@ mean square \(msE\) is \(2.43\).
 Assuming that we want to look at all pairwise comparisons, we know that
 tukey's method will provide the narrowest confidence interval set of
 simultaneous 95\% confidence intervals for pairwise comparisons.
-Therefore, using \(q_{4,12,.05} = 4.20\), I'll assume
-\(\sigma^2 = 2.43\) from part (a), and also that \(r_i = r\).
+Therefore, using \(q_{4,4r-4,.05}\), I'll assume \(\sigma^2 = 2.43\)
+from part (a), and also that \(r_i = r\).
 
 So we want
 
 \[
-1 = \text{ interval half-width }= \frac{1}{\sqrt{2}} q_{4,12,.05} \sqrt{\sigma^2 \left( \frac{2}{r}\right)}.
-\] By trial and error we have that \(r= 27\) observations should be
+1 = \text{ interval half-width }= \frac{1}{\sqrt{2}} q_{4,4r-4,.05} \sqrt{\sigma^2 \left( \frac{2}{r}\right)}.
+\] By trial and error we have that \(r= 33\) observations should be
 taken on each treatment so that the length of each interval in a set of
 simultaneous 95\% confidence intervals for pairwise comparisons is at
 most 2 g per 100 ml.
 
-\[ \frac{1}{\sqrt{2}} 4.20  \sqrt{2.43 \left( \frac{2}{43}\right)} = .9984\]
+\[ \frac{1}{\sqrt{2}} 3.68  \sqrt{2.43 \left( \frac{2}{33}\right)} = .9984\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qtukey}\NormalTok{(}\FloatTok{0.95}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{128}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.681343
+\end{verbatim}
 
 
 \end{document}

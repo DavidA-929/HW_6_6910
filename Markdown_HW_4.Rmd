@@ -16,7 +16,7 @@ library(pwr)
 library("emmeans")
 ```
 
-## Problem 1 (3a)
+## Problem 1 
 
 The meat cooking experiment was described in Exercise 14 of Chap. 3, and the data were given in Table 3.14, p. 68.
 
@@ -40,14 +40,14 @@ Post_grams <- matrix(c(Post[,1],Post[,2],Post[,3],
 ```
 The data displayed below is represented by the codes 1, 2, 3, 4, 5, and 6 which denote the frying fat content at 10%, 15%, and 20% and the grilling fat content at 10%, 15% and 20% respectively for the post-cooking weight data (in grams) for the meat cooking experiment.
 ```{r}
-head(Post_grams) 
+Post_grams 
 colnames(Post_grams) <- c( "Weight", "Code")
 Post_grams <- data.frame(Post_grams)
 Post_grams$Code <- factor(Post_grams$Code)
 summary(Post_grams)
 ```
 
-Assume the $\tau_1,\tau_2,...,\tau_6$ represent the true mean of the coded $1,2,..,.6$ respectively. We can see that the contrasts have the following 95% overall confidence intervals respectively using Scheffe's method of multiple comparisons and a 95% overall confidence level.
+Let $\tau_1,\tau_2,...,\tau_6$ represent the true mean of the codes $1,2,..,.6$ respectively. We can see that the contrasts have the following 95% overall confidence intervals respectively using Scheffe's method of multiple comparisons and a 95% overall confidence level.
 
 ```{r}
 Post_weight_model <- aov(Weight ~ Code , data = Post_grams)
@@ -61,12 +61,15 @@ cbind(summary(estimates)[,"estimate"] - wS* summary(estimates)[,"SE"],
       summary(estimates)[,"estimate"] + wS* summary(estimates)[,"SE"])
 ```
 
-We can observe that  the contrasts $\tau_1 - \tau_3, \tau_3 - \tau_4, \tau_3 - \tau_5,$ and $\tau_5 - \tau_6$ don't include 0 and therfore can conclude that $\tau_1 \neq \tau_3, \tau_3 \neq \tau_4, \tau_3 \neq \tau_5,$ and $\tau_5 \neq \tau_6$ at the overall $\alpha=.05$ level.
-## Problem 2 (5)
+We can observe that  the contrasts $\tau_1 - \tau_3, \tau_3 - \tau_4, \tau_3 - \tau_5,$ and $\tau_5 - \tau_6$ don't include 0 and therefore can conclude that $\tau_1 \neq \tau_3, \tau_3 \neq \tau_4, \tau_3 \neq \tau_5,$ and $\tau_5 \neq \tau_6$ at the overall $\alpha=.05$ level.
+
+## Problem 2 
 
 Exercise 15 of Chap. 3 (p. 67) concerns a study of the effects of four levels of sulfamerazine (0, 5, 10, 15 g per 100 lb of fish) on the hemoglobin content of trout blood. An analysis of variance test rejected the hypothesis that the four treatment effects are the same at significance level $\alpha=0.01$.
 
 (a) Compare the four treatments using Tukey’s method of pairwise comparisons and a 99% overall confidence level.
+
+Let $\tau_1,\tau_2,\tau_3,$ and $\tau_6$ represent the true mean of the effects of four levels of sulfamerazine 0, 5, 10, and 15 g per 100 lb of fish on the hemoglobin content of trout blood, respectively.
 
 
 The Tukey’s method of pairwise comparisons and  99% overall confidence level are displayed below.
@@ -90,18 +93,18 @@ hemo.tukey <- contrast(hemoglobin_means,method = "pairwise", adjust = "tukey")
 summary(hemo.tukey,infer = c(TRUE,TRUE), level = .99)
 ```
 
-We can see from the data that the only contrast that has a $p$-value less that $0.01$ is $\tau_1-\tau_2$.
+We can see from the data that the only contrast that has a $p$-value less that $0.01$ is $\tau_1-\tau_2$. So we can conclude that $\tau_1 \neq \tau_2$ at the $\alpha=0.1$ level.
 
 (b) Compare the effect of no sulfamerazine on the hemoglobin content of trout blood with the average effect of the other three levels. The overall confidence level of all intervals in parts (a) and (b) should be at least 98%.
 
-We will use an $\alpha = .01$ level in order to keep the overall confidence level of all intervals at least 98%. From the code below, we obtain a $p$-value of $p=0.03$ for the contract $(3,-1,-1,-1)$ which is greater that the $\alpha$. So our data do not provide evidence that no sulfamerazine on the hemoglobin content differs from the average effect of the other three levels.
+We will use an $\alpha = .01$ level in order to keep the overall confidence level of all intervals at least 98%. From the code below, we obtain a $p$-value of $p=0.03$ for the contract $(3,-1,-1,-1)$ which is greater than $\alpha=.01$. So our data do not provide evidence that no sulfamerazine on the hemoglobin content differs from the average effect of the other three levels.
 
 ```{r}
 contrast(hemoglobin_means,method = list(c(3,-1,-1,-1)))
 ```
 
 
-## Problem 3 (7a and b)
+## Problem 3
 
 The soap experiment was described in Sect. 2.5.1, p. 20, and an analysis was given in Sect. 3.7.2, p. 50.
 
@@ -150,14 +153,14 @@ So we can reject the null hypothesis again. Lastly, Using Equation 4.3.15 we get
 and therefore we can reject the null hypothesis in favor of the alternative hypothesis again.
 
 
-## Problem 4 (10)
+## Problem 4 
 
 Consider again the trout experiment in Exercise 15 of Chap. 3.
 
 (a) Suppose the experiment were to be repeated. Suggest the largest likely value for the error mean square $msE$.
 
 
-From the code below we have that a 95% upper confidence limit for $\sigma^2$ is 2.43. Therefore, the largest likey value for the erroe mean square $msE$ is $2.43$.
+From the code below we have that a 95% upper confidence limit for $\sigma^2$ is 2.43. Therefore, the largest likely value for the error mean square $msE$ is $2.43$.
 ```{r}
 Hemoglobin_model <- aov(Hemo ~ Codes , data = Hemoglobin_2)
 anova(Hemoglobin_model)
@@ -169,20 +172,22 @@ ssE/ X_2_star
 
 (b) How many observations should be taken on each treatment so that the length of each interval in a set of simultaneous 95% confidence intervals for pairwise comparisons should be at most 2 g per 100 ml?
 
-Assuming that we want to look at all pairwise comparisons, we know that tukey's method will provide the narrowest confidence interval set of simultaneous 95% confidence intervals for pairwise comparisons. Therefore, using $q_{4,12,.05} = 4.20$, I'll assume $\sigma^2 = 2.43$ from part (a), and also that $r_i = r$.
+Assuming that we want to look at all pairwise comparisons, we know that tukey's method will provide the narrowest confidence interval set of simultaneous 95% confidence intervals for pairwise comparisons. Therefore, using $q_{4,4r-4,.05}$, I'll assume $\sigma^2 = 2.43$ from part (a), and also that $r_i = r$.
 
 So we want
 
 $$
-1 = \text{ interval half-width }= \frac{1}{\sqrt{2}} q_{4,12,.05} \sqrt{\sigma^2 \left( \frac{2}{r}\right)}.
+1 = \text{ interval half-width }= \frac{1}{\sqrt{2}} q_{4,4r-4,.05} \sqrt{\sigma^2 \left( \frac{2}{r}\right)}.
 $$
-By trial and error we have that $r= 27$ observations should be taken on each treatment so that the length of each interval in a set of simultaneous 95% confidence intervals for pairwise comparisons is at most 2 g per 100 ml.
+By trial and error we have that $r= 33$ observations should be taken on each treatment so that the length of each interval in a set of simultaneous 95% confidence intervals for pairwise comparisons is at most 2 g per 100 ml.
 
 
-$$ \frac{1}{\sqrt{2}} 4.20  \sqrt{2.43 \left( \frac{2}{43}\right)} = .9984$$
+$$ \frac{1}{\sqrt{2}} 3.68  \sqrt{2.43 \left( \frac{2}{33}\right)} = .9984$$
 
 
-
+```{r}
+qtukey(0.95,4,128)
+```
 
 
 
