@@ -69,7 +69,7 @@ Exercise 15 of Chap. 3 (p. 67) concerns a study of the effects of four levels of
 
 (a) Compare the four treatments using Tukey’s method of pairwise comparisons and a 99% overall confidence level.
 
-Let $\tau_1,\tau_2,\tau_3,$ and $\tau_6$ represent the true mean of the effects of four levels of sulfamerazine 0, 5, 10, and 15 g per 100 lb of fish on the hemoglobin content of trout blood, respectively.
+Let $\tau_1,\tau_2,\tau_3,$ and $\tau_4$ represent the true mean of the effects of four levels of sulfamerazine 0, 5, 10, and 15 g per 100 lb of fish on the hemoglobin content of trout blood, respectively.
 
 
 The Tukey’s method of pairwise comparisons and  99% overall confidence level are displayed below.
