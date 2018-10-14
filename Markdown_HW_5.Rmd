@@ -10,7 +10,6 @@ fontsize: 12pt
 ---
 
 ```{r, echo=FALSE}
-library(ggplot2)
 library(pwr)
 library("emmeans")
 ```
@@ -135,49 +134,44 @@ Part of the data collected is shown in Table 5.22. There are three observations 
 
 
 ```{r}
-spaghetti.sauce.data = read.table("~/Desktop/Stats 6910/HW_4_and_5/spaghetti.sauce.txt", header = TRUE)
+spaghetti.data = read.table("~/Desktop/Stats 6910/HW_4_and_5/spaghetti.sauce.txt", header = TRUE)
 
-spaghetti.sauce.data <- as.data.frame(spaghetti.sauce.data)
-spaghetti.sauce.data$trtmt <- as.factor(spaghetti.sauce.data$trtmt)
-
-
-spaghetti.model <- aov(weight ~ trtmt , data = spaghetti.sauce.data)
-anova(spaghetti.model)
-
-# Get fitted values from the model
-spaghetti.fitted <- fitted(spaghetti.model); spaghetti.fitted
-
-# Raw Residuals
-spaghetti.raw.residuals <- resid(spaghetti.model); spaghetti.raw.residuals
-
-# Standardize residuals 
-spaghetti.stand.residuals <- rstandard(spaghetti.model); spaghetti.stand.residuals 
+spaghetti.model = aov(weight ~ factor(trtmt), spaghetti.data)
+# Compute predicted values, residuals, standardized residuals, normal scores
+spaghetti.data = within(spaghetti.data, {
+  # Compute predicted, residual, and standardized residual values
+  ypred = fitted(spaghetti.model)
+  e = resid(spaghetti.model) 
+  z = rstandard(spaghetti.model)})
+# Display first 10 lines of mung.data, 4 digits per variable
+print(head(spaghetti.data, 10), digits=4)
 
 
-par(mfrow = c(2,2))
-#Raw Residuals vs. Frying/ Grilling fat content 
-plot(as.numeric(spaghetti.sauce.data$trtmt) , spaghetti.raw.residuals, 
-     xlab = "Codes", ylab = "Raw Residuals", xaxt = "n",
-     lwd = 1.5)
-axis(1, at = 1:6, labels = c("1","2","3","4","5","6"))
-abline(h=0, col = "red", lty = 2)
+# Generate residual plots
 
-#Raw Residuals vs. Fitted Values
-plot(spaghetti.fitted , spaghetti.raw.residuals, 
-     xlab = "Fitted Values", ylab = "Raw Residuals",
-     lwd = 1.5)
-abline(h=0, col = "red", lty = 2)
 
-#Standardized Residuals vs. Fitted Values
-plot(spaghetti.fitted , spaghetti.stand.residuals, 
-     xlab = "Fitted Values", ylab = "Standardize Residuals",
-     lwd = 1.5)
-abline(h=0, col = "red", lty = 2)
+plot(z ~ trtmt, data=spaghetti.data, ylab="Standardized Residuals", las=1)
+abline(h=0)  # Horizontal line at zero
+plot(z ~ order, data=spaghetti.data, ylab="Standardized Residuals", las=1)
+abline(h=0)
+plot(z ~ ypred, data=spaghetti.data, ylab="Standardized Residuals", las=1)
+abline(h=0)
+qqnorm(spaghetti.data$z)
+# Line through 1st and 3rd quantile points
+qqline(spaghetti.data$z) 
 
-#Norma Probability Plot
-qqnorm(spaghetti.raw.residuals, main= "Normal Q-Q Plot of Raw Residuals")
-qqline(weights.raw.resid, col = "red")
+
+# Compute sample means and variances and their natural logs by trtmt
+MeanWeight = by(spaghetti.data$weight, spaghetti.data$trtmt, mean) # Sample means
+VarWeight = by(spaghetti.data$weight, spaghetti.data$trtmt, var) # Sample variances
+LnMean = log(MeanWeight)  # Column of ln sample means
+LnVar = log(VarWeight)  # Column of ln sample variances
+Trtmt = c(1:6)  # Column of trtmt levels
+stats = cbind(Trtmt, MeanWeight, VarWeight, LnMean, LnVar) # Column bind
+stats  # Display the stats data
 ```
+
+
 
 (b) Use Satterthwaite’s method to obtain simultaneous confidence intervals for the six preplanned contrasts
 
@@ -200,57 +194,41 @@ A simultaius confidence interval for $\tau_3 -\tau_5$ is $(17.18098,-13.84765)$.
 
 The work is shown in the code below.
 ```{r}
-
-spaghetti.fitted
-t_1 <- spaghetti.fitted[7]; t_1 # tau_1
-t_2 <- spaghetti.fitted[2];t_2 # tau_2
-t_3 <- spaghetti.fitted[1]; t_3 # tau_3
-t_4 <- spaghetti.fitted[3];t_4# tau_4
-t_5 <- spaghetti.fitted[6];t_5 # tau_5
-t_6 <- spaghetti.fitted[8];t_6 # tau_6
-
-#1st treatment variance
-var_1 <- (sd(spaghetti.sauce.data$weight[spaghetti.sauce.data$trtmt ==1]))^2; var_1 
-#2nd treatment variance
-var_2 <- (sd(spaghetti.sauce.data$weight[spaghetti.sauce.data$trtmt ==2]))^2; var_2
-#3rd treatment variance
-var_3 <- (sd(spaghetti.sauce.data$weight[spaghetti.sauce.data$trtmt ==3]))^2; var_3
-#4th treatment variance
-var_4 <- (sd(spaghetti.sauce.data$weight[spaghetti.sauce.data$trtmt ==4]))^2; var_4
-#5th treatment variance
-var_5 <- (sd(spaghetti.sauce.data$weight[spaghetti.sauce.data$trtmt ==5]))^2; var_5
-#6th treatment variance
-var_6 <- (sd(spaghetti.sauce.data$weight[spaghetti.sauce.data$trtmt ==6]))^2; var_6
+# Fitted values
+Y_i_hat <- tapply(spaghetti.data$weight, spaghetti.data$trtmt, mean);
+# Sample Variance
+Y_i_var <- tapply(spaghetti.data$weight, spaghetti.data$trtmt, var);
 
 
 # Confidence Interval for tau_i - tau_j
-CI_Satterthwaite <- function(t1,t2,variance_1,variance_2,r,v){
- #t1= 9.33; t2= 9.03;variance_1 = 2.95; variance_2 = 1.29; r= 10; v=4
-  
+CI_Satterthwaite <- function(ti,tj,variance_i,variance_j,r,v){
 # Numerator for Degree of Freedom
-num_1 <- sum(variance_1/r,variance_2/r)^2
+numerator <- sum(variance_i/r,variance_j/r)^2
 # Denominator for Degree of Freedom
-den_1 <- sum((variance_1/r)^2/(r-1), (variance_2/r)^2/(r-1))
+denominator <- sum((variance_i/r)^2/(r-1), (variance_j/r)^2/(r-1))
 #Degrees of freedom
-deg.fr_tau1_tau2 <- num_1/ den_1
+deg.fr_taui_tauj <- numerator/ denominator
 #Standard error
-SE_1 <- sqrt(sum(variance_1/r,variance_2/r))
+SE <- sqrt(sum(variance_i/r,variance_j/r))
 # w_T
-w_1 <- qtukey(.95,v,deg.fr_tau1_tau2)/ sqrt(2)
+w_T <- qtukey(.95,v,deg.fr_taui_tauj)/ sqrt(2)
 # tau_i - tau_j
-t1_min_t2 <- t1 - t2
+ti_minus_tj <- ti - tj
 #return confidence interval
-return(CI_t1_min_t2 <-c(t1_min_t2 + w_1 * SE_1,t1_min_t2 - w_1 * SE_1))
+return(CI_ti_minus_tj <-c(ti_minus_tj + w_T * SE,ti_minus_tj - w_T * SE))
 }
 
+t_i <- c(1,3,5,1,1,3)
+t_j <- c(2,4,6,5,3,5)
+CI_ti_minus_tj <- NULL
 
-CI_tau1_min_tau2 <- CI_Satterthwaite(t_1,t_2,var_1,var_2,3,6);CI_tau1_min_tau2
-CI_tau3_min_tau4 <- CI_Satterthwaite(t_3,t_4,var_3,var_4,3,6);CI_tau3_min_tau4 
-CI_tau5_min_tau6 <- CI_Satterthwaite(t_5,t_6,var_5,var_6,3,6);CI_tau5_min_tau6
-CI_tau1_min_tau5 <- CI_Satterthwaite(t_1,t_5,var_1,var_5,3,6);CI_tau1_min_tau5
-CI_tau1_min_tau3 <- CI_Satterthwaite(t_1,t_3,var_1,var_3,3,6);CI_tau1_min_tau3
-CI_tau3_min_tau5 <- CI_Satterthwaite(t_3,t_5,var_3,var_5,3,6);CI_tau3_min_tau5
+for (i in 1:6){
+CI_ti_minus_tj<-rbind(CI_ti_minus_tj,
+CI_Satterthwaite(Y_i_hat[t_i[i]],Y_i_hat[t_j[i]],
+                 Y_i_var[t_i[i]],Y_i_var[t_j[i]],3,6)) }
 
 
+colnames(CI_ti_minus_tj) <- c("Left","Right")
+CI_ti_minus_tj
 ```
 

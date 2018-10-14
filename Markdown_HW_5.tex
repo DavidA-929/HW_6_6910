@@ -128,10 +128,6 @@
 \maketitle
 
 \begin{verbatim}
-## Warning: package 'ggplot2' was built under R version 3.4.4
-\end{verbatim}
-
-\begin{verbatim}
 ## Warning: package 'emmeans' was built under R version 3.4.4
 \end{verbatim}
 
@@ -366,107 +362,96 @@ time. A thicker sauce would give rise to smaller weights.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{spaghetti.sauce.data =}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"~/Desktop/Stats 6910/HW_4_and_5/spaghetti.sauce.txt"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{spaghetti.data =}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"~/Desktop/Stats 6910/HW_4_and_5/spaghetti.sauce.txt"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
 
-\NormalTok{spaghetti.sauce.data <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(spaghetti.sauce.data)}
-\NormalTok{spaghetti.sauce.data}\OperatorTok{$}\NormalTok{trtmt <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(spaghetti.sauce.data}\OperatorTok{$}\NormalTok{trtmt)}
-
-
-\NormalTok{spaghetti.model <-}\StringTok{ }\KeywordTok{aov}\NormalTok{(weight }\OperatorTok{~}\StringTok{ }\NormalTok{trtmt , }\DataTypeTok{data =}\NormalTok{ spaghetti.sauce.data)}
-\KeywordTok{anova}\NormalTok{(spaghetti.model)}
+\NormalTok{spaghetti.model =}\StringTok{ }\KeywordTok{aov}\NormalTok{(weight }\OperatorTok{~}\StringTok{ }\KeywordTok{factor}\NormalTok{(trtmt), spaghetti.data)}
+\CommentTok{# Compute predicted values, residuals, standardized residuals, normal scores}
+\NormalTok{spaghetti.data =}\StringTok{ }\KeywordTok{within}\NormalTok{(spaghetti.data, \{}
+  \CommentTok{# Compute predicted, residual, and standardized residual values}
+\NormalTok{  ypred =}\StringTok{ }\KeywordTok{fitted}\NormalTok{(spaghetti.model)}
+\NormalTok{  e =}\StringTok{ }\KeywordTok{resid}\NormalTok{(spaghetti.model) }
+\NormalTok{  z =}\StringTok{ }\KeywordTok{rstandard}\NormalTok{(spaghetti.model)\})}
+\CommentTok{# Display first 10 lines of mung.data, 4 digits per variable}
+\KeywordTok{print}\NormalTok{(}\KeywordTok{head}\NormalTok{(spaghetti.data, }\DecValTok{10}\NormalTok{), }\DataTypeTok{digits=}\DecValTok{4}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## Analysis of Variance Table
-## 
-## Response: weight
-##           Df Sum Sq Mean Sq F value    Pr(>F)    
-## trtmt      5 7976.4 1595.29  98.678 2.548e-09 ***
-## Residuals 12  194.0   16.17                      
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##    order trtmt weight brand stir       z       e ypred
+## 1      1     3     14     2    1 -0.9138 -3.0000 17.00
+## 2      2     2     69     1    2  1.0153  3.3333 65.67
+## 3      3     4     26     2    2  0.9138  3.0000 23.00
+## 4      4     3     15     2    1 -0.6092 -2.0000 17.00
+## 5      5     4     20     2    2 -0.9138 -3.0000 23.00
+## 6      6     5     12     3    1 -1.0153 -3.3333 15.33
+## 7      7     1     55     1    1 -0.9138 -3.0000 58.00
+## 8      8     6     14     3    2 -0.5077 -1.6667 15.67
+## 9      9     6     16     3    2  0.1015  0.3333 15.67
+## 10    10     5     16     3    1  0.2031  0.6667 15.33
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Get fitted values from the model}
-\NormalTok{spaghetti.fitted <-}\StringTok{ }\KeywordTok{fitted}\NormalTok{(spaghetti.model); spaghetti.fitted}
-\end{Highlighting}
-\end{Shaded}
+\CommentTok{# Generate residual plots}
 
-\begin{verbatim}
-##        1        2        3        4        5        6        7        8 
-## 17.00000 65.66667 23.00000 17.00000 23.00000 15.33333 58.00000 15.66667 
-##        9       10       11       12       13       14       15       16 
-## 15.66667 15.33333 58.00000 65.66667 23.00000 15.66667 17.00000 15.33333 
-##       17       18 
-## 65.66667 58.00000
-\end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Raw Residuals}
-\NormalTok{spaghetti.raw.residuals <-}\StringTok{ }\KeywordTok{resid}\NormalTok{(spaghetti.model); spaghetti.raw.residuals}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##             1             2             3             4             5 
-## -3.000000e+00  3.333333e+00  3.000000e+00 -2.000000e+00 -3.000000e+00 
-##             6             7             8             9            10 
-## -3.333333e+00 -3.000000e+00 -1.666667e+00  3.333333e-01  6.666667e-01 
-##            11            12            13            14            15 
-##  8.000000e+00 -1.666667e+00 -6.217249e-15  1.333333e+00  5.000000e+00 
-##            16            17            18 
-##  2.666667e+00 -1.666667e+00 -5.000000e+00
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Standardize residuals }
-\NormalTok{spaghetti.stand.residuals <-}\StringTok{ }\KeywordTok{rstandard}\NormalTok{(spaghetti.model); spaghetti.stand.residuals }
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##          1          2          3          4          5          6 
-## -0.9138115  1.0153462  0.9138115 -0.6092077 -0.9138115 -1.0153462 
-##          7          8          9         10         11         12 
-## -0.9138115 -0.5076731  0.1015346  0.2030692  2.4368308 -0.5076731 
-##         13         14         15         16         17         18 
-##  0.0000000  0.4061385  1.5230192  0.8122769 -0.5076731 -1.5230192
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\CommentTok{#Raw Residuals vs. Frying/ Grilling fat content }
-\KeywordTok{plot}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(spaghetti.sauce.data}\OperatorTok{$}\NormalTok{trtmt) , spaghetti.raw.residuals, }
-     \DataTypeTok{xlab =} \StringTok{"Codes"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Raw Residuals"}\NormalTok{, }\DataTypeTok{xaxt =} \StringTok{"n"}\NormalTok{,}
-     \DataTypeTok{lwd =} \FloatTok{1.5}\NormalTok{)}
-\KeywordTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DataTypeTok{at =} \DecValTok{1}\OperatorTok{:}\DecValTok{6}\NormalTok{, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"1"}\NormalTok{,}\StringTok{"2"}\NormalTok{,}\StringTok{"3"}\NormalTok{,}\StringTok{"4"}\NormalTok{,}\StringTok{"5"}\NormalTok{,}\StringTok{"6"}\NormalTok{))}
-\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{)}
-
-\CommentTok{#Raw Residuals vs. Fitted Values}
-\KeywordTok{plot}\NormalTok{(spaghetti.fitted , spaghetti.raw.residuals, }
-     \DataTypeTok{xlab =} \StringTok{"Fitted Values"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Raw Residuals"}\NormalTok{,}
-     \DataTypeTok{lwd =} \FloatTok{1.5}\NormalTok{)}
-\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{)}
-
-\CommentTok{#Standardized Residuals vs. Fitted Values}
-\KeywordTok{plot}\NormalTok{(spaghetti.fitted , spaghetti.stand.residuals, }
-     \DataTypeTok{xlab =} \StringTok{"Fitted Values"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Standardize Residuals"}\NormalTok{,}
-     \DataTypeTok{lwd =} \FloatTok{1.5}\NormalTok{)}
-\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{)}
-
-\CommentTok{#Norma Probability Plot}
-\KeywordTok{qqnorm}\NormalTok{(spaghetti.raw.residuals, }\DataTypeTok{main=} \StringTok{"Normal Q-Q Plot of Raw Residuals"}\NormalTok{)}
-\KeywordTok{qqline}\NormalTok{(weights.raw.resid, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(z }\OperatorTok{~}\StringTok{ }\NormalTok{trtmt, }\DataTypeTok{data=}\NormalTok{spaghetti.data, }\DataTypeTok{ylab=}\StringTok{"Standardized Residuals"}\NormalTok{, }\DataTypeTok{las=}\DecValTok{1}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{)  }\CommentTok{# Horizontal line at zero}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{Markdown_HW_5_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(z }\OperatorTok{~}\StringTok{ }\NormalTok{order, }\DataTypeTok{data=}\NormalTok{spaghetti.data, }\DataTypeTok{ylab=}\StringTok{"Standardized Residuals"}\NormalTok{, }\DataTypeTok{las=}\DecValTok{1}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Markdown_HW_5_files/figure-latex/unnamed-chunk-6-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(z }\OperatorTok{~}\StringTok{ }\NormalTok{ypred, }\DataTypeTok{data=}\NormalTok{spaghetti.data, }\DataTypeTok{ylab=}\StringTok{"Standardized Residuals"}\NormalTok{, }\DataTypeTok{las=}\DecValTok{1}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Markdown_HW_5_files/figure-latex/unnamed-chunk-6-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qqnorm}\NormalTok{(spaghetti.data}\OperatorTok{$}\NormalTok{z)}
+\CommentTok{# Line through 1st and 3rd quantile points}
+\KeywordTok{qqline}\NormalTok{(spaghetti.data}\OperatorTok{$}\NormalTok{z) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Markdown_HW_5_files/figure-latex/unnamed-chunk-6-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Compute sample means and variances and their natural logs by trtmt}
+\NormalTok{MeanWeight =}\StringTok{ }\KeywordTok{by}\NormalTok{(spaghetti.data}\OperatorTok{$}\NormalTok{weight, spaghetti.data}\OperatorTok{$}\NormalTok{trtmt, mean) }\CommentTok{# Sample means}
+\NormalTok{VarWeight =}\StringTok{ }\KeywordTok{by}\NormalTok{(spaghetti.data}\OperatorTok{$}\NormalTok{weight, spaghetti.data}\OperatorTok{$}\NormalTok{trtmt, var) }\CommentTok{# Sample variances}
+\NormalTok{LnMean =}\StringTok{ }\KeywordTok{log}\NormalTok{(MeanWeight)  }\CommentTok{# Column of ln sample means}
+\NormalTok{LnVar =}\StringTok{ }\KeywordTok{log}\NormalTok{(VarWeight)  }\CommentTok{# Column of ln sample variances}
+\NormalTok{Trtmt =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{6}\NormalTok{)  }\CommentTok{# Column of trtmt levels}
+\NormalTok{stats =}\StringTok{ }\KeywordTok{cbind}\NormalTok{(Trtmt, MeanWeight, VarWeight, LnMean, LnVar) }\CommentTok{# Column bind}
+\NormalTok{stats  }\CommentTok{# Display the stats data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Trtmt MeanWeight VarWeight   LnMean     LnVar
+## 1     1   58.00000 49.000000 4.060443 3.8918203
+## 2     2   65.66667  8.333333 4.184591 2.1202635
+## 3     3   17.00000 19.000000 2.833213 2.9444390
+## 4     4   23.00000  9.000000 3.135494 2.1972246
+## 5     5   15.33333  9.333333 2.730029 2.2335922
+## 6     6   15.66667  2.333333 2.751535 0.8472979
+\end{verbatim}
 
 \begin{enumerate}
 \def\labelenumi{(\alph{enumi})}
@@ -497,236 +482,53 @@ The work is shown in the code below.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{spaghetti.fitted}
-\end{Highlighting}
-\end{Shaded}
+\CommentTok{# Fitted values}
+\NormalTok{Y_i_hat <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(spaghetti.data}\OperatorTok{$}\NormalTok{weight, spaghetti.data}\OperatorTok{$}\NormalTok{trtmt, mean);}
+\CommentTok{# Sample Variance}
+\NormalTok{Y_i_var <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(spaghetti.data}\OperatorTok{$}\NormalTok{weight, spaghetti.data}\OperatorTok{$}\NormalTok{trtmt, var);}
 
-\begin{verbatim}
-##        1        2        3        4        5        6        7        8 
-## 17.00000 65.66667 23.00000 17.00000 23.00000 15.33333 58.00000 15.66667 
-##        9       10       11       12       13       14       15       16 
-## 15.66667 15.33333 58.00000 65.66667 23.00000 15.66667 17.00000 15.33333 
-##       17       18 
-## 65.66667 58.00000
-\end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{t_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{spaghetti.fitted[}\DecValTok{7}\NormalTok{]; t_}\DecValTok{1} \CommentTok{# tau_1}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##  7 
-## 58
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{t_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\NormalTok{spaghetti.fitted[}\DecValTok{2}\NormalTok{];t_}\DecValTok{2} \CommentTok{# tau_2}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##        2 
-## 65.66667
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{t_}\DecValTok{3}\NormalTok{ <-}\StringTok{ }\NormalTok{spaghetti.fitted[}\DecValTok{1}\NormalTok{]; t_}\DecValTok{3} \CommentTok{# tau_3}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##  1 
-## 17
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{t_}\DecValTok{4}\NormalTok{ <-}\StringTok{ }\NormalTok{spaghetti.fitted[}\DecValTok{3}\NormalTok{];t_}\DecValTok{4}\CommentTok{# tau_4}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##  3 
-## 23
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{t_}\DecValTok{5}\NormalTok{ <-}\StringTok{ }\NormalTok{spaghetti.fitted[}\DecValTok{6}\NormalTok{];t_}\DecValTok{5} \CommentTok{# tau_5}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##        6 
-## 15.33333
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{t_}\DecValTok{6}\NormalTok{ <-}\StringTok{ }\NormalTok{spaghetti.fitted[}\DecValTok{8}\NormalTok{];t_}\DecValTok{6} \CommentTok{# tau_6}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##        8 
-## 15.66667
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#1st treatment variance}
-\NormalTok{var_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{(}\KeywordTok{sd}\NormalTok{(spaghetti.sauce.data}\OperatorTok{$}\NormalTok{weight[spaghetti.sauce.data}\OperatorTok{$}\NormalTok{trtmt }\OperatorTok{==}\DecValTok{1}\NormalTok{]))}\OperatorTok{^}\DecValTok{2}\NormalTok{; var_}\DecValTok{1} 
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 49
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#2nd treatment variance}
-\NormalTok{var_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\NormalTok{(}\KeywordTok{sd}\NormalTok{(spaghetti.sauce.data}\OperatorTok{$}\NormalTok{weight[spaghetti.sauce.data}\OperatorTok{$}\NormalTok{trtmt }\OperatorTok{==}\DecValTok{2}\NormalTok{]))}\OperatorTok{^}\DecValTok{2}\NormalTok{; var_}\DecValTok{2}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 8.333333
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#3rd treatment variance}
-\NormalTok{var_}\DecValTok{3}\NormalTok{ <-}\StringTok{ }\NormalTok{(}\KeywordTok{sd}\NormalTok{(spaghetti.sauce.data}\OperatorTok{$}\NormalTok{weight[spaghetti.sauce.data}\OperatorTok{$}\NormalTok{trtmt }\OperatorTok{==}\DecValTok{3}\NormalTok{]))}\OperatorTok{^}\DecValTok{2}\NormalTok{; var_}\DecValTok{3}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 19
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#4th treatment variance}
-\NormalTok{var_}\DecValTok{4}\NormalTok{ <-}\StringTok{ }\NormalTok{(}\KeywordTok{sd}\NormalTok{(spaghetti.sauce.data}\OperatorTok{$}\NormalTok{weight[spaghetti.sauce.data}\OperatorTok{$}\NormalTok{trtmt }\OperatorTok{==}\DecValTok{4}\NormalTok{]))}\OperatorTok{^}\DecValTok{2}\NormalTok{; var_}\DecValTok{4}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 9
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#5th treatment variance}
-\NormalTok{var_}\DecValTok{5}\NormalTok{ <-}\StringTok{ }\NormalTok{(}\KeywordTok{sd}\NormalTok{(spaghetti.sauce.data}\OperatorTok{$}\NormalTok{weight[spaghetti.sauce.data}\OperatorTok{$}\NormalTok{trtmt }\OperatorTok{==}\DecValTok{5}\NormalTok{]))}\OperatorTok{^}\DecValTok{2}\NormalTok{; var_}\DecValTok{5}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 9.333333
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#6th treatment variance}
-\NormalTok{var_}\DecValTok{6}\NormalTok{ <-}\StringTok{ }\NormalTok{(}\KeywordTok{sd}\NormalTok{(spaghetti.sauce.data}\OperatorTok{$}\NormalTok{weight[spaghetti.sauce.data}\OperatorTok{$}\NormalTok{trtmt }\OperatorTok{==}\DecValTok{6}\NormalTok{]))}\OperatorTok{^}\DecValTok{2}\NormalTok{; var_}\DecValTok{6}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 2.333333
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{# Confidence Interval for tau_i - tau_j}
-\NormalTok{CI_Satterthwaite <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(t1,t2,variance_}\DecValTok{1}\NormalTok{,variance_}\DecValTok{2}\NormalTok{,r,v)\{}
- \CommentTok{#t1= 9.33; t2= 9.03;variance_1 = 2.95; variance_2 = 1.29; r= 10; v=4}
-  
+\NormalTok{CI_Satterthwaite <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(ti,tj,variance_i,variance_j,r,v)\{}
 \CommentTok{# Numerator for Degree of Freedom}
-\NormalTok{num_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(variance_}\DecValTok{1}\OperatorTok{/}\NormalTok{r,variance_}\DecValTok{2}\OperatorTok{/}\NormalTok{r)}\OperatorTok{^}\DecValTok{2}
+\NormalTok{numerator <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(variance_i}\OperatorTok{/}\NormalTok{r,variance_j}\OperatorTok{/}\NormalTok{r)}\OperatorTok{^}\DecValTok{2}
 \CommentTok{# Denominator for Degree of Freedom}
-\NormalTok{den_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\KeywordTok{sum}\NormalTok{((variance_}\DecValTok{1}\OperatorTok{/}\NormalTok{r)}\OperatorTok{^}\DecValTok{2}\OperatorTok{/}\NormalTok{(r}\OperatorTok{-}\DecValTok{1}\NormalTok{), (variance_}\DecValTok{2}\OperatorTok{/}\NormalTok{r)}\OperatorTok{^}\DecValTok{2}\OperatorTok{/}\NormalTok{(r}\OperatorTok{-}\DecValTok{1}\NormalTok{))}
+\NormalTok{denominator <-}\StringTok{ }\KeywordTok{sum}\NormalTok{((variance_i}\OperatorTok{/}\NormalTok{r)}\OperatorTok{^}\DecValTok{2}\OperatorTok{/}\NormalTok{(r}\OperatorTok{-}\DecValTok{1}\NormalTok{), (variance_j}\OperatorTok{/}\NormalTok{r)}\OperatorTok{^}\DecValTok{2}\OperatorTok{/}\NormalTok{(r}\OperatorTok{-}\DecValTok{1}\NormalTok{))}
 \CommentTok{#Degrees of freedom}
-\NormalTok{deg.fr_tau1_tau2 <-}\StringTok{ }\NormalTok{num_}\DecValTok{1}\OperatorTok{/}\StringTok{ }\NormalTok{den_}\DecValTok{1}
+\NormalTok{deg.fr_taui_tauj <-}\StringTok{ }\NormalTok{numerator}\OperatorTok{/}\StringTok{ }\NormalTok{denominator}
 \CommentTok{#Standard error}
-\NormalTok{SE_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(variance_}\DecValTok{1}\OperatorTok{/}\NormalTok{r,variance_}\DecValTok{2}\OperatorTok{/}\NormalTok{r))}
+\NormalTok{SE <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(variance_i}\OperatorTok{/}\NormalTok{r,variance_j}\OperatorTok{/}\NormalTok{r))}
 \CommentTok{# w_T}
-\NormalTok{w_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\KeywordTok{qtukey}\NormalTok{(.}\DecValTok{95}\NormalTok{,v,deg.fr_tau1_tau2)}\OperatorTok{/}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\NormalTok{w_T <-}\StringTok{ }\KeywordTok{qtukey}\NormalTok{(.}\DecValTok{95}\NormalTok{,v,deg.fr_taui_tauj)}\OperatorTok{/}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{2}\NormalTok{)}
 \CommentTok{# tau_i - tau_j}
-\NormalTok{t1_min_t2 <-}\StringTok{ }\NormalTok{t1 }\OperatorTok{-}\StringTok{ }\NormalTok{t2}
+\NormalTok{ti_minus_tj <-}\StringTok{ }\NormalTok{ti }\OperatorTok{-}\StringTok{ }\NormalTok{tj}
 \CommentTok{#return confidence interval}
-\KeywordTok{return}\NormalTok{(CI_t1_min_t2 <-}\KeywordTok{c}\NormalTok{(t1_min_t2 }\OperatorTok{+}\StringTok{ }\NormalTok{w_}\DecValTok{1} \OperatorTok{*}\StringTok{ }\NormalTok{SE_}\DecValTok{1}\NormalTok{,t1_min_t2 }\OperatorTok{-}\StringTok{ }\NormalTok{w_}\DecValTok{1} \OperatorTok{*}\StringTok{ }\NormalTok{SE_}\DecValTok{1}\NormalTok{))}
+\KeywordTok{return}\NormalTok{(CI_ti_minus_tj <-}\KeywordTok{c}\NormalTok{(ti_minus_tj }\OperatorTok{+}\StringTok{ }\NormalTok{w_T }\OperatorTok{*}\StringTok{ }\NormalTok{SE,ti_minus_tj }\OperatorTok{-}\StringTok{ }\NormalTok{w_T }\OperatorTok{*}\StringTok{ }\NormalTok{SE))}
 \NormalTok{\}}
 
+\NormalTok{t_i <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{)}
+\NormalTok{t_j <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{5}\NormalTok{)}
+\NormalTok{CI_ti_minus_tj <-}\StringTok{ }\OtherTok{NULL}
 
-\NormalTok{CI_tau1_min_tau2 <-}\StringTok{ }\KeywordTok{CI_Satterthwaite}\NormalTok{(t_}\DecValTok{1}\NormalTok{,t_}\DecValTok{2}\NormalTok{,var_}\DecValTok{1}\NormalTok{,var_}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{);CI_tau1_min_tau2}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{6}\NormalTok{)\{}
+\NormalTok{CI_ti_minus_tj<-}\KeywordTok{rbind}\NormalTok{(CI_ti_minus_tj,}
+\KeywordTok{CI_Satterthwaite}\NormalTok{(Y_i_hat[t_i[i]],Y_i_hat[t_j[i]],}
+\NormalTok{                 Y_i_var[t_i[i]],Y_i_var[t_j[i]],}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{)) \}}
+
+
+\KeywordTok{colnames}\NormalTok{(CI_ti_minus_tj) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Left"}\NormalTok{,}\StringTok{"Right"}\NormalTok{)}
+\NormalTok{CI_ti_minus_tj}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##         7         7 
-##  19.63595 -34.96928
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{CI_tau3_min_tau4 <-}\StringTok{ }\KeywordTok{CI_Satterthwaite}\NormalTok{(t_}\DecValTok{3}\NormalTok{,t_}\DecValTok{4}\NormalTok{,var_}\DecValTok{3}\NormalTok{,var_}\DecValTok{4}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{);CI_tau3_min_tau4 }
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##          1          1 
-##   9.516045 -21.516045
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{CI_tau5_min_tau6 <-}\StringTok{ }\KeywordTok{CI_Satterthwaite}\NormalTok{(t_}\DecValTok{5}\NormalTok{,t_}\DecValTok{6}\NormalTok{,var_}\DecValTok{5}\NormalTok{,var_}\DecValTok{6}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{);CI_tau5_min_tau6}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##         6         6 
-##  11.04009 -11.70676
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{CI_tau1_min_tau5 <-}\StringTok{ }\KeywordTok{CI_Satterthwaite}\NormalTok{(t_}\DecValTok{1}\NormalTok{,t_}\DecValTok{5}\NormalTok{,var_}\DecValTok{1}\NormalTok{,var_}\DecValTok{5}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{);CI_tau1_min_tau5}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##        7        7 
-## 69.58676 15.74657
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{CI_tau1_min_tau3 <-}\StringTok{ }\KeywordTok{CI_Satterthwaite}\NormalTok{(t_}\DecValTok{1}\NormalTok{,t_}\DecValTok{3}\NormalTok{,var_}\DecValTok{1}\NormalTok{,var_}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{);CI_tau1_min_tau3}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##        7        7 
-## 66.07661 15.92339
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{CI_tau3_min_tau5 <-}\StringTok{ }\KeywordTok{CI_Satterthwaite}\NormalTok{(t_}\DecValTok{3}\NormalTok{,t_}\DecValTok{5}\NormalTok{,var_}\DecValTok{3}\NormalTok{,var_}\DecValTok{5}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{);CI_tau3_min_tau5}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##         1         1 
-##  17.18098 -13.84765
+##           Left     Right
+## [1,] 19.635948 -34.96928
+## [2,]  9.516045 -21.51604
+## [3,] 11.040092 -11.70676
+## [4,] 69.586762  15.74657
+## [5,] 66.076609  15.92339
+## [6,] 17.180981 -13.84765
 \end{verbatim}
 
 
