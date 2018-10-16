@@ -65,20 +65,23 @@ std.residuals <- rstandard(Post_weight_model)
 par(mfrow = c(2,2))
 #Raw Residuals vs. Frying/ Grilling fat content 
 plot(as.numeric(Post_grams$Code) , weights.raw.resid, 
-     xlab = "Trtmt Levels", ylab = "Raw Residuals", xaxt = "n",
+     main= "Trtmt vs. Residuals", xlab = "Trtmt Levels", 
+     ylab = "Raw Residuals", xaxt = "n",
      lwd = 1.5)
 axis(1, at = 1:6, labels = c("1","2","3","4","5","6"))
 abline(h=0, col = "red", lty = 2)
 
 #Raw Residuals vs. Fitted Values
 plot(weights.fitted , weights.raw.resid, 
-     xlab = "Fitted Values", ylab = "Raw Residuals",
+     main= "Fitted Values vs. Residuals", xlab = "Fitted Values", 
+     ylab = "Raw Residuals",
      lwd = 1.5)
 abline(h=0, col = "red", lty = 2)
 
 #Standardized Residuals vs. Fitted Values
 plot(weights.fitted , std.residuals, 
-     xlab = "Fitted Values", ylab = "Standardize Residuals",
+     main= "Trtmt vs. Std. Residuals", xlab = "Fitted Values", 
+     ylab = "Standardize Residuals",
      lwd = 1.5)
 abline(h=0, col = "red", lty = 2)
 
@@ -90,19 +93,32 @@ qqline(weights.raw.resid, col = "red")
 
 Assumption (a): The error have mean 0:
 
-Due to the formulation of the One Way ANOVA Model, the residuals always sum up to 0.
+Due to the formulation of the One Way ANOVA Model, the residuals always sum up to 0. Hence, the assumption cannot be checked.
 
 Assumption (b): The error have constant variance:
 
-By plotting the standardized residuals against the fitted values of the treatment levels we saw no big difference in the pattern of the spread within the groups. So we feel comfortable that the equal variance assumption is approximately satisfied.
+```{r}
+vars<- tapply(Post_grams$Weight,Post_grams$Code, var)
+max(vars)/min(vars)
+```
+
+
+Using the rule of thumb based on within group variances we can see that 
+$$\frac{\max_i\{S_i^2 \}}{\min_i\{S_i^2 \}} =\frac{18.5}{3.8} = 4.87.$$
+However, by plotting the standardized residuals against the fitted values and the treatment levels we saw no big difference in the pattern of the spread within the groups. 
+Therefore, the $\frac{\max_i\{S_i^2 \}}{\min_i\{S_i^2 \}}$ result can simply be due to the fact that the sample sizes of each group is only 4.
+So we feel comfortable that the equal variance assumption is approximately satisfied.
 
 
 Assumption (c): The error are normally distributed:
 
-From the qq-plot above we see that the data is fairly straight and no outliers are apparent. Therefore the normality assumption is reasonable.
+From the qq-plot above we see that the data is fairly straight. Furthermore, all the standardized residuals are $|z_i| \leq 2.074$, so we don't have any apparent outliers. Therefore the normality assumption is reasonable.
 
+```{r}
+max(abs(std.residuals))
+```
 
-Assumption (d): The error are independent:
+Assumption (d): The errors are independent:
 
 Since we do not have any information on how the data was collected, we can't verify the Independence assumption.
 
@@ -139,27 +155,52 @@ print(head(spaghetti.data, 10), digits=4)
 
 # Generate residual plots
 
-
-plot(z ~ trtmt, data=spaghetti.data, ylab="Standardized Residuals", las=1)
+par(mfrow = c(2,2))
+plot(z ~ trtmt, data=spaghetti.data, 
+      main= "Trtmt vs. Std. Residuals",
+     ylab="Std. Residuals", las=1)
 abline(h=0)  # Horizontal line at zero
-plot(z ~ order, data=spaghetti.data, ylab="Standardized Residuals", las=1)
+plot(z ~ order, data=spaghetti.data, 
+     main= "Order vs. Std. Residuals",
+     ylab="Std. Residuals", las=1)
 abline(h=0)
-plot(z ~ ypred, data=spaghetti.data, ylab="Standardized Residuals", las=1)
+plot(z ~ ypred, data=spaghetti.data, 
+      main= "Fitted Values vs. Std. Residuals",
+     ylab="Std. Residuals", las=1)
 abline(h=0)
 qqnorm(spaghetti.data$z)
 # Line through 1st and 3rd quantile points
 qqline(spaghetti.data$z) 
-
-
-# Compute sample means and variances and their natural logs by trtmt
-MeanWeight = by(spaghetti.data$weight, spaghetti.data$trtmt, mean) # Sample means
-VarWeight = by(spaghetti.data$weight, spaghetti.data$trtmt, var) # Sample variances
-LnMean = log(MeanWeight)  # Column of ln sample means
-LnVar = log(VarWeight)  # Column of ln sample variances
-Trtmt = c(1:6)  # Column of trtmt levels
-stats = cbind(Trtmt, MeanWeight, VarWeight, LnMean, LnVar) # Column bind
-stats  # Display the stats data
 ```
+
+
+Assumption (a): The error have mean 0:
+
+Due to the formulation of the One Way ANOVA Model, the residuals always sum up to 0. Hence, the assumption cannot be checked.
+
+Assumption (b): The error have constant variance:
+
+```{r}
+Y_i_var <- tapply(spaghetti.data$weight, spaghetti.data$trtmt, var);
+max(Y_i_var)/min(Y_i_var)
+```
+
+
+Using the rule of thumb based on within group variances we can see that 
+$$\frac{\max_i\{S_i^2 \}}{\min_i\{S_i^2 \}} =\frac{49}{2.33} = 21.$$ 
+Furthermore, by plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals increases as the fitted values increase. Hence, with these two results we feel comfortable to say that the equal variance assumption is not satisfied. 
+
+Assumption (c): The error are normally distributed:
+
+From the qq-plot above we see that the data is fairly straight. Furthermore, all the standardized residuals are $|z_i| \leq 2.437$, so we don't have any apparent outliers. Therefore, the normality assumption is reasonable.
+
+```{r}
+max(abs(spaghetti.data$z))
+```
+
+Assumption (d): The errors are independent:
+
+From the plot of Order vs. Residuals we can see that there isn't a pattern as time increases. Therefore we feel comfortable that the errors are approximately satisfies.
 
 
 

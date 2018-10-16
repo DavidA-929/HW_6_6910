@@ -123,3 +123,14 @@ anova(Post_weight_model)[2,"Mean Sq"]
 
 #MSE <- anova(Post_weight_model)[2,"Mean Sq"]; MSE
 #std.residuals <- weights.raw.resid/(sqrt(MSE * (1-1/r_i.vector_1))); std.residuals
+
+
+
+# Compute sample means and variances and their natural logs by trtmt
+MeanWeight = by(spaghetti.data$weight, spaghetti.data$trtmt, mean) # Sample means
+VarWeight = by(spaghetti.data$weight, spaghetti.data$trtmt, var) # Sample variances
+LnMean = log(MeanWeight)  # Column of ln sample means
+LnVar = log(VarWeight)  # Column of ln sample variances
+Trtmt = c(1:6)  # Column of trtmt levels
+stats = cbind(Trtmt, MeanWeight, VarWeight, LnMean, LnVar) # Column bind
+stats  # Display the stats data

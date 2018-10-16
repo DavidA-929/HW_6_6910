@@ -202,20 +202,23 @@ post-cooking weight data (in grams) for the meat cooking experiment.
 \KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
 \CommentTok{#Raw Residuals vs. Frying/ Grilling fat content }
 \KeywordTok{plot}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(Post_grams}\OperatorTok{$}\NormalTok{Code) , weights.raw.resid, }
-     \DataTypeTok{xlab =} \StringTok{"Trtmt Levels"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Raw Residuals"}\NormalTok{, }\DataTypeTok{xaxt =} \StringTok{"n"}\NormalTok{,}
+     \DataTypeTok{main=} \StringTok{"Trtmt vs. Residuals"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Trtmt Levels"}\NormalTok{, }
+     \DataTypeTok{ylab =} \StringTok{"Raw Residuals"}\NormalTok{, }\DataTypeTok{xaxt =} \StringTok{"n"}\NormalTok{,}
      \DataTypeTok{lwd =} \FloatTok{1.5}\NormalTok{)}
 \KeywordTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DataTypeTok{at =} \DecValTok{1}\OperatorTok{:}\DecValTok{6}\NormalTok{, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"1"}\NormalTok{,}\StringTok{"2"}\NormalTok{,}\StringTok{"3"}\NormalTok{,}\StringTok{"4"}\NormalTok{,}\StringTok{"5"}\NormalTok{,}\StringTok{"6"}\NormalTok{))}
 \KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{)}
 
 \CommentTok{#Raw Residuals vs. Fitted Values}
 \KeywordTok{plot}\NormalTok{(weights.fitted , weights.raw.resid, }
-     \DataTypeTok{xlab =} \StringTok{"Fitted Values"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Raw Residuals"}\NormalTok{,}
+     \DataTypeTok{main=} \StringTok{"Fitted Values vs. Residuals"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Fitted Values"}\NormalTok{, }
+     \DataTypeTok{ylab =} \StringTok{"Raw Residuals"}\NormalTok{,}
      \DataTypeTok{lwd =} \FloatTok{1.5}\NormalTok{)}
 \KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{)}
 
 \CommentTok{#Standardized Residuals vs. Fitted Values}
 \KeywordTok{plot}\NormalTok{(weights.fitted , std.residuals, }
-     \DataTypeTok{xlab =} \StringTok{"Fitted Values"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Standardize Residuals"}\NormalTok{,}
+     \DataTypeTok{main=} \StringTok{"Trtmt vs. Std. Residuals"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Fitted Values"}\NormalTok{, }
+     \DataTypeTok{ylab =} \StringTok{"Standardize Residuals"}\NormalTok{,}
      \DataTypeTok{lwd =} \FloatTok{1.5}\NormalTok{)}
 \KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{)}
 
@@ -230,21 +233,49 @@ post-cooking weight data (in grams) for the meat cooking experiment.
 Assumption (a): The error have mean 0:
 
 Due to the formulation of the One Way ANOVA Model, the residuals always
-sum up to 0.
+sum up to 0. Hence, the assumption cannot be checked.
 
 Assumption (b): The error have constant variance:
 
-By plotting the standardized residuals against the fitted values of the
-treatment levels we saw no big difference in the pattern of the spread
-within the groups. So we feel comfortable that the equal variance
-assumption is approximately satisfied.
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vars<-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(Post_grams}\OperatorTok{$}\NormalTok{Weight,Post_grams}\OperatorTok{$}\NormalTok{Code, var)}
+\KeywordTok{max}\NormalTok{(vars)}\OperatorTok{/}\KeywordTok{min}\NormalTok{(vars)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.868421
+\end{verbatim}
+
+Using the rule of thumb based on within group variances we can see that
+\[\frac{\max_i\{S_i^2 \}}{\min_i\{S_i^2 \}} =\frac{18.5}{3.8} = 4.87.\]
+However, by plotting the standardized residuals against the fitted
+values and the treatment levels we saw no big difference in the pattern
+of the spread within the groups. Therefore, the
+\(\frac{\max_i\{S_i^2 \}}{\min_i\{S_i^2 \}}\) result can simply be due
+to the fact that the sample sizes of each group is only 4. So we feel
+comfortable that the equal variance assumption is approximately
+satisfied.
 
 Assumption (c): The error are normally distributed:
 
-From the qq-plot above we see that the data is fairly straight and no
-outliers are apparent. Therefore the normality assumption is reasonable.
+From the qq-plot above we see that the data is fairly straight.
+Furthermore, all the standardized residuals are \(|z_i| \leq 2.074\), so
+we don't have any apparent outliers. Therefore the normality assumption
+is reasonable.
 
-Assumption (d): The error are independent:
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{max}\NormalTok{(}\KeywordTok{abs}\NormalTok{(std.residuals))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.073755
+\end{verbatim}
+
+Assumption (d): The errors are independent:
 
 Since we do not have any information on how the data was collected, we
 can't verify the Independence assumption.
@@ -308,64 +339,75 @@ time. A thicker sauce would give rise to smaller weights.
 \begin{Highlighting}[]
 \CommentTok{# Generate residual plots}
 
-
-\KeywordTok{plot}\NormalTok{(z }\OperatorTok{~}\StringTok{ }\NormalTok{trtmt, }\DataTypeTok{data=}\NormalTok{spaghetti.data, }\DataTypeTok{ylab=}\StringTok{"Standardized Residuals"}\NormalTok{, }\DataTypeTok{las=}\DecValTok{1}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(z }\OperatorTok{~}\StringTok{ }\NormalTok{trtmt, }\DataTypeTok{data=}\NormalTok{spaghetti.data, }
+      \DataTypeTok{main=} \StringTok{"Trtmt vs. Std. Residuals"}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{"Std. Residuals"}\NormalTok{, }\DataTypeTok{las=}\DecValTok{1}\NormalTok{)}
 \KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{)  }\CommentTok{# Horizontal line at zero}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Markdown_HW_5_files/figure-latex/unnamed-chunk-6-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{plot}\NormalTok{(z }\OperatorTok{~}\StringTok{ }\NormalTok{order, }\DataTypeTok{data=}\NormalTok{spaghetti.data, }\DataTypeTok{ylab=}\StringTok{"Standardized Residuals"}\NormalTok{, }\DataTypeTok{las=}\DecValTok{1}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(z }\OperatorTok{~}\StringTok{ }\NormalTok{order, }\DataTypeTok{data=}\NormalTok{spaghetti.data, }
+     \DataTypeTok{main=} \StringTok{"Order vs. Std. Residuals"}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{"Std. Residuals"}\NormalTok{, }\DataTypeTok{las=}\DecValTok{1}\NormalTok{)}
 \KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Markdown_HW_5_files/figure-latex/unnamed-chunk-6-2.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{plot}\NormalTok{(z }\OperatorTok{~}\StringTok{ }\NormalTok{ypred, }\DataTypeTok{data=}\NormalTok{spaghetti.data, }\DataTypeTok{ylab=}\StringTok{"Standardized Residuals"}\NormalTok{, }\DataTypeTok{las=}\DecValTok{1}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(z }\OperatorTok{~}\StringTok{ }\NormalTok{ypred, }\DataTypeTok{data=}\NormalTok{spaghetti.data, }
+      \DataTypeTok{main=} \StringTok{"Fitted Values vs. Std. Residuals"}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{"Std. Residuals"}\NormalTok{, }\DataTypeTok{las=}\DecValTok{1}\NormalTok{)}
 \KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Markdown_HW_5_files/figure-latex/unnamed-chunk-6-3.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \KeywordTok{qqnorm}\NormalTok{(spaghetti.data}\OperatorTok{$}\NormalTok{z)}
 \CommentTok{# Line through 1st and 3rd quantile points}
 \KeywordTok{qqline}\NormalTok{(spaghetti.data}\OperatorTok{$}\NormalTok{z) }
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Markdown_HW_5_files/figure-latex/unnamed-chunk-6-4.pdf}
+\includegraphics{Markdown_HW_5_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+Assumption (a): The error have mean 0:
+
+Due to the formulation of the One Way ANOVA Model, the residuals always
+sum up to 0. Hence, the assumption cannot be checked.
+
+Assumption (b): The error have constant variance:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Compute sample means and variances and their natural logs by trtmt}
-\NormalTok{MeanWeight =}\StringTok{ }\KeywordTok{by}\NormalTok{(spaghetti.data}\OperatorTok{$}\NormalTok{weight, spaghetti.data}\OperatorTok{$}\NormalTok{trtmt, mean) }\CommentTok{# Sample means}
-\NormalTok{VarWeight =}\StringTok{ }\KeywordTok{by}\NormalTok{(spaghetti.data}\OperatorTok{$}\NormalTok{weight, spaghetti.data}\OperatorTok{$}\NormalTok{trtmt, var) }\CommentTok{# Sample variances}
-\NormalTok{LnMean =}\StringTok{ }\KeywordTok{log}\NormalTok{(MeanWeight)  }\CommentTok{# Column of ln sample means}
-\NormalTok{LnVar =}\StringTok{ }\KeywordTok{log}\NormalTok{(VarWeight)  }\CommentTok{# Column of ln sample variances}
-\NormalTok{Trtmt =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{6}\NormalTok{)  }\CommentTok{# Column of trtmt levels}
-\NormalTok{stats =}\StringTok{ }\KeywordTok{cbind}\NormalTok{(Trtmt, MeanWeight, VarWeight, LnMean, LnVar) }\CommentTok{# Column bind}
-\NormalTok{stats  }\CommentTok{# Display the stats data}
+\NormalTok{Y_i_var <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(spaghetti.data}\OperatorTok{$}\NormalTok{weight, spaghetti.data}\OperatorTok{$}\NormalTok{trtmt, var);}
+\KeywordTok{max}\NormalTok{(Y_i_var)}\OperatorTok{/}\KeywordTok{min}\NormalTok{(Y_i_var)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##   Trtmt MeanWeight VarWeight   LnMean     LnVar
-## 1     1   58.00000 49.000000 4.060443 3.8918203
-## 2     2   65.66667  8.333333 4.184591 2.1202635
-## 3     3   17.00000 19.000000 2.833213 2.9444390
-## 4     4   23.00000  9.000000 3.135494 2.1972246
-## 5     5   15.33333  9.333333 2.730029 2.2335922
-## 6     6   15.66667  2.333333 2.751535 0.8472979
+## [1] 21
 \end{verbatim}
+
+Using the rule of thumb based on within group variances we can see that
+\[\frac{\max_i\{S_i^2 \}}{\min_i\{S_i^2 \}} =\frac{49}{2.33} = 21.\]
+Furthermore, by plotting the standardized residuals against the fitted
+values we can see that the spread of the standardized residuals
+increases as the fitted values increase. Hence, with these two results
+we feel comfortable to say that the equal variance assumption is not
+satisfied.
+
+Assumption (c): The error are normally distributed:
+
+From the qq-plot above we see that the data is fairly straight.
+Furthermore, all the standardized residuals are \(|z_i| \leq 2.437\), so
+we don't have any apparent outliers. Therefore, the normality assumption
+is reasonable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{max}\NormalTok{(}\KeywordTok{abs}\NormalTok{(spaghetti.data}\OperatorTok{$}\NormalTok{z))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.436831
+\end{verbatim}
+
+Assumption (d): The errors are independent:
+
+From the plot of Order vs.~Residuals we can see that there isn't a
+pattern as time increases. Therefore we feel comfortable that the errors
+are approximately satisfies.
 
 \begin{enumerate}
 \def\labelenumi{(\alph{enumi})}
