@@ -107,3 +107,19 @@ CI_tau1_minus_tau3
 CI_tau3_minus_tau5 <- CI_Satterthwaite(Y_i_hat[3],Y_i_hat[5],
                                        Y_i_var[3],Y_i_var[5],3,6)
 CI_tau3_minus_tau5
+
+
+
+
+n_1 <- nrow(Post_grams); n_1
+v_1 <- length(unique(Post_grams$Code)); v_1
+rs_1 <- tapply(rep(1,n_1) , Post_grams$Code, sum); rs_1
+r_i.vector_1 <- rep(rs_1,time =rs_1); r_i.vector_1
+
+
+
+anova(Post_weight_model)[2,"Mean Sq"]
+
+
+#MSE <- anova(Post_weight_model)[2,"Mean Sq"]; MSE
+#std.residuals <- weights.raw.resid/(sqrt(MSE * (1-1/r_i.vector_1))); std.residuals

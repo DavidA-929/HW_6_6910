@@ -37,7 +37,7 @@ Post_grams <- matrix(c(Post_grams[,1],Post_grams[,2],Post_grams[,3],
 ```
 
 
-The data displayed below is represented by the codes 1, 2, 3, 4, 5, and 6 which denote the frying fat content at 10%, 15%, and 20% and the grilling fat content at 10%, 15% and 20% respectively for the post-cooking weight data (in grams) for the meat cooking experiment.
+The data displayed below is represented by the levels 1, 2, 3, 4, 5, and 6 which denote the frying fat content at 10%, 15%, and 20% and the grilling fat content at 10%, 15% and 20% respectively for the post-cooking weight data (in grams) for the meat cooking experiment.
 
 ```{r}
 colnames(Post_grams) <- c( "Weight", "Code")
@@ -48,24 +48,16 @@ summary(Post_grams)
 
 
 ```{r}
-n_1 <- nrow(Post_grams); n_1
-v_1 <- length(unique(Post_grams$Code)); v_1
-rs_1 <- tapply(rep(1,n_1) , Post_grams$Code, sum); rs_1
-r_i.vector_1 <- rep(rs_1,time =rs_1); r_i.vector_1
-
 
 Post_weight_model <- aov(Weight ~ Code , data = Post_grams)
 anova(Post_weight_model)
-anova(Post_weight_model)[2,"Mean Sq"]
 
 
-weights.fitted <- fitted(Post_weight_model); weights.fitted
-
-weights.raw.resid <- resid(Post_weight_model); weights.raw.resid 
-
-#MSE <- anova(Post_weight_model)[2,"Mean Sq"]; MSE
-#std.residuals <- weights.raw.resid/(sqrt(MSE * (1-1/r_i.vector_1))); std.residuals
-
+# Fitted Values
+weights.fitted <- fitted(Post_weight_model)
+# Raw Residuals
+weights.raw.resid <- resid(Post_weight_model) 
+# Standardized Residuals
 std.residuals <- rstandard(Post_weight_model)
 ```
 
@@ -73,7 +65,7 @@ std.residuals <- rstandard(Post_weight_model)
 par(mfrow = c(2,2))
 #Raw Residuals vs. Frying/ Grilling fat content 
 plot(as.numeric(Post_grams$Code) , weights.raw.resid, 
-     xlab = "Codes", ylab = "Raw Residuals", xaxt = "n",
+     xlab = "Trtmt Levels", ylab = "Raw Residuals", xaxt = "n",
      lwd = 1.5)
 axis(1, at = 1:6, labels = c("1","2","3","4","5","6"))
 abline(h=0, col = "red", lty = 2)
@@ -96,25 +88,23 @@ qqline(weights.raw.resid, col = "red")
 ```
 
 
-Assuption (a): The error have mean 0:
+Assumption (a): The error have mean 0:
 
 Due to the formulation of the One Way ANOVA Model, the residuals always sum up to 0.
 
-Assuption (b): The error have constant variance:
+Assumption (b): The error have constant variance:
 
-By plotting the residuals against the fitted values of hte treatment levels we saw no big difference in the pattern of the spread within the groups. So we feel comfortable that the equal variance assumption is approximately satisfied.
-
-Since the the samples sizes of each group is equal, we can see that the the expected result is strengthens the assumption.
+By plotting the standardized residuals against the fitted values of the treatment levels we saw no big difference in the pattern of the spread within the groups. So we feel comfortable that the equal variance assumption is approximately satisfied.
 
 
-Assuption (c): The error are nrmally distributed:
+Assumption (c): The error are normally distributed:
 
 From the qq-plot above we see that the data is fairly straight and no outliers are apparent. Therefore the normality assumption is reasonable.
 
 
-Assuption (d): The error are independent:
+Assumption (d): The error are independent:
 
-Since we do not have any information on the 
+Since we do not have any information on how the data was collected, we can't verify the Independence assumption.
 
 
 
@@ -181,15 +171,16 @@ $$\tau_1 -\tau_2, \tau_3 -\tau_4, \tau_5 -\tau_6, \tau_1 -\tau_5, \tau_1 -\tau_3
 Select an overall confidence level of at least 95%.
 
 
-We will use Tukey's since we want a simultaneous confidence intervals for the six preplanned contrasts. Therefore,
+We will use Tukey's method of multiple comparison since we want a simultaneous confidence intervals for the preplanned contrasts. Although Tukey's method gives confidence intervals for all pairwise comparison, we will only display the ones requested. Therefore,
 
-A simultaius confidence interval for $\tau_1 -\tau_2$ is $(19.63595,-34.96928)$.
-A simultaius confidence interval for $\tau_3 -\tau_4$ is $(9.516045,-21.516045)$.
-A simultaius confidence interval for $\tau_5 -\tau_6$ is $(11.04009,-11.70676)$.
-A simultaius confidence interval for $\tau_1 -\tau_5$ is $(69.58676,15.74657)$.
-A simultaius confidence interval for $\tau_1 -\tau_3$ is $(66.07661,15.92339)$.
-A simultaius confidence interval for $\tau_3 -\tau_5$ is $(17.18098,-13.84765)$.
-
+\begin{center}
+A simultaneous confidence interval for $\tau_1 -\tau_2$ is $(-34.96928,19.63595)$.\\
+A simultaneous confidence interval for $\tau_3 -\tau_4$ is $(-21.516045,9.516045)$.\\
+A simultaneous confidence interval for $\tau_5 -\tau_6$ is $(-11.70676,11.04009)$.\\
+A simultaneous confidence interval for $\tau_1 -\tau_5$ is $(15.74657,69.58676)$.\\
+A simultaneous confidence interval for $\tau_1 -\tau_3$ is $(15.92339,66.07661)$.\\
+A simultaneous confidence interval for $\tau_3 -\tau_5$ is $(-13.84765,17.18098)$.
+\end{center}
 
 
 The work is shown in the code below.
@@ -208,6 +199,7 @@ numerator <- sum(variance_i/r,variance_j/r)^2
 denominator <- sum((variance_i/r)^2/(r-1), (variance_j/r)^2/(r-1))
 #Degrees of freedom
 deg.fr_taui_tauj <- numerator/ denominator
+print(deg.fr_taui_tauj)
 #Standard error
 SE <- sqrt(sum(variance_i/r,variance_j/r))
 # w_T
@@ -215,7 +207,7 @@ w_T <- qtukey(.95,v,deg.fr_taui_tauj)/ sqrt(2)
 # tau_i - tau_j
 ti_minus_tj <- ti - tj
 #return confidence interval
-return(CI_ti_minus_tj <-c(ti_minus_tj + w_T * SE,ti_minus_tj - w_T * SE))
+return(CI_ti_minus_tj <-c(ti_minus_tj - w_T * SE,ti_minus_tj + w_T * SE))
 }
 
 t_i <- c(1,3,5,1,1,3)
@@ -228,7 +220,7 @@ CI_Satterthwaite(Y_i_hat[t_i[i]],Y_i_hat[t_j[i]],
                  Y_i_var[t_i[i]],Y_i_var[t_j[i]],3,6)) }
 
 
-colnames(CI_ti_minus_tj) <- c("Left","Right")
+colnames(CI_ti_minus_tj) <- c("Lower","Upper")
 CI_ti_minus_tj
 ```
 

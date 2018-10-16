@@ -144,7 +144,7 @@ for the meat cooking experiment, which was introduced in Exercise 14 of
 Chap.3. The data were given in Table 3.14. (the order of collection of
 observations is not available).
 
-The data displayed below is represented by the codes 1, 2, 3, 4, 5, and
+The data displayed below is represented by the levels 1, 2, 3, 4, 5, and
 6 which denote the frying fat content at 10\%, 15\%, and 20\% and the
 grilling fat content at 10\%, 15\% and 20\% respectively for the
 post-cooking weight data (in grams) for the meat cooking experiment.
@@ -170,48 +170,6 @@ post-cooking weight data (in grams) for the meat cooking experiment.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{n_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(Post_grams); n_}\DecValTok{1}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 30
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{v_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(Post_grams}\OperatorTok{$}\NormalTok{Code)); v_}\DecValTok{1}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 6
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{rs_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{,n_}\DecValTok{1}\NormalTok{) , Post_grams}\OperatorTok{$}\NormalTok{Code, sum); rs_}\DecValTok{1}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 1 2 3 4 5 6 
-## 5 5 5 5 5 5
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{r_i.vector_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(rs_}\DecValTok{1}\NormalTok{,}\DataTypeTok{time =}\NormalTok{rs_}\DecValTok{1}\NormalTok{); r_i.vector_}\DecValTok{1}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 
-## 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{Post_weight_model <-}\StringTok{ }\KeywordTok{aov}\NormalTok{(Weight }\OperatorTok{~}\StringTok{ }\NormalTok{Code , }\DataTypeTok{data =}\NormalTok{ Post_grams)}
 \KeywordTok{anova}\NormalTok{(Post_weight_model)}
 \end{Highlighting}
@@ -230,53 +188,11 @@ post-cooking weight data (in grams) for the meat cooking experiment.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{anova}\NormalTok{(Post_weight_model)[}\DecValTok{2}\NormalTok{,}\StringTok{"Mean Sq"}\NormalTok{]}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 7.266667
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{weights.fitted <-}\StringTok{ }\KeywordTok{fitted}\NormalTok{(Post_weight_model); weights.fitted}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
-## 84.4 84.4 84.4 84.4 84.4 81.8 81.8 81.8 81.8 81.8 76.0 76.0 76.0 76.0 76.0 
-##   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30 
-## 83.4 83.4 83.4 83.4 83.4 86.0 86.0 86.0 86.0 86.0 78.4 78.4 78.4 78.4 78.4
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{weights.raw.resid <-}\StringTok{ }\KeywordTok{resid}\NormalTok{(Post_weight_model); weights.raw.resid }
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##             1             2             3             4             5 
-## -3.400000e+00  3.600000e+00  6.000000e-01 -4.000000e-01 -4.000000e-01 
-##             6             7             8             9            10 
-##  3.200000e+00 -1.800000e+00  2.000000e-01 -1.800000e+00  2.000000e-01 
-##            11            12            13            14            15 
-## -5.000000e+00  1.000000e+00 -4.000000e+00  4.000000e+00  4.000000e+00 
-##            16            17            18            19            20 
-##  6.000000e-01  6.000000e-01 -1.400000e+00 -2.400000e+00  2.600000e+00 
-##            21            22            23            24            25 
-## -3.000000e+00  2.000000e+00 -1.000000e+00 -1.110223e-16  2.000000e+00 
-##            26            27            28            29            30 
-## -4.000000e-01 -3.400000e+00 -4.000000e-01  6.000000e-01  3.600000e+00
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#MSE <- anova(Post_weight_model)[2,"Mean Sq"]; MSE}
-\CommentTok{#std.residuals <- weights.raw.resid/(sqrt(MSE * (1-1/r_i.vector_1))); std.residuals}
-
+\CommentTok{# Fitted Values}
+\NormalTok{weights.fitted <-}\StringTok{ }\KeywordTok{fitted}\NormalTok{(Post_weight_model)}
+\CommentTok{# Raw Residuals}
+\NormalTok{weights.raw.resid <-}\StringTok{ }\KeywordTok{resid}\NormalTok{(Post_weight_model) }
+\CommentTok{# Standardized Residuals}
 \NormalTok{std.residuals <-}\StringTok{ }\KeywordTok{rstandard}\NormalTok{(Post_weight_model)}
 \end{Highlighting}
 \end{Shaded}
@@ -286,7 +202,7 @@ post-cooking weight data (in grams) for the meat cooking experiment.
 \KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
 \CommentTok{#Raw Residuals vs. Frying/ Grilling fat content }
 \KeywordTok{plot}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(Post_grams}\OperatorTok{$}\NormalTok{Code) , weights.raw.resid, }
-     \DataTypeTok{xlab =} \StringTok{"Codes"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Raw Residuals"}\NormalTok{, }\DataTypeTok{xaxt =} \StringTok{"n"}\NormalTok{,}
+     \DataTypeTok{xlab =} \StringTok{"Trtmt Levels"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Raw Residuals"}\NormalTok{, }\DataTypeTok{xaxt =} \StringTok{"n"}\NormalTok{,}
      \DataTypeTok{lwd =} \FloatTok{1.5}\NormalTok{)}
 \KeywordTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DataTypeTok{at =} \DecValTok{1}\OperatorTok{:}\DecValTok{6}\NormalTok{, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"1"}\NormalTok{,}\StringTok{"2"}\NormalTok{,}\StringTok{"3"}\NormalTok{,}\StringTok{"4"}\NormalTok{,}\StringTok{"5"}\NormalTok{,}\StringTok{"6"}\NormalTok{))}
 \KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{)}
@@ -311,29 +227,27 @@ post-cooking weight data (in grams) for the meat cooking experiment.
 
 \includegraphics{Markdown_HW_5_files/figure-latex/unnamed-chunk-5-1.pdf}
 
-Assuption (a): The error have mean 0:
+Assumption (a): The error have mean 0:
 
 Due to the formulation of the One Way ANOVA Model, the residuals always
 sum up to 0.
 
-Assuption (b): The error have constant variance:
+Assumption (b): The error have constant variance:
 
-By plotting the residuals against the fitted values of hte treatment
-levels we saw no big difference in the pattern of the spread within the
-groups. So we feel comfortable that the equal variance assumption is
-approximately satisfied.
+By plotting the standardized residuals against the fitted values of the
+treatment levels we saw no big difference in the pattern of the spread
+within the groups. So we feel comfortable that the equal variance
+assumption is approximately satisfied.
 
-Since the the samples sizes of each group is equal, we can see that the
-the expected result is strengthens the assumption.
-
-Assuption (c): The error are nrmally distributed:
+Assumption (c): The error are normally distributed:
 
 From the qq-plot above we see that the data is fairly straight and no
 outliers are apparent. Therefore the normality assumption is reasonable.
 
-Assuption (d): The error are independent:
+Assumption (d): The error are independent:
 
-Since we do not have any information on the
+Since we do not have any information on how the data was collected, we
+can't verify the Independence assumption.
 
 \subsection{Problem 2}\label{problem-2}
 
@@ -466,17 +380,19 @@ time. A thicker sauce would give rise to smaller weights.
 
 Select an overall confidence level of at least 95\%.
 
-We will use Tukey's since we want a simultaneous confidence intervals
-for the six preplanned contrasts. Therefore,
+We will use Tukey's method of multiple comparison since we want a
+simultaneous confidence intervals for the preplanned contrasts. Although
+Tukey's method gives confidence intervals for all pairwise comparison,
+we will only display the ones requested. Therefore,
 
-A simultaius confidence interval for \(\tau_1 -\tau_2\) is
-\((19.63595,-34.96928)\). A simultaius confidence interval for
-\(\tau_3 -\tau_4\) is \((9.516045,-21.516045)\). A simultaius confidence
-interval for \(\tau_5 -\tau_6\) is \((11.04009,-11.70676)\). A
-simultaius confidence interval for \(\tau_1 -\tau_5\) is
-\((69.58676,15.74657)\). A simultaius confidence interval for
-\(\tau_1 -\tau_3\) is \((66.07661,15.92339)\). A simultaius confidence
-interval for \(\tau_3 -\tau_5\) is \((17.18098,-13.84765)\).
+\begin{center}
+A simultaneous confidence interval for $\tau_1 -\tau_2$ is $(-34.96928,19.63595)$.\\
+A simultaneous confidence interval for $\tau_3 -\tau_4$ is $(-21.516045,9.516045)$.\\
+A simultaneous confidence interval for $\tau_5 -\tau_6$ is $(-11.70676,11.04009)$.\\
+A simultaneous confidence interval for $\tau_1 -\tau_5$ is $(15.74657,69.58676)$.\\
+A simultaneous confidence interval for $\tau_1 -\tau_3$ is $(15.92339,66.07661)$.\\
+A simultaneous confidence interval for $\tau_3 -\tau_5$ is $(-13.84765,17.18098)$.
+\end{center}
 
 The work is shown in the code below.
 
@@ -496,6 +412,7 @@ The work is shown in the code below.
 \NormalTok{denominator <-}\StringTok{ }\KeywordTok{sum}\NormalTok{((variance_i}\OperatorTok{/}\NormalTok{r)}\OperatorTok{^}\DecValTok{2}\OperatorTok{/}\NormalTok{(r}\OperatorTok{-}\DecValTok{1}\NormalTok{), (variance_j}\OperatorTok{/}\NormalTok{r)}\OperatorTok{^}\DecValTok{2}\OperatorTok{/}\NormalTok{(r}\OperatorTok{-}\DecValTok{1}\NormalTok{))}
 \CommentTok{#Degrees of freedom}
 \NormalTok{deg.fr_taui_tauj <-}\StringTok{ }\NormalTok{numerator}\OperatorTok{/}\StringTok{ }\NormalTok{denominator}
+\KeywordTok{print}\NormalTok{(deg.fr_taui_tauj)}
 \CommentTok{#Standard error}
 \NormalTok{SE <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(variance_i}\OperatorTok{/}\NormalTok{r,variance_j}\OperatorTok{/}\NormalTok{r))}
 \CommentTok{# w_T}
@@ -503,7 +420,7 @@ The work is shown in the code below.
 \CommentTok{# tau_i - tau_j}
 \NormalTok{ti_minus_tj <-}\StringTok{ }\NormalTok{ti }\OperatorTok{-}\StringTok{ }\NormalTok{tj}
 \CommentTok{#return confidence interval}
-\KeywordTok{return}\NormalTok{(CI_ti_minus_tj <-}\KeywordTok{c}\NormalTok{(ti_minus_tj }\OperatorTok{+}\StringTok{ }\NormalTok{w_T }\OperatorTok{*}\StringTok{ }\NormalTok{SE,ti_minus_tj }\OperatorTok{-}\StringTok{ }\NormalTok{w_T }\OperatorTok{*}\StringTok{ }\NormalTok{SE))}
+\KeywordTok{return}\NormalTok{(CI_ti_minus_tj <-}\KeywordTok{c}\NormalTok{(ti_minus_tj }\OperatorTok{-}\StringTok{ }\NormalTok{w_T }\OperatorTok{*}\StringTok{ }\NormalTok{SE,ti_minus_tj }\OperatorTok{+}\StringTok{ }\NormalTok{w_T }\OperatorTok{*}\StringTok{ }\NormalTok{SE))}
 \NormalTok{\}}
 
 \NormalTok{t_i <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{)}
@@ -514,21 +431,33 @@ The work is shown in the code below.
 \NormalTok{CI_ti_minus_tj<-}\KeywordTok{rbind}\NormalTok{(CI_ti_minus_tj,}
 \KeywordTok{CI_Satterthwaite}\NormalTok{(Y_i_hat[t_i[i]],Y_i_hat[t_j[i]],}
 \NormalTok{                 Y_i_var[t_i[i]],Y_i_var[t_j[i]],}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{)) \}}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## [1] 2.66115
+## [1] 3.547511
+## [1] 2.941176
+## [1] 2.73523
+## [1] 3.348298
+## [1] 3.582941
+\end{verbatim}
 
-\KeywordTok{colnames}\NormalTok{(CI_ti_minus_tj) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Left"}\NormalTok{,}\StringTok{"Right"}\NormalTok{)}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{colnames}\NormalTok{(CI_ti_minus_tj) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Lower"}\NormalTok{,}\StringTok{"Upper"}\NormalTok{)}
 \NormalTok{CI_ti_minus_tj}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##           Left     Right
-## [1,] 19.635948 -34.96928
-## [2,]  9.516045 -21.51604
-## [3,] 11.040092 -11.70676
-## [4,] 69.586762  15.74657
-## [5,] 66.076609  15.92339
-## [6,] 17.180981 -13.84765
+##          Lower     Upper
+## [1,] -34.96928 19.635948
+## [2,] -21.51604  9.516045
+## [3,] -11.70676 11.040092
+## [4,]  15.74657 69.586762
+## [5,]  15.92339 66.076609
+## [6,] -13.84765 17.180981
 \end{verbatim}
 
 
