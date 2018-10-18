@@ -235,7 +235,7 @@ Assumption (a): The error have mean 0:
 Due to the formulation of the One Way ANOVA Model, the residuals always
 sum up to 0. Hence, the assumption cannot be checked.
 
-Assumption (b): The error have constant variance:
+Assumption (b): The errors have constant variance:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -254,16 +254,11 @@ However, by plotting the standardized residuals against the fitted
 values and the treatment levels we saw no big difference in the pattern
 of the spread within the groups. Therefore, the
 \(\frac{\max_i\{S_i^2 \}}{\min_i\{S_i^2 \}}\) result can simply be due
-to the fact that the sample sizes of each group is only 4. So we feel
-comfortable that the equal variance assumption is approximately
-satisfied.
+to the fact that the sample sizes of each group is small, namely 4.
+Nonetheless, the samples sizes were all equal. So we feel comfortable
+that the equal variance assumption is approximately satisfied.
 
-Assumption (c): The error are normally distributed:
-
-From the qq-plot above we see that the data is fairly straight.
-Furthermore, all the standardized residuals are \(|z_i| \leq 2.074\), so
-we don't have any apparent outliers. Therefore the normality assumption
-is reasonable.
+Assumption (c): The errors are normally distributed:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -275,10 +270,15 @@ is reasonable.
 ## [1] 2.073755
 \end{verbatim}
 
+From the qq-plot above we see that the data is fairly straight.
+Furthermore, all the standardized residuals are \(|z_i| \leq 2.074\), so
+we don't have any apparent outliers. Therefore the normality assumption
+is reasonable.
+
 Assumption (d): The errors are independent:
 
-Since we do not have any information on how the data was collected, we
-can't verify the Independence assumption.
+Since we do not have any information on how the data were collected, we
+can't verify the independence assumption.
 
 \subsection{Problem 2}\label{problem-2}
 
@@ -307,16 +307,18 @@ time. A thicker sauce would give rise to smaller weights.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{spaghetti.data =}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"~/Desktop/Stats 6910/HW_4_and_5/spaghetti.sauce.txt"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{spaghetti.data =}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"~/Desktop/Stats 6910/HW_4_and_5/spaghetti.sauce.txt"}\NormalTok{, }
+                            \DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
 
 \NormalTok{spaghetti.model =}\StringTok{ }\KeywordTok{aov}\NormalTok{(weight }\OperatorTok{~}\StringTok{ }\KeywordTok{factor}\NormalTok{(trtmt), spaghetti.data)}
-\CommentTok{# Compute predicted values, residuals, standardized residuals, normal scores}
+\CommentTok{# Compute predicted values, residuals, standardized residuals, }
+\CommentTok{#normal scores}
 \NormalTok{spaghetti.data =}\StringTok{ }\KeywordTok{within}\NormalTok{(spaghetti.data, \{}
   \CommentTok{# Compute predicted, residual, and standardized residual values}
 \NormalTok{  ypred =}\StringTok{ }\KeywordTok{fitted}\NormalTok{(spaghetti.model)}
 \NormalTok{  e =}\StringTok{ }\KeywordTok{resid}\NormalTok{(spaghetti.model) }
 \NormalTok{  z =}\StringTok{ }\KeywordTok{rstandard}\NormalTok{(spaghetti.model)\})}
-\CommentTok{# Display first 10 lines of mung.data, 4 digits per variable}
+\CommentTok{# Display first 10 lines of spaghetti.data, 4 digits per variable}
 \KeywordTok{print}\NormalTok{(}\KeywordTok{head}\NormalTok{(spaghetti.data, }\DecValTok{10}\NormalTok{), }\DataTypeTok{digits=}\DecValTok{4}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -388,11 +390,6 @@ satisfied.
 
 Assumption (c): The error are normally distributed:
 
-From the qq-plot above we see that the data is fairly straight.
-Furthermore, all the standardized residuals are \(|z_i| \leq 2.437\), so
-we don't have any apparent outliers. Therefore, the normality assumption
-is reasonable.
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{max}\NormalTok{(}\KeywordTok{abs}\NormalTok{(spaghetti.data}\OperatorTok{$}\NormalTok{z))}
@@ -402,6 +399,11 @@ is reasonable.
 \begin{verbatim}
 ## [1] 2.436831
 \end{verbatim}
+
+From the qq-plot above we see that the data is fairly straight.
+Furthermore, all the standardized residuals are \(|z_i| \leq 2.437\), so
+we don't have any apparent outliers. Therefore, the normality assumption
+is reasonable.
 
 Assumption (d): The errors are independent:
 
@@ -423,9 +425,8 @@ are approximately satisfies.
 Select an overall confidence level of at least 95\%.
 
 We will use Tukey's method of multiple comparison since we want a
-simultaneous confidence intervals for the preplanned contrasts. Although
-Tukey's method gives confidence intervals for all pairwise comparison,
-we will only display the ones requested. Therefore,
+simultaneous confidence intervals for the preplanned contrasts.
+Therefore,
 
 \begin{center}
 A simultaneous confidence interval for $\tau_1 -\tau_2$ is $(-34.96928,19.63595)$.\\
