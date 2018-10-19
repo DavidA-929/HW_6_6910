@@ -1,0 +1,181 @@
+\documentclass[12pt,]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={STAT 6910: HW 6},
+            pdfauthor={David Angeles},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{STAT 6910: HW 6}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{David Angeles}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+\maketitle
+
+\begin{verbatim}
+## Warning: package 'emmeans' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## NOTE: As of emmeans versions > 1.2.3,
+##       The 'cld' function will be deprecated in favor of 'CLD'.
+##       You may use 'cld' only if you have package:multcomp attached.
+\end{verbatim}
+
+\subsection{Problem 1}\label{problem-1}
+
+Under what circumstances should the two-way main effects model (6.2.3)
+be used rather than the two-way complete model (6.2.2)? {[}1 sentence
+may suffice.{]} Discuss the interpretation of main effects in each
+model. {[}You can focus on comparing the interpretations of, e.g.,
+\(\alpha_1 - \alpha_2\) vs. \(\alpha_1^\star - \alpha_2^\star\) in these
+models.{]}
+
+\subsection{Problem 2}\label{problem-2}
+
+Verify that
+\((\tau_{ij} - \bar{\tau}_{i\bullet} - \bar{\tau}_{\bullet j} + \bar{\tau}_{\bullet \bullet})\)
+is an interaction contrast for the two-way complete model. Write down
+the list of contrast coefficients in terms of the \(\tau_{ij}\)'s when
+factor \(A\) has \(a = 3\) levels and factor \(B\) has \(b=4\) levels.
+{[}For the second part (``Write down the list of contrast
+coefficients\ldots{}'') set \(i=1\) and \(j = 3\).{]}
+
+\subsection{Problem 7 part (a)}\label{problem-7-part-a}
+
+The data shown in Table6.22 are a subset of the data given by Anderson
+and McLean (1974) and show the strength of a weld in a steel bar. Two
+factors of interest were gage bar setting (the distance the weld die
+travels during the automatic weld cycle) and time of welding (total time
+of the automatic weld cycle). Assume that the levels of both factors
+were selected to be equally spaced.
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\tightlist
+\item
+  Using the cell-means model (6.2.1) for these data, test the hypothesis
+  that there is no difference in the effects of the treatment
+  combinations on weld strength against the alternative hypothesis that
+  at least two treatment combinations have different effects.
+\end{enumerate}
+
+\subsection{Problem 8}\label{problem-8}
+
+For the experiment described in Exercise 7, use the two-way complete
+model instead of the equivalent cell means model.
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\item
+  Test the hypothesis of no interaction between gage bar setting and
+  time of weld and state your conclusion.
+\item
+  Draw an interaction plot for the two factors Gage bar setting and Time
+  of welding. Does your interaction plot support the conclusion of your
+  hypothesis test? Explain.
+\item
+  In view of your answer to part (b), is it sensible to investigate the
+  differences between the effects of gage bar setting? Why or why not?
+  Indicate on your plot what would be compared.
+\end{enumerate}
+
+\subsection{Problem 21}\label{problem-21}
+
+The experiment was run in order to examine the amount of time taken to
+boil a given amount of water on the four different burners of her stove,
+and with 0, 2, 4, or 6 teaspoons of salt added to the water. Thus the
+experiment had two treatment factors with four levels each. The
+experimenter ran the experiment as a completely randomized design by
+taking \(r = 3\) observations on each of the 16 treatment combinations
+in a random order. The data are shown in Table 6.26. The experimenter
+believed that there would be no interaction between the two factors.
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\item
+  Check the assumptions on the two-way main-effects model.
+\item
+  Calculate a 99\% set of Tukey confidence intervals for pairwise
+  differences between the levels of salt, and calculate separately a
+  99\% set of intervals for pairwise differences between the levels of
+  burner.
+\end{enumerate}
+
+
+\end{document}
