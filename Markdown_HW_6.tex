@@ -182,8 +182,8 @@ were selected to be equally spaced.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{weld.data =}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"~/Desktop/Stats 6910/HW_4_and_5/weld.strength.txt"}\NormalTok{, }
-                            \DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{weld.data =}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"~/Desktop/Stats 6910/HW_4_and_5/weld.strength.txt"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{weld.data}\OperatorTok{$}\NormalTok{trtmt <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(weld.data}\OperatorTok{$}\NormalTok{trtmt)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -223,11 +223,6 @@ factor \(B\), the time of welding, had level \(j\). Using an
  vs. The Alternative Hypothesis of Some Effect on Weld Strength $H_A : \tau_{ij} \neq \tau_{hk}$ for some $i\neq h$ and $j\neq k$ 
 \end{center}
 
-From the analysis of variance table below we obtain a \(p\)-value equal
-to \(0.07353\), which is greater that the \(\alpha\)-level of
-\(\alpha = 0.05\). Therefore, we fail to reject the null hypothesis of
-no effect on welding strength.
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{anova}\NormalTok{(cell_model)}
@@ -238,12 +233,18 @@ no effect on welding strength.
 ## Analysis of Variance Table
 ## 
 ## Response: strength
-##           Df  Sum Sq Mean Sq F value  Pr(>F)  
-## trtmt      1  156.61 156.614  3.4567 0.07353 .
-## Residuals 28 1268.59  45.307                  
+##           Df Sum Sq Mean Sq F value    Pr(>F)    
+## trtmt     14 1261.2  90.086  8.2395 0.0001092 ***
+## Residuals 15  164.0  10.933                      
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
+
+From the analysis of variance table we obtain a \(p\)-value equal to
+\(0.0001\), which is less that the \(\alpha\)-level of
+\(\alpha = 0.05\). Therefore, we can reject the null hypothesis of no
+effect on welding strength in favor of the alternative hypothesis of
+some effect on welding stengh.
 
 \subsection{Problem 8}\label{problem-8}
 
@@ -252,13 +253,84 @@ model instead of the equivalent cell means model.
 
 \begin{enumerate}
 \def\labelenumi{(\alph{enumi})}
+\tightlist
 \item
   Test the hypothesis of no interaction between gage bar setting and
   time of weld and state your conclusion.
+\end{enumerate}
+
+Let \(\tau_{ij}\) be the deviation from the overall weld strength,
+\(\mu\), when factor \(A\), the gage bar setting, has level \(i\) and
+factor \(B\), the time of welding, had level \(j\). Using an
+\(\alpha\)-level of \(\alpha = 0.05\), since the sample sizes are all
+equal, \(r_{ij}=2\), we can use the following test:
+
+\begin{center}
+ The Null Hypothesis of No Interaction Bewteen $A$ and $B$  
+ $H_0 : (\alpha \beta)_{ij} - (\alpha \beta)_{iq} - (\alpha \beta)_{sj} + (\alpha \beta)_{sq}= 0 \hspace{.2cm }\forall \hspace{.1cm} i<s \text{ and }\forall  \hspace{.1cm} j<j$ \\
+ vs. The Alternative Hypothesis of Some Effect on Weld Strength $H_A :  (\alpha \beta)_{ij} - (\alpha \beta)_{iq} \neq (\alpha \beta)_{sj} - (\alpha \beta)_{sq}$ for some $i\neq s$ and $j\neq q$ 
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{weld.data}\OperatorTok{$}\NormalTok{gage <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(weld.data}\OperatorTok{$}\NormalTok{gage)}
+\NormalTok{weld.data}\OperatorTok{$}\NormalTok{time <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(weld.data}\OperatorTok{$}\NormalTok{time)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model_AB <-}\StringTok{ }\KeywordTok{aov}\NormalTok{(strength }\OperatorTok{~}\StringTok{ }\NormalTok{gage}\OperatorTok{*}\NormalTok{time, }\DataTypeTok{data =}\NormalTok{ weld.data)}
+\KeywordTok{anova}\NormalTok{(model_AB)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: strength
+##           Df Sum Sq Mean Sq F value    Pr(>F)    
+## gage       2 278.60 139.300 12.7409 0.0005838 ***
+## time       4 385.53  96.383  8.8155 0.0007212 ***
+## gage:time  8 597.07  74.633  6.8262 0.0007535 ***
+## Residuals 15 164.00  10.933                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+From the analysis of variance table we obtain a \(p\)-value equal to
+\(0.0008\), which is less that the \(\alpha\)-level of
+\(\alpha = 0.05\). Therefore, we can reject the null hypothesis of no
+effect on welding strength in favor of the alternative hypothesis of
+some effect on welding stengh.
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
 \item
   Draw an interaction plot for the two factors Gage bar setting and Time
   of welding. Does your interaction plot support the conclusion of your
   hypothesis test? Explain.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{attach}\NormalTok{(weld.data)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\KeywordTok{interaction.plot}\NormalTok{(}\DataTypeTok{x.factor =}\NormalTok{ gage, }\DataTypeTok{trace.factor =}\NormalTok{ time, }\DataTypeTok{response =}\NormalTok{ strength,}
+\DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{), }\DataTypeTok{leg.bty =} \StringTok{"o"}\NormalTok{, }\DataTypeTok{leg.bg =} \StringTok{"white"}\NormalTok{) }
+\KeywordTok{interaction.plot}\NormalTok{(}\DataTypeTok{x.factor =}\NormalTok{ time, }\DataTypeTok{trace.factor =}\NormalTok{ gage, }\DataTypeTok{response =}\NormalTok{ strength,}
+\DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), }\DataTypeTok{leg.bty =} \StringTok{"o"}\NormalTok{, }\DataTypeTok{leg.bg =} \StringTok{"white"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Markdown_HW_6_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{2}
+\tightlist
 \item
   In view of your answer to part (b), is it sensible to investigate the
   differences between the effects of gage bar setting? Why or why not?
@@ -280,19 +352,154 @@ believed that there would be no interaction between the two factors.
 \begin{Highlighting}[]
 \NormalTok{boiling.data =}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"~/Desktop/Stats 6910/HW_4_and_5/water.boiling.txt"}\NormalTok{, }
                             \DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\CommentTok{# make salt and burner factors and add column of two digit treatment combination}
+\NormalTok{boiling.data <-}\StringTok{ }\KeywordTok{within}\NormalTok{(boiling.data,\{}
+\NormalTok{   f_salt =}\StringTok{ }\KeywordTok{factor}\NormalTok{(salt); f_burner =}\StringTok{ }\KeywordTok{factor}\NormalTok{(burner)}
+\NormalTok{   trtmt=}\StringTok{ }\KeywordTok{factor}\NormalTok{(}\DecValTok{10}\OperatorTok{*}\NormalTok{burner }\OperatorTok{+}\StringTok{ }\NormalTok{salt)\})}
+\CommentTok{# Display boiling.data}
+\KeywordTok{head}\NormalTok{(boiling.data, }\DecValTok{10}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+##    salt burner time order trtmt f_burner f_salt
+## 1     0      1    7     7    10        1      0
+## 2     0      1    8    21    10        1      0
+## 3     0      1    7    30    10        1      0
+## 4     0      2    4     6    20        2      0
+## 5     0      2    4    20    20        2      0
+## 6     0      2    4    27    20        2      0
+## 7     0      3    6     9    30        3      0
+## 8     0      3    7    16    30        3      0
+## 9     0      3    6    22    30        3      0
+## 10    0      4    9    29    40        4      0
+\end{verbatim}
+
 \begin{enumerate}
 \def\labelenumi{(\alph{enumi})}
+\tightlist
 \item
   Check the assumptions on the two-way main-effects model.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{two.way_model <-}\StringTok{ }\KeywordTok{aov}\NormalTok{(time }\OperatorTok{~}\StringTok{ }\NormalTok{f_salt}\OperatorTok{*}\NormalTok{f_burner, }\DataTypeTok{data =}\NormalTok{ boiling.data)}
+
+\NormalTok{boiling.data =}\StringTok{ }\KeywordTok{within}\NormalTok{(boiling.data, \{}
+  \CommentTok{# Compute predicted, residual, and standardized residual values}
+\NormalTok{  ypred =}\StringTok{ }\KeywordTok{fitted}\NormalTok{(two.way_model)}
+\NormalTok{  e =}\StringTok{ }\KeywordTok{resid}\NormalTok{(two.way_model) }
+\NormalTok{  z =}\StringTok{ }\KeywordTok{rstandard}\NormalTok{(two.way_model)\})}
+\CommentTok{# Display first 10 lines of boiling.data, 4 digits per variable}
+\KeywordTok{print}\NormalTok{(}\KeywordTok{head}\NormalTok{(boiling.data, }\DecValTok{10}\NormalTok{), }\DataTypeTok{digits =} \DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    salt burner time order trtmt f_burner f_salt       z          e ypred
+## 1     0      1    7     7    10        1      0 -0.5774 -3.333e-01 7.333
+## 2     0      1    8    21    10        1      0  1.1547  6.667e-01 7.333
+## 3     0      1    7    30    10        1      0 -0.5774 -3.333e-01 7.333
+## 4     0      2    4     6    20        2      0  0.0000 -1.409e-15 4.000
+## 5     0      2    4    20    20        2      0  0.0000  5.287e-15 4.000
+## 6     0      2    4    27    20        2      0  0.0000 -3.497e-15 4.000
+## 7     0      3    6     9    30        3      0 -0.5774 -3.333e-01 6.333
+## 8     0      3    7    16    30        3      0  1.1547  6.667e-01 6.333
+## 9     0      3    6    22    30        3      0 -0.5774 -3.333e-01 6.333
+## 10    0      4    9    29    40        4      0  0.0000  7.633e-16 9.000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Generate residual plots }
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(z }\OperatorTok{~}\StringTok{ }\NormalTok{order, }\DataTypeTok{data=}\NormalTok{boiling.data, }
+     \DataTypeTok{main=} \StringTok{"Order vs. Std. Residuals"}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{"Std. Residuals"}\NormalTok{, }\DataTypeTok{las=}\DecValTok{1}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(z }\OperatorTok{~}\StringTok{ }\NormalTok{ypred, }\DataTypeTok{data=}\NormalTok{boiling.data, }
+      \DataTypeTok{main=} \StringTok{"Fitted Values vs. Std. Residuals"}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{"Std. Residuals"}\NormalTok{, }\DataTypeTok{las=}\DecValTok{1}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{)}
+\KeywordTok{qqnorm}\NormalTok{(boiling.data}\OperatorTok{$}\NormalTok{z)}
+\CommentTok{# Line through 1st and 3rd quantile points}
+\KeywordTok{qqline}\NormalTok{(boiling.data}\OperatorTok{$}\NormalTok{z) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Markdown_HW_6_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
 \item
   Calculate a 99\% set of Tukey confidence intervals for pairwise
   differences between the levels of salt, and calculate separately a
   99\% set of intervals for pairwise differences between the levels of
   burner.
 \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{em.salt <-}\StringTok{ }\KeywordTok{emmeans}\NormalTok{(two.way_model, }\DataTypeTok{specs =} \OperatorTok{~}\NormalTok{f_salt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: Results may be misleading due to involvement in interactions
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{em.burner <-}\StringTok{ }\KeywordTok{emmeans}\NormalTok{(two.way_model, }\DataTypeTok{specs =} \OperatorTok{~}\NormalTok{f_burner)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: Results may be misleading due to involvement in interactions
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{contrast}\NormalTok{(em.salt, }\DataTypeTok{method =} \StringTok{"tukey"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  contrast    estimate        SE df t.ratio p.value
+##  0 - 2     0.66666667 0.2886751 32   2.309  0.1171
+##  0 - 4    -0.08333333 0.2886751 32  -0.289  0.9915
+##  0 - 6     0.75000000 0.2886751 32   2.598  0.0640
+##  2 - 4    -0.75000000 0.2886751 32  -2.598  0.0640
+##  2 - 6     0.08333333 0.2886751 32   0.289  0.9915
+##  4 - 6     0.83333333 0.2886751 32   2.887  0.0332
+## 
+## Results are averaged over the levels of: f_burner 
+## P value adjustment: tukey method for comparing a family of 4 estimates
+\end{verbatim}
+
+sdfsdfsdfsdf
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{contrast}\NormalTok{(em.burner, }\DataTypeTok{method =}\StringTok{"tukey"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  contrast   estimate        SE df t.ratio p.value
+##  1 - 2     2.5000000 0.2886751 32   8.660  <.0001
+##  1 - 3     0.5833333 0.2886751 32   2.021  0.2017
+##  1 - 4    -1.7500000 0.2886751 32  -6.062  <.0001
+##  2 - 3    -1.9166667 0.2886751 32  -6.640  <.0001
+##  2 - 4    -4.2500000 0.2886751 32 -14.722  <.0001
+##  3 - 4    -2.3333333 0.2886751 32  -8.083  <.0001
+## 
+## Results are averaged over the levels of: f_salt 
+## P value adjustment: tukey method for comparing a family of 4 estimates
+\end{verbatim}
 
 
 \end{document}
