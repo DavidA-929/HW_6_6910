@@ -19,6 +19,13 @@ library("emmeans")
 
 Under what circumstances should the two-way main effects model (6.2.3) be used rather than the two-way complete model (6.2.2)? [1 sentence may suffice.] Discuss the interpretation of main effects in each model. [You can focus on comparing the interpretations of, e.g., $\alpha_1 - \alpha_2$ vs. $\alpha_1^\star - \alpha_2^\star$ in these models.]
 
+#### Answer:
+
+The two-way main effects model (6.2.3) should be used rather than the two-way complete model (6.2.2) when an experimenter has sufficient knowledge about the two treatment factors being studied to state with reasonable certainty that the factors do not interact.
+
+Using the main effects model, one cannot compare the effects of the different levels of the factors, say level 1 of $A$, $\alpha_1$, with level 2 of $A$, $\alpha_2$. Instead, one must compare the efects of the different levels of $A$ averaged over the effects of $B$. So, $\alpha_1-\alpha_2$ is not estimable, but 
+$\alpha^\star_2-\alpha^\star_1=\bar{\tau}_{2\bullet}-\bar{\tau}_{1\bullet}$ is estimable.
+
 
 ## Problem 2
 
@@ -39,6 +46,29 @@ weld.data = read.table("~/Desktop/Stats 6910/HW_4_and_5/weld.strength.txt",
 ```
 
 (a) Using the cell-means model (6.2.1) for these data, test the hypothesis that there is no difference in the effects of the treatment combinations on weld strength against the alternative hypothesis that at least two treatment combinations have different effects.
+
+
+
+```{r, fig.width= 4,fig.height=4, fig.align= "center"}
+cell_model <- aov(strength ~ trtmt , data = weld.data)
+```
+
+(c) Construct an analysis of variance table and test the hypothesis that color has no effect in inflation time.
+
+Let $\tau_{ij}$ be the deviation from the overall weld strength, $\mu$, when factor $A$, the gage bar setting, has level $i$ and factor $B$, the time of welding, had level $j$. Using an $\alpha$-level of $\alpha = 0.05$, and the following test: 
+
+\begin{center}
+ The Null Hypothesis of No Effect on Weld Stength  
+ $H_0 : \tau_{ij} = 0 \hspace{.2cm }\forall \hspace{.1cm} i=1,2,...,a \text{ and }\forall  \hspace{.1cm} j=1,2,...,b$ \\
+ vs. The Alternative Hypothesis of Some Effect on Weld Strength $H_A : \tau_{ij} \neq \tau_{hk}$ for some $i\neq h$ and $j\neq k$ 
+\end{center}
+
+
+From the analysis of variance table below we obtain a $p$-value equal to $0.07353$, which is greater that the $\alpha$-level of $\alpha = 0.05$. Therefore, we fail to reject the null hypothesis of no effect on welding strength.
+
+```{r}
+anova(cell_model)
+```
 
 ## Problem 8
 
