@@ -154,7 +154,40 @@ abline(h=0)
 qqnorm(boiling.data$z)
 # Line through 1st and 3rd quantile points
 qqline(boiling.data$z) 
+
+
+
 ```
+
+
+Assumption (a): The error have mean 0:
+
+Due to the formulation of the One Way ANOVA Model, the residuals always sum up to 0. Hence, the assumption cannot be checked.
+
+Assumption (b): The error have constant variance:
+
+```{r}
+Y_i_var <- tapply(spaghetti.data$weight, spaghetti.data$trtmt, var);
+max(Y_i_var)/min(Y_i_var)
+```
+
+Using the rule of thumb based on within group variances we can see that 
+$$\frac{\max_i\{S_i^2 \}}{\min_i\{S_i^2 \}} =\frac{49}{2.33} = 21.$$ 
+Furthermore, by plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals increases as the fitted values increase. Hence, with these two results we feel comfortable to say that the equal variance assumption is not satisfied. 
+
+Assumption (c): The error are normally distributed:
+
+```{r}
+max(abs(spaghetti.data$z))
+```
+
+From the qq-plot above we see that the data is fairly straight. Furthermore, all the standardized residuals are $|z_i| \leq 2.437$, so we don't have any apparent outliers. Therefore, the normality assumption is reasonable.
+
+
+Assumption (d): The errors are independent:
+
+From the plot of Order vs. Residuals we can see that there isn't a pattern as time increases. Therefore we feel comfortable that the errors are approximately satisfies.
+
 
 
 (b) Calculate a 99% set of Tukey confidence intervals for pairwise differences between the levels of salt, and calculate separately a 99% set of intervals for pairwise differences between the levels of burner.
@@ -166,7 +199,7 @@ em.burner <- emmeans(two.way_model, specs = ~f_burner)
 contrast(em.salt, method = "tukey")
 ```
 
- sdfsdfsdfsdf
+
  
  
 ```{r}
