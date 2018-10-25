@@ -23,15 +23,14 @@ Under what circumstances should the two-way main effects model (6.2.3) be used r
 
 The two-way main effects model (6.2.3) should be used rather than the two-way complete model (6.2.2) when an experimenter has sufficient knowledge about the two treatment factors being studied to state with reasonable certainty that the factors do not interact.
 
-Using the main effects model, one cannot compare the effects of the different levels of the factors, say level 1 of $A$, $\alpha_1$, with level 2 of $A$, $\alpha_2$. Instead, one must compare the efects of the different levels of $A$ averaged over the effects of $B$. So, $\alpha_1-\alpha_2$ is not estimable, but 
+Using the main effects model, one cannot compare the effects of the different levels of the factors, say level 1 of $A$, $\alpha_1$, with level 2 of $A$, $\alpha_2$. Instead, one must compare the effects of the different levels of $A$ averaged over the effects of $B$. So, $\alpha_1-\alpha_2$ is not estimable, but 
 $\alpha^\star_2-\alpha^\star_1=\bar{\tau}_{2\bullet}-\bar{\tau}_{1\bullet}$ is estimable.
 
 
 ## Problem 2
 
 
-Verify that $(\tau_{ij} - \bar{\tau}_{i\bullet} - \bar{\tau}_{\bullet j} + \bar{\tau}_{\bullet \bullet})$ is an interaction contrast for the two-way complete model. Write down the list of contrast coefficients in terms of the  $\tau_{ij}$’s when factor $A$ has $a = 3$ levels and factor $B$ has $b=4$ levels. [For the second part (“Write down the list of contrast coefficients...”) set $i=1$ and $j = 3$.]
-
+Solution on the very back. 
 
 
 ## Problem 7 part (a)
@@ -41,7 +40,8 @@ The data shown in Table 6.22 are a subset of the data given by Anderson and McLe
 
 
 ```{r}
-weld.data = read.table("~/Desktop/Stats 6910/HW_4_and_5/weld.strength.txt", header = TRUE)
+weld.data = read.table("~/Desktop/Stats 6910/HW_4_and_5/weld.strength.txt", 
+                       header = TRUE)
 weld.data$trtmt <- as.factor(weld.data$trtmt)
 ```
 
@@ -58,7 +58,7 @@ cell_model <- aov(strength ~ trtmt , data = weld.data)
 Let $\tau_{ij}$ be the deviation from the overall weld strength, $\mu$, when factor $A$, the gage bar setting, has level $i$ and factor $B$, the time of welding, had level $j$. Using an $\alpha$-level of $\alpha = 0.05$, and the following test: 
 
 \begin{center}
- The Null Hypothesis of No Effect on Weld Stength  
+ The Null Hypothesis of No Effect on Weld Strength  
  $H_0 : \tau_{ij} = 0 \hspace{.2cm }\forall \hspace{.1cm} i=1,2,...,a \text{ and }\forall  \hspace{.1cm} j=1,2,...,b$ \\
  vs. The Alternative Hypothesis of Some Effect on Weld Strength $H_A : \tau_{ij} \neq \tau_{hk}$ for some $i\neq h$ and $j\neq k$ 
 \end{center}
@@ -67,7 +67,7 @@ Let $\tau_{ij}$ be the deviation from the overall weld strength, $\mu$, when fac
 anova(cell_model)
 ```
 
-From the analysis of variance table we obtain a $p$-value equal to $0.0001$, which is less that the $\alpha$-level of $\alpha = 0.05$. Therefore, we can reject the null hypothesis of no effect on welding strength in favor of the alternative hypothesis of some effect on welding stengh.
+From the analysis of variance table we obtain a $p$-value equal to $0.0001$, which is less that the $\alpha$-level of $\alpha = 0.05$. Therefore, we can reject the null hypothesis of no effect on welding strength in favor of the alternative hypothesis of some effect on welding Strength.
 
 
 ## Problem 8
@@ -80,7 +80,7 @@ For the experiment described in Exercise 7, use the two-way complete model inste
 Let $\tau_{ij}$ be the deviation from the overall weld strength, $\mu$, when factor $A$, the gage bar setting, has level $i$ and factor $B$, the time of welding, had level $j$. Using an $\alpha$-level of $\alpha = 0.05$, since the sample sizes are all equal, $r_{ij}=2$, we can use the following test: 
 
 \begin{center}
- The Null Hypothesis of No Interaction Bewteen $A$ and $B$  
+ The Null Hypothesis of No Interaction Between $A$ and $B$  
  $H_0 : (\alpha \beta)_{ij} - (\alpha \beta)_{iq} - (\alpha \beta)_{sj} + (\alpha \beta)_{sq}= 0 \hspace{.2cm }\forall \hspace{.1cm} i<s \text{ and }\forall  \hspace{.1cm} j<j$ \\
  vs. The Alternative Hypothesis of Some Effect on Weld Strength $H_A :  (\alpha \beta)_{ij} - (\alpha \beta)_{iq} \neq (\alpha \beta)_{sj} - (\alpha \beta)_{sq}$ for some $i\neq s$ and $j\neq q$ 
 \end{center}
@@ -96,7 +96,7 @@ anova(model_AB)
 ```
 
 
-From the analysis of variance table we obtain a $p$-value equal to $0.0008$, which is less that the $\alpha$-level of $\alpha = 0.05$. Therefore, we can reject the null hypothesis of no effect on welding strength in favor of the alternative hypothesis of some effect on welding stengh.
+From the analysis of variance table we obtain a $p$-value equal to $0.0008$, which is less that the $\alpha$-level of $\alpha = 0.05$. Therefore, we can reject the null hypothesis of no effect on welding strength in favor of the alternative hypothesis of some effect on welding strength.
 
 (b) Draw an interaction plot for the two factors Gage bar setting and Time of welding. Does your interaction plot support the conclusion of your hypothesis test? Explain.
 
@@ -130,7 +130,7 @@ head(boiling.data, 10)
 (a) Check the assumptions on the two-way main-effects model.
 
 ```{r}
-two.way_model <- aov(time ~ f_salt*f_burner, data = boiling.data)
+two.way_model <- aov(time ~ f_salt+f_burner, data = boiling.data)
 
 boiling.data = within(boiling.data, {
   # Compute predicted, residual, and standardized residual values
@@ -162,31 +162,43 @@ qqline(boiling.data$z)
 
 Assumption (a): The error have mean 0:
 
-Due to the formulation of the One Way ANOVA Model, the residuals always sum up to 0. Hence, the assumption cannot be checked.
+
+```{r}
+attach(boiling.data)
+plot(z ~ salt, xaxt = "n", type = "n", xlim = c(-1, 7)) # Suppress x-axis, pts
+axis(1, at = c(0, 2, 4,6))
+points(x = as.numeric(salt) + as.numeric(burner) * 0.05, y = z,
+pch = as.character(as.numeric(burner)), col = as.numeric(burner)) 
+mtext("salt=0,2,4,6", side = 3, adj = 1, line = 1)
+abline(h = 0) # Horizontal line at zero
+ # Margin text, top-rt, line 1 abline(h = 0)
+```
+
+From the plot above we can see that the burner level 2 is consistently above or below the 0 line, except for when the salt level is 4, which is an indication that the the errors do not have mean zero and therefore the two-way main effects model is probably not the best model to represent the data.
 
 Assumption (b): The error have constant variance:
 
 ```{r}
-Y_i_var <- tapply(spaghetti.data$weight, spaghetti.data$trtmt, var);
-max(Y_i_var)/min(Y_i_var)
+#Y_i_var <- tapply(spaghetti.data$weight, spaghetti.data$trtmt, var);
+#max(Y_i_var)/min(Y_i_var)
 ```
 
 Using the rule of thumb based on within group variances we can see that 
 $$\frac{\max_i\{S_i^2 \}}{\min_i\{S_i^2 \}} =\frac{49}{2.33} = 21.$$ 
-Furthermore, by plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals increases as the fitted values increase. Hence, with these two results we feel comfortable to say that the equal variance assumption is not satisfied. 
+Furthermore, by plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals is roughly centered around zero. However there seems to be one aparrent outlier. Hence, with these two results we feel comfortable to say that the equal variance assumption is roughly satisfied. 
 
 Assumption (c): The error are normally distributed:
 
 ```{r}
-max(abs(spaghetti.data$z))
+#max(abs(spaghetti.data$z))
 ```
 
-From the qq-plot above we see that the data is fairly straight. Furthermore, all the standardized residuals are $|z_i| \leq 2.437$, so we don't have any apparent outliers. Therefore, the normality assumption is reasonable.
+From the qq-plot above we see that the data is fairly straight. However, there is just one apparent outliers. Therefore, the normality assumption is reasonable.
 
 
 Assumption (d): The errors are independent:
 
-From the plot of Order vs. Residuals we can see that there isn't a pattern as time increases. Therefore we feel comfortable that the errors are approximately satisfies.
+From the plot of Order vs. Std. Residuals we can see that there isn't an apparant pattern as time increases. Therefore we feel comfortable to say that the assumption that errors are independent is approximately satisfies.
 
 
 
