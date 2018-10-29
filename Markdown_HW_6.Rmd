@@ -55,7 +55,7 @@ cell_model <- aov(strength ~ trtmt , data = weld.data)
 
 (c) Construct an analysis of variance table and test the hypothesis that color has no effect in inflation time.
 
-Let $\tau_{ij}$ be the deviation from the overall weld strength, $\mu$, when factor $A$, the gage bar setting, has level $i$ and factor $B$, the time of welding, had level $j$. Using an $\alpha$-level of $\alpha = 0.05$, and the following test: 
+Let $\tau_{ij}$ be the deviation from the overall mean weld strength, $\mu$, when factor $A$, the gage bar setting, has level $i$ and factor $B$, the time of welding, had level $j$. Using an $\alpha$-level of $\alpha = 0.05$, and the following test: 
 
 \begin{center}
  The Null Hypothesis of No Effect on Weld Strength  
@@ -109,8 +109,15 @@ interaction.plot(x.factor = time, trace.factor = gage, response = strength,
 col = c(1, 2, 3), leg.bty = "o", leg.bg = "white")
 ```
 
+From the interaction plots above, Mean of Strength vs. Time, we can see that the lines aren't parallel and cross multiple times. This implies that there is definitely some interaction between gage setting and welding time which supports the conclusion of part (a).
+
 (c) In view of your answer to part (b), is it sensible to investigate the differences between the effects of gage bar setting? Why or why not? Indicate on your plot what would be compared.
 
+It is not sensible because if we were to compare the differences between the gage bar settings we would have to compare them averages over welding time due to the fact that there is some interaction. The difference between gage bar setting level 2 and level 1 averaged over welding time is 1.5. However, if we look at the plot, Mean Strength vs. Gage, we see that the welding time at level 3 produces a much higher mean strength when the gage bar setting is at level 2. However, this is not apparent when we simply observe the difference.
+
+```{r}
+gage_avg <- tapply(weld.data$strength, weld.data$gage , mean); gage_avg
+```
 
 ## Problem 21 
 
@@ -185,20 +192,17 @@ Y_ij_var <- tapply(boiling.data$time, boiling.data$trtmt, var); Y_ij_var
 max(Y_ij_var)/min(Y_ij_var)
 ```
 
-By plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals are roughly centered around zero. However there seems to be one aparrent outlier. Hence, with these two results we feel comfortable to say that the equal variance assumption is roughly satisfied. 
+By plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals are roughly centered around zero. However there seems to be one apparent outlier. Hence, with these two results we feel comfortable to say that the equal variance assumption is roughly satisfied. 
 
 Assumption (c): The error are normally distributed:
 
-```{r}
-max(abs(boiling.data$z))
-```
 
 From the qq-plot above we see that the data is fairly straight. However, there is just one apparent outliers. Therefore, the normality assumption is reasonable.
 
 
 Assumption (d): The errors are independent:
 
-From the plot of Order vs. Std. Residuals we can see that there isn't an apparant pattern as time increases. Therefore we feel comfortable to say that the assumption that errors are independent is approximately satisfies.
+From the plot of Order vs. Std. Residuals we can see that there isn't an apparent pattern as time increases. Therefore we feel comfortable to say that the assumption that errors are independent is approximately satisfies.
 
 
 
@@ -208,14 +212,14 @@ From the plot of Order vs. Std. Residuals we can see that there isn't an apparan
 em.salt <- emmeans(two.way_model, specs = ~f_salt)
 em.burner <- emmeans(two.way_model, specs = ~f_burner)
 
-contrast(em.salt, method = "tukey")
+summary(contrast(em.salt, method = "tukey"),infer = c(TRUE,TRUE))
 ```
 
-
+From the table above we see that none of the $p$-values are below $\alpha = .01$, so we cannot detect any pairwise differences between the salt levels at the $\alpha=.05$ $\alpha$-level. Equivalently, all the confidence intervals contain zero.
  
  
 ```{r}
-contrast(em.burner, method ="tukey")
+summary(contrast(em.burner, method ="tukey"), infer = c(TRUE,TRUE))
 ```
-
+From the table above we see that only once of the $p$-values is not below $\alpha = .01$, so we cannot detect any differences between the burner level 1 and burner level 2 at the $\alpha=.05$ $\alpha$-level. Equivalently, the confidence interval for $\tau_1 - \tau_3$ is the only interval that contain zero.
 
