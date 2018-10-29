@@ -174,23 +174,23 @@ abline(h = 0) # Horizontal line at zero
  # Margin text, top-rt, line 1 abline(h = 0)
 ```
 
-From the plot above we can see that the burner level 2 is consistently above or below the 0 line, except for when the salt level is 4, which is an indication that the the errors do not have mean zero and therefore the two-way main effects model is probably not the best model to represent the data.
+From the plot above we can see that the burner factor with level 2 is consistently above or below the 0 line, except for when the salt level is 4, which is an indication that the the errors do not have mean zero and therefore the two-way main effects model is probably not the best model to represent the data.
 
 Assumption (b): The error have constant variance:
 
 ```{r}
-#Y_i_var <- tapply(spaghetti.data$weight, spaghetti.data$trtmt, var);
-#max(Y_i_var)/min(Y_i_var)
+Y_i_var <- tapply(boiling.data$time, boiling.data$salt, var); Y_i_var
+Y_j_var <- tapply(boiling.data$time, boiling.data$burner, var); Y_j_var
+Y_ij_var <- tapply(boiling.data$time, boiling.data$trtmt, var); Y_ij_var
+max(Y_ij_var)/min(Y_ij_var)
 ```
 
-Using the rule of thumb based on within group variances we can see that 
-$$\frac{\max_i\{S_i^2 \}}{\min_i\{S_i^2 \}} =\frac{49}{2.33} = 21.$$ 
-Furthermore, by plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals is roughly centered around zero. However there seems to be one aparrent outlier. Hence, with these two results we feel comfortable to say that the equal variance assumption is roughly satisfied. 
+By plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals are roughly centered around zero. However there seems to be one aparrent outlier. Hence, with these two results we feel comfortable to say that the equal variance assumption is roughly satisfied. 
 
 Assumption (c): The error are normally distributed:
 
 ```{r}
-#max(abs(spaghetti.data$z))
+max(abs(boiling.data$z))
 ```
 
 From the qq-plot above we see that the data is fairly straight. However, there is just one apparent outliers. Therefore, the normality assumption is reasonable.
