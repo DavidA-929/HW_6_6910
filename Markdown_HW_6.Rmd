@@ -14,7 +14,6 @@ library(pwr)
 library("emmeans")
 ```
 
-
 ## Problem 1
 
 Under what circumstances should the two-way main effects model (6.2.3) be used rather than the two-way complete model (6.2.2)? [1 sentence may suffice.] Discuss the interpretation of main effects in each model. [You can focus on comparing the interpretations of, e.g., $\alpha_1 - \alpha_2$ vs. $\alpha_1^\star - \alpha_2^\star$ in these models.]
@@ -23,22 +22,16 @@ Under what circumstances should the two-way main effects model (6.2.3) be used r
 
 The two-way main effects model (6.2.3) should be used rather than the two-way complete model (6.2.2) when an experimenter has sufficient knowledge about the two treatment factors being studied to state with reasonable certainty that the factors do not interact.
 
-Using the main effects model, one cannot compare the effects of the different levels of the factors, say level 1 of $A$, $\alpha_1$, with level 2 of $A$, $\alpha_2$. Instead, one must compare the effects of the different levels of $A$ averaged over the effects of $B$. So, $\alpha_1-\alpha_2$ is not estimable, but 
-$\alpha^\star_2-\alpha^\star_1=\bar{\tau}_{2\bullet}-\bar{\tau}_{1\bullet}$ is estimable.
-
+Using the complete two-way model, one cannot compare the effects of the different levels of the factors, say level 1 of $A$, $\alpha_1$, with level 2 of $A$, $\alpha_2$. Instead, one must compare the effects of the different levels of $A$ averaged over the effects of $B$. So, $\alpha_1-\alpha_2$ is not estimable, but 
+$\alpha^\star_1-\alpha^\star_2=\bar{\tau}_{1\bullet}-\bar{\tau}_{2\bullet}$ is estimable. However, using the two-way main effects model one can compare the effect of changing from level 1 to 2 of factor A, $\alpha_1 - \alpha_2$, since factor A doesn't need to be averaged over factor B becuase this model assumes there is no interaction between factors $A$ and $B$.
 
 ## Problem 2
 
-
 Solution on the very back. 
-
 
 ## Problem 7 part (a)
 
-
 The data shown in Table 6.22 are a subset of the data given by Anderson and McLean (1974) and show the strength of a weld in a steel bar. Two factors of interest were gage bar setting (the distance the weld die travels during the automatic weld cycle) and time of welding (total time of the automatic weld cycle). Assume that the levels of both factors were selected to be equally spaced.
-
-
 ```{r}
 weld.data = read.table("~/Desktop/Stats 6910/HW_4_and_5/weld.strength.txt", 
                        header = TRUE)
@@ -47,28 +40,22 @@ weld.data$trtmt <- as.factor(weld.data$trtmt)
 
 (a) Using the cell-means model (6.2.1) for these data, test the hypothesis that there is no difference in the effects of the treatment combinations on weld strength against the alternative hypothesis that at least two treatment combinations have different effects.
 
-
-
 ```{r, fig.width= 4,fig.height=4, fig.align= "center"}
 cell_model <- aov(strength ~ trtmt , data = weld.data)
 ```
 
-(c) Construct an analysis of variance table and test the hypothesis that color has no effect in inflation time.
-
-Let $\tau_{ij}$ be the deviation from the overall mean weld strength, $\mu$, when factor $A$, the gage bar setting, has level $i$ and factor $B$, the time of welding, had level $j$. Using an $\alpha$-level of $\alpha = 0.05$, and the following test: 
+Let $\tau_{ij}$ be the deviation from the overall mean weld strength, $\mu$, where factor $A$, the gage bar setting, has level $i$ and factor $B$, the time of welding, has level $j$. We can test the effects of Factor $A$ and $B$ on welding strength using an $\alpha$-level of $\alpha = 0.05$, and the following test: 
 
 \begin{center}
  The Null Hypothesis of No Effect on Weld Strength  
  $H_0 : \tau_{ij} = 0 \hspace{.2cm }\forall \hspace{.1cm} i=1,2,...,a \text{ and }\forall  \hspace{.1cm} j=1,2,...,b$ \\
  vs. The Alternative Hypothesis of Some Effect on Weld Strength $H_A : \tau_{ij} \neq \tau_{hk}$ for some $i\neq h$ and $j\neq k$ 
 \end{center}
-
 ```{r}
 anova(cell_model)
 ```
 
 From the analysis of variance table we obtain a $p$-value equal to $0.0001$, which is less that the $\alpha$-level of $\alpha = 0.05$. Therefore, we can reject the null hypothesis of no effect on welding strength in favor of the alternative hypothesis of some effect on welding Strength.
-
 
 ## Problem 8
 
@@ -76,8 +63,7 @@ For the experiment described in Exercise 7, use the two-way complete model inste
 
 (a) Test the hypothesis of no interaction between gage bar setting and time of weld and state your conclusion. 
 
-
-Let $\tau_{ij}$ be the deviation from the overall weld strength, $\mu$, when factor $A$, the gage bar setting, has level $i$ and factor $B$, the time of welding, had level $j$. Using an $\alpha$-level of $\alpha = 0.05$, since the sample sizes are all equal, $r_{ij}=2$, we can use the following test: 
+Let $\tau_{ij}$ be the deviation from the overall mean weld strength, $\mu$, where factor $A$, the gage bar setting, has level $i$ and factor $B$, the time of welding, has level $j$. We can test the effects of Factor $A$ and $B$ on welding strength using an $\alpha$-level of $\alpha = 0.05$, and the following test: 
 
 \begin{center}
  The Null Hypothesis of No Interaction Between $A$ and $B$  
@@ -95,7 +81,6 @@ model_AB <- aov(strength ~ gage*time, data = weld.data)
 anova(model_AB)
 ```
 
-
 From the analysis of variance table we obtain a $p$-value equal to $0.0008$, which is less that the $\alpha$-level of $\alpha = 0.05$. Therefore, we can reject the null hypothesis of no effect on welding strength in favor of the alternative hypothesis of some effect on welding strength.
 
 (b) Draw an interaction plot for the two factors Gage bar setting and Time of welding. Does your interaction plot support the conclusion of your hypothesis test? Explain.
@@ -109,11 +94,11 @@ interaction.plot(x.factor = time, trace.factor = gage, response = strength,
 col = c(1, 2, 3), leg.bty = "o", leg.bg = "white")
 ```
 
-From the interaction plots above, Mean of Strength vs. Time, we can see that the lines aren't parallel and cross multiple times. This implies that there is definitely some interaction between gage setting and welding time which supports the conclusion of part (a).
+From the interaction plots above, Mean of Strength vs. Time, we can see that the lines aren't parallel and cross multiple times. This implies that there is some interaction between gage setting and welding time which supports the conclusion of part (a).
 
 (c) In view of your answer to part (b), is it sensible to investigate the differences between the effects of gage bar setting? Why or why not? Indicate on your plot what would be compared.
 
-It is not sensible because if we were to compare the differences between the gage bar settings we would have to compare them averages over welding time due to the fact that there is some interaction. The difference between gage bar setting level 2 and level 1 averaged over welding time is 1.5. However, if we look at the plot, Mean Strength vs. Gage, we see that the welding time at level 3 produces a much higher mean strength when the gage bar setting is at level 2. However, this is not apparent when we simply observe the difference.
+It is not sensible because if we were to compare the differences between the gage bar settings we would have to compare them averages over welding time due to the fact that there is some interaction. The difference between gage bar setting level 2 and level 1 averaged over welding time is 1.5. However, if we look at the plot, Mean Strength vs. Gage, we see that the welding time at level 3 produces a much higher mean strength when the gage bar setting is at level 2. However, this is not apparent when we investigate the differences between the effects of gage bar avaraged over welding time.
 
 ```{r}
 gage_avg <- tapply(weld.data$strength, weld.data$gage , mean); gage_avg
@@ -145,7 +130,7 @@ boiling.data = within(boiling.data, {
   e = resid(two.way_model) 
   z = rstandard(two.way_model)})
 # Display first 10 lines of boiling.data, 4 digits per variable
-print(head(boiling.data, 10), digits = 4)
+print(head(boiling.data, 5), digits = 4)
 
 
 # Generate residual plots 
@@ -169,7 +154,6 @@ qqline(boiling.data$z)
 
 Assumption (a): The error have mean 0:
 
-
 ```{r}
 attach(boiling.data)
 plot(z ~ salt, xaxt = "n", type = "n", xlim = c(-1, 7)) # Suppress x-axis, pts
@@ -185,26 +169,15 @@ From the plot above we can see that the burner factor with level 2 is consistent
 
 Assumption (b): The error have constant variance:
 
-```{r}
-Y_i_var <- tapply(boiling.data$z, boiling.data$salt, var); Y_i_var
-Y_j_var <- tapply(boiling.data$z, boiling.data$burner, var); Y_j_var
-Y_ij_var <- tapply(boiling.data$z, boiling.data$trtmt, var); Y_ij_var
-max(Y_ij_var)/min(Y_ij_var)
-```
-
-By plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals are roughly centered around zero. However there seems to be one apparent outlier. Hence, with these two results we feel comfortable to say that the equal variance assumption is roughly satisfied. 
+By plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals are roughly centered around zero. However there seems to be only one apparent outlier. The outlier may be of interest to inspect further but might not be too concerning. Hence, we can say that the equal variance assumption is roughly satisfied. 
 
 Assumption (c): The error are normally distributed:
 
-
-From the qq-plot above we see that the data is fairly straight. However, there is just one apparent outliers. Therefore, the normality assumption is reasonable.
-
+From the qq-plot above we see that the data is fairly straight. However, there is just one apparent outliers. Therefore, the normality assumption is fairly reasonable.
 
 Assumption (d): The errors are independent:
 
 From the plot of Order vs. Std. Residuals we can see that there isn't an apparent pattern as time increases. Therefore we feel comfortable to say that the assumption that errors are independent is approximately satisfies.
-
-
 
 (b) Calculate a 99% set of Tukey confidence intervals for pairwise differences between the levels of salt, and calculate separately a 99% set of intervals for pairwise differences between the levels of burner.
 
@@ -212,14 +185,22 @@ From the plot of Order vs. Std. Residuals we can see that there isn't an apparen
 em.salt <- emmeans(two.way_model, specs = ~f_salt)
 em.burner <- emmeans(two.way_model, specs = ~f_burner)
 
-summary(contrast(em.salt, method = "tukey"),infer = c(TRUE,TRUE))
+summary(contrast(em.salt, method = "tukey"),infer = c(TRUE,TRUE), level=.99)
 ```
 
-From the table above we see that none of the $p$-values are below $\alpha = .01$, so we cannot detect any pairwise differences between the salt levels at the $\alpha=.05$ $\alpha$-level. Equivalently, all the confidence intervals contain zero.
- 
- 
+From the table above we see that none of the $p$-values are below $\alpha = .01$, so we cannot detect any pairwise differences between the salt levels at the $\alpha=.05$ $\alpha$-level. Equivalently, all the confidence intervals contain zero. If we let factor $A$ represent the salt, then the we can see that the levels of $A$ can be expressed as
+
+$$
+\alpha_6 = \alpha_2 = \alpha_0 = \alpha_4
+$$
 ```{r}
-summary(contrast(em.burner, method ="tukey"), infer = c(TRUE,TRUE))
+summary(contrast(em.burner, method ="tukey"), infer = c(TRUE,TRUE), level=.99)
 ```
-From the table above we see that only once of the $p$-values is not below $\alpha = .01$, so we cannot detect any differences between the burner level 1 and burner level 2 at the $\alpha=.05$ $\alpha$-level. Equivalently, the confidence interval for $\tau_1 - \tau_3$ is the only interval that contain zero.
+From the table above we see that only once of the $p$-values is not below $\alpha = .01$, so we cannot detect any differences between the burner level 1 and burner level 2 at the $\alpha=.05$ $\alpha$-level. 
+
+If we let factor $B$ represent the burner, then equivalently the confidence interval for $\beta_1 - \beta_3$ is the only interval that contains zero. So we can see that the levels of $B$ can be expressed as
+
+$$
+\beta_2 < \beta_3 = \beta_1 < \beta_4
+$$
 

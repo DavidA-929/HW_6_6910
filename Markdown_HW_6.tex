@@ -153,13 +153,17 @@ two-way complete model (6.2.2) when an experimenter has sufficient
 knowledge about the two treatment factors being studied to state with
 reasonable certainty that the factors do not interact.
 
-Using the main effects model, one cannot compare the effects of the
+Using the complete two-way model, one cannot compare the effects of the
 different levels of the factors, say level 1 of \(A\), \(\alpha_1\),
 with level 2 of \(A\), \(\alpha_2\). Instead, one must compare the
 effects of the different levels of \(A\) averaged over the effects of
 \(B\). So, \(\alpha_1-\alpha_2\) is not estimable, but
-\(\alpha^\star_2-\alpha^\star_1=\bar{\tau}_{2\bullet}-\bar{\tau}_{1\bullet}\)
-is estimable.
+\(\alpha^\star_1-\alpha^\star_2=\bar{\tau}_{1\bullet}-\bar{\tau}_{2\bullet}\)
+is estimable. However, using the two-way main effects model one can
+compare the effect of changing from level 1 to 2 of factor A,
+\(\alpha_1 - \alpha_2\), since factor A doesn't need to be averaged over
+factor B becuase this model assumes there is no interaction between
+factors \(A\) and \(B\).
 
 \subsection{Problem 2}\label{problem-2}
 
@@ -198,18 +202,10 @@ were selected to be equally spaced.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{enumerate}
-\def\labelenumi{(\alph{enumi})}
-\setcounter{enumi}{2}
-\tightlist
-\item
-  Construct an analysis of variance table and test the hypothesis that
-  color has no effect in inflation time.
-\end{enumerate}
-
 Let \(\tau_{ij}\) be the deviation from the overall mean weld strength,
-\(\mu\), when factor \(A\), the gage bar setting, has level \(i\) and
-factor \(B\), the time of welding, had level \(j\). Using an
+\(\mu\), where factor \(A\), the gage bar setting, has level \(i\) and
+factor \(B\), the time of welding, has level \(j\). We can test the
+effects of Factor \(A\) and \(B\) on welding strength using an
 \(\alpha\)-level of \(\alpha = 0.05\), and the following test:
 
 \begin{center}
@@ -254,11 +250,11 @@ model instead of the equivalent cell means model.
   time of weld and state your conclusion.
 \end{enumerate}
 
-Let \(\tau_{ij}\) be the deviation from the overall weld strength,
-\(\mu\), when factor \(A\), the gage bar setting, has level \(i\) and
-factor \(B\), the time of welding, had level \(j\). Using an
-\(\alpha\)-level of \(\alpha = 0.05\), since the sample sizes are all
-equal, \(r_{ij}=2\), we can use the following test:
+Let \(\tau_{ij}\) be the deviation from the overall mean weld strength,
+\(\mu\), where factor \(A\), the gage bar setting, has level \(i\) and
+factor \(B\), the time of welding, has level \(j\). We can test the
+effects of Factor \(A\) and \(B\) on welding strength using an
+\(\alpha\)-level of \(\alpha = 0.05\), and the following test:
 
 \begin{center}
  The Null Hypothesis of No Interaction Between $A$ and $B$  
@@ -324,8 +320,8 @@ some effect on welding strength.
 
 From the interaction plots above, Mean of Strength vs.~Time, we can see
 that the lines aren't parallel and cross multiple times. This implies
-that there is definitely some interaction between gage setting and
-welding time which supports the conclusion of part (a).
+that there is some interaction between gage setting and welding time
+which supports the conclusion of part (a).
 
 \begin{enumerate}
 \def\labelenumi{(\alph{enumi})}
@@ -344,7 +340,8 @@ difference between gage bar setting level 2 and level 1 averaged over
 welding time is 1.5. However, if we look at the plot, Mean Strength
 vs.~Gage, we see that the welding time at level 3 produces a much higher
 mean strength when the gage bar setting is at level 2. However, this is
-not apparent when we simply observe the difference.
+not apparent when we investigate the differences between the effects of
+gage bar avaraged over welding time.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -412,33 +409,17 @@ believed that there would be no interaction between the two factors.
 \NormalTok{  e =}\StringTok{ }\KeywordTok{resid}\NormalTok{(two.way_model) }
 \NormalTok{  z =}\StringTok{ }\KeywordTok{rstandard}\NormalTok{(two.way_model)\})}
 \CommentTok{# Display first 10 lines of boiling.data, 4 digits per variable}
-\KeywordTok{print}\NormalTok{(}\KeywordTok{head}\NormalTok{(boiling.data, }\DecValTok{10}\NormalTok{), }\DataTypeTok{digits =} \DecValTok{4}\NormalTok{)}
+\KeywordTok{print}\NormalTok{(}\KeywordTok{head}\NormalTok{(boiling.data, }\DecValTok{5}\NormalTok{), }\DataTypeTok{digits =} \DecValTok{4}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##    salt burner time order trtmt f_burner f_salt          z          e
-## 1     0      1    7     7    10        1      0  2.502e-14  1.588e-14
-## 2     0      1    8    21    10        1      0  1.576e+00  1.000e+00
-## 3     0      1    7    30    10        1      0  0.000e+00 -3.965e-15
-## 4     0      2    4     6    20        2      0 -7.878e-01 -5.000e-01
-## 5     0      2    4    20    20        2      0 -7.878e-01 -5.000e-01
-## 6     0      2    4    27    20        2      0 -7.878e-01 -5.000e-01
-## 7     0      3    6     9    30        3      0 -6.565e-01 -4.167e-01
-## 8     0      3    7    16    30        3      0  9.191e-01  5.833e-01
-## 9     0      3    6    22    30        3      0 -6.565e-01 -4.167e-01
-## 10    0      4    9    29    40        4      0  3.939e-01  2.500e-01
-##    ypred
-## 1  7.000
-## 2  7.000
-## 3  7.000
-## 4  4.500
-## 5  4.500
-## 6  4.500
-## 7  6.417
-## 8  6.417
-## 9  6.417
-## 10 8.750
+##   salt burner time order trtmt f_burner f_salt          z          e ypred
+## 1    0      1    7     7    10        1      0  2.502e-14  1.588e-14   7.0
+## 2    0      1    8    21    10        1      0  1.576e+00  1.000e+00   7.0
+## 3    0      1    7    30    10        1      0  0.000e+00 -3.965e-15   7.0
+## 4    0      2    4     6    20        2      0 -7.878e-01 -5.000e-01   4.5
+## 5    0      2    4    20    20        2      0 -7.878e-01 -5.000e-01   4.5
 \end{verbatim}
 
 \begin{Shaded}
@@ -502,66 +483,18 @@ model to represent the data.
 
 Assumption (b): The error have constant variance:
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{Y_i_var <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(boiling.data}\OperatorTok{$}\NormalTok{z, boiling.data}\OperatorTok{$}\NormalTok{salt, var); Y_i_var}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##         0         2         4         6 
-## 0.5924765 1.9090909 0.8369906 1.0250784
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{Y_j_var <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(boiling.data}\OperatorTok{$}\NormalTok{z, boiling.data}\OperatorTok{$}\NormalTok{burner, var); Y_j_var}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##         1         2         3         4 
-## 2.2664577 0.7241379 0.6300940 0.7429467
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{Y_ij_var <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(boiling.data}\OperatorTok{$}\NormalTok{z, boiling.data}\OperatorTok{$}\NormalTok{trtmt, var); Y_ij_var}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##           10           12           14           16           20 
-## 8.275862e-01 7.448276e+00 0.000000e+00 3.310345e+00 4.509449e-29 
-##           22           24           26           30           32 
-## 8.275862e-01 8.275862e-01 0.000000e+00 8.275862e-01 8.275862e-01 
-##           34           36           40           42           44 
-## 8.275862e-01 8.275862e-01 0.000000e+00 0.000000e+00 2.482759e+00 
-##           46 
-## 8.275862e-01
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{max}\NormalTok{(Y_ij_var)}\OperatorTok{/}\KeywordTok{min}\NormalTok{(Y_ij_var)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] Inf
-\end{verbatim}
-
 By plotting the standardized residuals against the fitted values we can
 see that the spread of the standardized residuals are roughly centered
-around zero. However there seems to be one apparent outlier. Hence, with
-these two results we feel comfortable to say that the equal variance
-assumption is roughly satisfied.
+around zero. However there seems to be only one apparent outlier. The
+outlier may be of interest to inspect further but might not be too
+concerning. Hence, we can say that the equal variance assumption is
+roughly satisfied.
 
 Assumption (c): The error are normally distributed:
 
 From the qq-plot above we see that the data is fairly straight. However,
 there is just one apparent outliers. Therefore, the normality assumption
-is reasonable.
+is fairly reasonable.
 
 Assumption (d): The errors are independent:
 
@@ -586,28 +519,21 @@ satisfies.
 \NormalTok{em.salt <-}\StringTok{ }\KeywordTok{emmeans}\NormalTok{(two.way_model, }\DataTypeTok{specs =} \OperatorTok{~}\NormalTok{f_salt)}
 \NormalTok{em.burner <-}\StringTok{ }\KeywordTok{emmeans}\NormalTok{(two.way_model, }\DataTypeTok{specs =} \OperatorTok{~}\NormalTok{f_burner)}
 
-\KeywordTok{summary}\NormalTok{(}\KeywordTok{contrast}\NormalTok{(em.salt, }\DataTypeTok{method =} \StringTok{"tukey"}\NormalTok{),}\DataTypeTok{infer =} \KeywordTok{c}\NormalTok{(}\OtherTok{TRUE}\NormalTok{,}\OtherTok{TRUE}\NormalTok{))}
+\KeywordTok{summary}\NormalTok{(}\KeywordTok{contrast}\NormalTok{(em.salt, }\DataTypeTok{method =} \StringTok{"tukey"}\NormalTok{),}\DataTypeTok{infer =} \KeywordTok{c}\NormalTok{(}\OtherTok{TRUE}\NormalTok{,}\OtherTok{TRUE}\NormalTok{), }\DataTypeTok{level=}\NormalTok{.}\DecValTok{99}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##  contrast    estimate        SE df      lower.CL     upper.CL t.ratio
-##  0 - 2     0.66666667 0.2803405 41 -0.0839785177 1.4173118510   2.378
-##  0 - 4    -0.08333333 0.2803405 41 -0.8339785177 0.6673118510  -0.297
-##  0 - 6     0.75000000 0.2803405 41 -0.0006451843 1.5006451843   2.675
-##  2 - 4    -0.75000000 0.2803405 41 -1.5006451843 0.0006451843  -2.675
-##  2 - 6     0.08333333 0.2803405 41 -0.6673118510 0.8339785177   0.297
-##  4 - 6     0.83333333 0.2803405 41  0.0826881490 1.5839785177   2.973
-##  p.value
-##   0.0974
-##   0.9907
-##   0.0503
-##   0.0503
-##   0.9907
-##   0.0244
+##  contrast    estimate        SE df    lower.CL  upper.CL t.ratio p.value
+##  0 - 2     0.66666667 0.2803405 41 -0.26256979 1.5959031   2.378  0.0974
+##  0 - 4    -0.08333333 0.2803405 41 -1.01256979 0.8459031  -0.297  0.9907
+##  0 - 6     0.75000000 0.2803405 41 -0.17923646 1.6792365   2.675  0.0503
+##  2 - 4    -0.75000000 0.2803405 41 -1.67923646 0.1792365  -2.675  0.0503
+##  2 - 6     0.08333333 0.2803405 41 -0.84590313 1.0125698   0.297  0.9907
+##  4 - 6     0.83333333 0.2803405 41 -0.09590313 1.7625698   2.973  0.0244
 ## 
 ## Results are averaged over the levels of: f_burner 
-## Confidence level used: 0.95 
+## Confidence level used: 0.99 
 ## Conf-level adjustment: tukey method for comparing a family of 4 estimates 
 ## P value adjustment: tukey method for comparing a family of 4 estimates
 \end{verbatim}
@@ -615,25 +541,31 @@ satisfies.
 From the table above we see that none of the \(p\)-values are below
 \(\alpha = .01\), so we cannot detect any pairwise differences between
 the salt levels at the \(\alpha=.05\) \(\alpha\)-level. Equivalently,
-all the confidence intervals contain zero.
+all the confidence intervals contain zero. If we let factor \(A\)
+represent the salt, then the we can see that the levels of \(A\) can be
+expressed as
+
+\[
+\alpha_6 = \alpha_2 = \alpha_0 = \alpha_4
+\]
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(}\KeywordTok{contrast}\NormalTok{(em.burner, }\DataTypeTok{method =}\StringTok{"tukey"}\NormalTok{), }\DataTypeTok{infer =} \KeywordTok{c}\NormalTok{(}\OtherTok{TRUE}\NormalTok{,}\OtherTok{TRUE}\NormalTok{))}
+\KeywordTok{summary}\NormalTok{(}\KeywordTok{contrast}\NormalTok{(em.burner, }\DataTypeTok{method =}\StringTok{"tukey"}\NormalTok{), }\DataTypeTok{infer =} \KeywordTok{c}\NormalTok{(}\OtherTok{TRUE}\NormalTok{,}\OtherTok{TRUE}\NormalTok{), }\DataTypeTok{level=}\NormalTok{.}\DecValTok{99}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##  contrast   estimate        SE df   lower.CL   upper.CL t.ratio p.value
-##  1 - 2     2.5000000 0.2803405 41  1.7493548  3.2506452   8.918  <.0001
-##  1 - 3     0.5833333 0.2803405 41 -0.1673119  1.3339785   2.081  0.1764
-##  1 - 4    -1.7500000 0.2803405 41 -2.5006452 -0.9993548  -6.242  <.0001
-##  2 - 3    -1.9166667 0.2803405 41 -2.6673119 -1.1660215  -6.837  <.0001
-##  2 - 4    -4.2500000 0.2803405 41 -5.0006452 -3.4993548 -15.160  <.0001
-##  3 - 4    -2.3333333 0.2803405 41 -3.0839785 -1.5826881  -8.323  <.0001
+##  1 - 2     2.5000000 0.2803405 41  1.5707635  3.4292365   8.918  <.0001
+##  1 - 3     0.5833333 0.2803405 41 -0.3459031  1.5125698   2.081  0.1764
+##  1 - 4    -1.7500000 0.2803405 41 -2.6792365 -0.8207635  -6.242  <.0001
+##  2 - 3    -1.9166667 0.2803405 41 -2.8459031 -0.9874302  -6.837  <.0001
+##  2 - 4    -4.2500000 0.2803405 41 -5.1792365 -3.3207635 -15.160  <.0001
+##  3 - 4    -2.3333333 0.2803405 41 -3.2625698 -1.4040969  -8.323  <.0001
 ## 
 ## Results are averaged over the levels of: f_salt 
-## Confidence level used: 0.95 
+## Confidence level used: 0.99 
 ## Conf-level adjustment: tukey method for comparing a family of 4 estimates 
 ## P value adjustment: tukey method for comparing a family of 4 estimates
 \end{verbatim}
@@ -641,8 +573,16 @@ all the confidence intervals contain zero.
 From the table above we see that only once of the \(p\)-values is not
 below \(\alpha = .01\), so we cannot detect any differences between the
 burner level 1 and burner level 2 at the \(\alpha=.05\)
-\(\alpha\)-level. Equivalently, the confidence interval for
-\(\tau_1 - \tau_3\) is the only interval that contain zero.
+\(\alpha\)-level.
+
+If we let factor \(B\) represent the burner, then equivalently the
+confidence interval for \(\beta_1 - \beta_3\) is the only interval that
+contains zero. So we can see that the levels of \(B\) can be expressed
+as
+
+\[
+\beta_2 < \beta_3 = \beta_1 < \beta_4
+\]
 
 
 \end{document}
