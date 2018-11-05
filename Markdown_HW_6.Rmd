@@ -186,9 +186,9 @@ From the plot above we can see that the burner factor with level 2 is consistent
 Assumption (b): The error have constant variance:
 
 ```{r}
-Y_i_var <- tapply(boiling.data$time, boiling.data$salt, var); Y_i_var
-Y_j_var <- tapply(boiling.data$time, boiling.data$burner, var); Y_j_var
-Y_ij_var <- tapply(boiling.data$time, boiling.data$trtmt, var); Y_ij_var
+Y_i_var <- tapply(boiling.data$z, boiling.data$salt, var); Y_i_var
+Y_j_var <- tapply(boiling.data$z, boiling.data$burner, var); Y_j_var
+Y_ij_var <- tapply(boiling.data$z, boiling.data$trtmt, var); Y_ij_var
 max(Y_ij_var)/min(Y_ij_var)
 ```
 

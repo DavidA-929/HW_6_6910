@@ -504,39 +504,41 @@ Assumption (b): The error have constant variance:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{Y_i_var <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(boiling.data}\OperatorTok{$}\NormalTok{time, boiling.data}\OperatorTok{$}\NormalTok{salt, var); Y_i_var}
+\NormalTok{Y_i_var <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(boiling.data}\OperatorTok{$}\NormalTok{z, boiling.data}\OperatorTok{$}\NormalTok{salt, var); Y_i_var}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##        0        2        4        6 
-## 3.696970 2.545455 3.295455 2.265152
+##         0         2         4         6 
+## 0.5924765 1.9090909 0.8369906 1.0250784
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{Y_j_var <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(boiling.data}\OperatorTok{$}\NormalTok{time, boiling.data}\OperatorTok{$}\NormalTok{burner, var); Y_j_var}
+\NormalTok{Y_j_var <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(boiling.data}\OperatorTok{$}\NormalTok{z, boiling.data}\OperatorTok{$}\NormalTok{burner, var); Y_j_var}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##         1         2         3         4 
-## 1.1515152 0.1515152 0.4469697 0.6287879
+## 2.2664577 0.7241379 0.6300940 0.7429467
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{Y_ij_var <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(boiling.data}\OperatorTok{$}\NormalTok{time, boiling.data}\OperatorTok{$}\NormalTok{trtmt, var); Y_ij_var}
+\NormalTok{Y_ij_var <-}\StringTok{ }\KeywordTok{tapply}\NormalTok{(boiling.data}\OperatorTok{$}\NormalTok{z, boiling.data}\OperatorTok{$}\NormalTok{trtmt, var); Y_ij_var}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##        10        12        14        16        20        22        24 
-## 0.3333333 3.0000000 0.0000000 1.3333333 0.0000000 0.3333333 0.3333333 
-##        26        30        32        34        36        40        42 
-## 0.0000000 0.3333333 0.3333333 0.3333333 0.3333333 0.0000000 0.0000000 
-##        44        46 
-## 1.0000000 0.3333333
+##           10           12           14           16           20 
+## 8.275862e-01 7.448276e+00 0.000000e+00 3.310345e+00 4.509449e-29 
+##           22           24           26           30           32 
+## 8.275862e-01 8.275862e-01 0.000000e+00 8.275862e-01 8.275862e-01 
+##           34           36           40           42           44 
+## 8.275862e-01 8.275862e-01 0.000000e+00 0.000000e+00 2.482759e+00 
+##           46 
+## 8.275862e-01
 \end{verbatim}
 
 \begin{Shaded}

@@ -1,0 +1,87 @@
+---
+title: 'STAT 6910: HW 6'
+author: "David Angeles"
+output:
+  pdf_document:
+    keep_tex: yes
+  html_document:
+    df_print: paged
+fontsize: 12pt
+---
+
+```{r, echo=FALSE}
+library(pwr)
+library("emmeans")
+library("dae")
+paper.towel.strength <- read.table("~/Desktop/Stats 6910/HW_4_and_5/paper.towel.strength.txt",
+                                   header = TRUE)
+options(contrasts = c("contr.sum", "contr.poly"))
+```
+
+
+## Problem 8
+
+Burt Beiter, Doug Fairchild, Leo Russo, and Jim Wirtley, in 1990, ran an experiment to compare the relative strengths of two similarly priced brands of paper towel under varying levels of moisture saturation and liquid type. The treatment factors were “amount of liquid” (factor $A$, with levels 5 and 10 drops coded 1 and 2), “brand of towel” (factor $B$, with levels coded 1 and 2), and “type of liquid” (factor $C$, with levels “beer” and “water” coded 1 and 2). A 2 × 2 × 2 factorial experiment with $r = 3$ was run in a completely randomized design. 
+
+
+__(a)__ The experimenters assumed only factors A and B would interact. Specify the corresponding model.
+
+__Solution__
+
+Let $A, B$ and $C$ be as described with the associated level $a= 2$, $b = 2$, and $c= 2$ respecitively with $r=3$. Then we have that the correspoding model is
+
+
+$$
+Y_{ijk t} = \mu + \alpha_i + \beta_j + \gamma_k + (\alpha \beta)_{ij} + \epsilon_{ijk t}
+$$
+where $i = 1, 2$, $j = 2$, $k= 2$, and $t=3$.
+
+__(b)__ Assume there is only one contrast of primary interest: the one comparing brands of paper towels.
+
+__Solution__
+Assuming that the contrast of primary interest is the one that compares the brands of paper towels, then the following contracts can be used:
+
+$$
+\beta_1^\star -\beta_2^\star.
+$$
+
+
+__(c)__ Use residual plots to evaluate the adequacy of the model specified in part (a).
+
+For part (c), comment on the potential for interactions using the graphing tool in the dae R package; you can just use these plots (and/or two-factor interaction plots) to assess whether the model for the mean is reasonable (rather than producing further residual plots to check that assumption).
+
+__Solution__
+
+```{r}
+paper.towel.strength <- within(paper.towel.strength,{
+  A = factor(A); B = factor(B); C = factor(C); ABC = factor(ABC)})
+
+interaction.ABC.plot(strength, A, B, C, data = paper.towel.strength)
+interaction.ABC.plot(strength, A, C, B, data = paper.towel.strength)
+interaction.ABC.plot(strength, C, A, B, data = paper.towel.strength)
+```
+
+From the plots above, the lines appear to be somewhat parrallel in all six plots. Therefore, it appears that the assuptions that $A$ and $B$ interact is likey to be false and therefore the model in part (a) is probably not reasonable.
+
+
+(d) Provide an analysis of variance table for this experiment, test the various effects, show plots of significant main effects and interactions, and draw conclusions.
+
+For part (d), proceed with the typical ANOVA, without variable transformation, etc., regardless of your opinion on the residual plots in (c). Test each effect in the ANOVA table at 0.01 (so you maintain a FWER of 0.04). You do not need to produce plots of significant effects.
+
+```{r}
+model_AB <- aov(strength ~ A + B + C + A:B, data= paper.towel.strength)
+anova(model_AB)
+```
+
+(e) Construct confidence intervals for each of the treatment contrasts that you listed in part (b), using an appropriate method of multiple comparisons. Discuss the results.
+For part (e), use a confidence level of 99% for the one primary contrast of interest
+
+
+
+
+
+
+
+
+
+
