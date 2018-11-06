@@ -223,6 +223,11 @@ that assumption).
 
 \includegraphics{Markdown_HW_7_files/figure-latex/unnamed-chunk-2-3.pdf}
 
+From the plots above, the lines appear to be somewhat parrallel in all
+six plots. Therefore, it appears that the assuptions that \(A\) and
+\(B\) interact is likey to be false and therefore the model in part (a)
+is probably not reasonable.
+
 \begin{enumerate}
 \def\labelenumi{(\alph{enumi})}
 \setcounter{enumi}{3}
@@ -238,6 +243,27 @@ transformation, etc., regardless of your opinion on the residual plots
 in (c). Test each effect in the ANOVA table at 0.01 (so you maintain a
 FWER of 0.04). You do not need to produce plots of significant effects.
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model_AB <-}\StringTok{ }\KeywordTok{aov}\NormalTok{(strength }\OperatorTok{~}\StringTok{ }\NormalTok{A }\OperatorTok{+}\StringTok{ }\NormalTok{B }\OperatorTok{+}\StringTok{ }\NormalTok{C }\OperatorTok{+}\StringTok{ }\NormalTok{A}\OperatorTok{:}\NormalTok{B, }\DataTypeTok{data=}\NormalTok{ paper.towel.strength)}
+\KeywordTok{anova}\NormalTok{(model_AB)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: strength
+##           Df  Sum Sq Mean Sq F value    Pr(>F)    
+## A          1  365931  365931  3.7322  0.068426 .  
+## B          1 4209359 4209359 42.9318 2.836e-06 ***
+## C          1  858552  858552  8.7565  0.008058 ** 
+## A:B        1    3823    3823  0.0390  0.845566    
+## Residuals 19 1862906   98048                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
 \begin{enumerate}
 \def\labelenumi{(\alph{enumi})}
 \setcounter{enumi}{4}
@@ -245,9 +271,35 @@ FWER of 0.04). You do not need to produce plots of significant effects.
 \item
   Construct confidence intervals for each of the treatment contrasts
   that you listed in part (b), using an appropriate method of multiple
-  comparisons. Discuss the results. For part (e), use a confidence level
-  of 99\% for the one primary contrast of interest
+  comparisons. Discuss the results.
 \end{enumerate}
+
+For part (e), use a confidence level of 99\% for the one primary
+contrast of interest
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{em.B <-}\StringTok{ }\KeywordTok{emmeans}\NormalTok{(model_AB, }\DataTypeTok{specs =} \OperatorTok{~}\NormalTok{B)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: Results may be misleading due to involvement in interactions
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(}\KeywordTok{contrast}\NormalTok{(em.B, }\DataTypeTok{method =} \StringTok{"tukey"}\NormalTok{), }\DataTypeTok{infer =} \KeywordTok{c}\NormalTok{(}\OtherTok{TRUE}\NormalTok{,}\OtherTok{TRUE}\NormalTok{), }\DataTypeTok{level=}\NormalTok{.}\DecValTok{99}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  contrast estimate      SE df lower.CL upper.CL t.ratio p.value
+##  1 - 2    837.5917 127.833 19 471.8698 1203.314   6.552  <.0001
+## 
+## Results are averaged over the levels of: A, C 
+## Confidence level used: 0.99
+\end{verbatim}
 
 
 \end{document}

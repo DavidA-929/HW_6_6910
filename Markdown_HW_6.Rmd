@@ -22,8 +22,8 @@ Under what circumstances should the two-way main effects model (6.2.3) be used r
 
 The two-way main effects model (6.2.3) should be used rather than the two-way complete model (6.2.2) when an experimenter has sufficient knowledge about the two treatment factors being studied to state with reasonable certainty that the factors do not interact.
 
-Using the complete two-way model, one cannot compare the effects of the different levels of the factors, say level 1 of $A$, $\alpha_1$, with level 2 of $A$, $\alpha_2$. Instead, one must compare the effects of the different levels of $A$ averaged over the effects of $B$. So, $\alpha_1-\alpha_2$ is not estimable, but 
-$\alpha^\star_1-\alpha^\star_2=\bar{\tau}_{1\bullet}-\bar{\tau}_{2\bullet}$ is estimable. However, using the two-way main effects model one can compare the effect of changing from level 1 to 2 of factor A, $\alpha_1 - \alpha_2$, since factor A doesn't need to be averaged over factor B becuase this model assumes there is no interaction between factors $A$ and $B$.
+Using the complete two-way model, one cannot compare directly the effects of the different levels of the factors, say level 1 of $A$, $\alpha_1$, with level 2 of $A$, $\alpha_2$. Instead, one must compare the effects of the different levels of $A$ averaged over the effects of $B$. So, $\alpha_1-\alpha_2$ is not estimable, but 
+$\alpha^\star_1-\alpha^\star_2=\bar{\tau}_{1\bullet}-\bar{\tau}_{2\bullet}$ is estimable. On the other hand, using the two-way main effects model one can compare the effect of changing from level 1 to 2 of factor A, $\alpha_1 - \alpha_2$, since factor A doesn't need to be averaged over factor B because this model assumes there is no interaction between factor $A$ and $B$.
 
 ## Problem 2
 
@@ -55,7 +55,7 @@ Let $\tau_{ij}$ be the deviation from the overall mean weld strength, $\mu$, whe
 anova(cell_model)
 ```
 
-From the analysis of variance table we obtain a $p$-value equal to $0.0001$, which is less that the $\alpha$-level of $\alpha = 0.05$. Therefore, we can reject the null hypothesis of no effect on welding strength in favor of the alternative hypothesis of some effect on welding Strength.
+From the analysis of variance table we obtain a $p$-value equal to $0.0001$, which is less that the $\alpha$-level of $\alpha = 0.05$. Therefore, we can reject the null hypothesis of no effect on welding strength in favor of the alternative hypothesis of some effect on welding strength.
 
 ## Problem 8
 
@@ -81,7 +81,7 @@ model_AB <- aov(strength ~ gage*time, data = weld.data)
 anova(model_AB)
 ```
 
-From the analysis of variance table we obtain a $p$-value equal to $0.0008$, which is less that the $\alpha$-level of $\alpha = 0.05$. Therefore, we can reject the null hypothesis of no effect on welding strength in favor of the alternative hypothesis of some effect on welding strength.
+From the analysis of variance table we obtain a $p$-value equal to $0.0008$, which is less that the $\alpha$-level of $\alpha = 0.05$. Therefore, we can reject the null hypothesis of no interaction between between $A$ and $B$ in favor of the alternative hypothesis of some interaction between $A$ and $B$.
 
 (b) Draw an interaction plot for the two factors Gage bar setting and Time of welding. Does your interaction plot support the conclusion of your hypothesis test? Explain.
 
@@ -98,7 +98,7 @@ From the interaction plots above, Mean of Strength vs. Time, we can see that the
 
 (c) In view of your answer to part (b), is it sensible to investigate the differences between the effects of gage bar setting? Why or why not? Indicate on your plot what would be compared.
 
-It is not sensible because if we were to compare the differences between the gage bar settings we would have to compare them averages over welding time due to the fact that there is some interaction. The difference between gage bar setting level 2 and level 1 averaged over welding time is 1.5. However, if we look at the plot, Mean Strength vs. Gage, we see that the welding time at level 3 produces a much higher mean strength when the gage bar setting is at level 2. However, this is not apparent when we investigate the differences between the effects of gage bar avaraged over welding time.
+It is not sensible because if we were to compare the differences between the gage bar settings we would have to compare them averages over welding time due to the fact that there is some interaction. The difference between gage bar setting level 2 and level 1 averaged over welding time is 1.5. However, if we look at the plot, Mean Strength vs. Gage, we see that the welding time at level 3 produces a much higher mean strength when the gage bar setting is at level 2. However, this is not apparent when we investigate the differences between the effects of gage bar averaged over welding time.
 
 ```{r}
 gage_avg <- tapply(weld.data$strength, weld.data$gage , mean); gage_avg

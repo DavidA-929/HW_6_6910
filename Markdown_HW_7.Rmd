@@ -1,5 +1,5 @@
 ---
-title: 'STAT 6910: HW 6'
+title: 'STAT 6910: HW 7'
 author: "David Angeles"
 output:
   pdf_document:
@@ -73,11 +73,18 @@ model_AB <- aov(strength ~ A + B + C + A:B, data= paper.towel.strength)
 anova(model_AB)
 ```
 
-(e) Construct confidence intervals for each of the treatment contrasts that you listed in part (b), using an appropriate method of multiple comparisons. Discuss the results.
+(e) Construct confidence intervals for each of the treatment contrasts 
+that you listed in part (b), using an appropriate method of multiple comparisons. 
+Discuss the results.
+
 For part (e), use a confidence level of 99% for the one primary contrast of interest
 
 
+```{r}
+em.B <- emmeans(model_AB, specs = ~B)
 
+summary(contrast(em.B, method = "tukey"), infer = c(TRUE,TRUE), level=.99)
+```
 
 
 
