@@ -56,22 +56,21 @@ __Solution__
 paper.towel.strength <- within(paper.towel.strength,{
   A = factor(A); B = factor(B); C = factor(C); ABC = factor(ABC)})
 
-
-
-
 attach(paper.towel.strength)
-
 interaction.ABC.plot(strength, A, B, C, data = paper.towel.strength)
-interaction.plot(A,C , strength , col = c(1,2,3), lwd = 2, xlab = " Amount of Liquid",
-                 ylab = "Strength", trace.label = "Type of Liquid")
-interaction.plot(B,C , strength , col = c(1,2,3), lwd = 2, xlab = "Towel Brand",
-                 ylab = "Strength", trace.label = "Type of Liquid")
-interaction.plot(A,B , strength , col = c(1,2,3), lwd = 2, xlab = " Amount of Liquid",
-                 ylab = "Strength", trace.label = "Towel Brand")
+interaction.plot(A,C , strength , col = c(1,2,3), lwd = 2,
+                 xlab = "Amount of Liquid", ylab = "Strength", 
+                 trace.label = "Type of Liquid")
+interaction.plot(B,C , strength , col = c(1,2,3), lwd = 2, 
+                 xlab = "Towel Brand",ylab = "Strength", 
+                 trace.label = "Type of Liquid")
+interaction.plot(A,B , strength , col = c(1,2,3), lwd = 2, 
+                 xlab = " Amount of Liquid",ylab = "Strength", 
+                 trace.label = "Towel Brand")
 ```
 
 
-The interaction plot of $A$ and $C$, Amounts of Liquid vs. Strength with respect to Type of Liquid, and the interaction plot of $B$ and $C$, Towel Brand vs. Strength with respect to Type of Liquid, both appear to have parallel lines. Furthermore, the three way interaction plot appears to have parallel lines as well but a minor downward shift of the factor $B$ when changing from level 1 to level 2 of factor $C$. However, it still might not be cause for concern. These two results would indicate that factors $A$ and $C$ probably don't interact. Similarly, we can say that factors $B$ and $C$ probably don't interact.
+The interaction plot of $A$ and $C$, Amounts of Liquid vs. Strength with respect to Type of Liquid, and the interaction plot of $B$ and $C$, Towel Brand vs. Strength with respect to Type of Liquid, both appear to have parallel lines. Furthermore, the three way interaction plot appears to have parallel lines as well but a minor downward shift of the factor $B$ when changing from level 1 to level 2 of factor $C$. However, it still might not be cause for concern since the shift is fairly small. These two results would indicate that factors $A$ and $C$ probably don't interact. Similarly, we can say that factors $B$ and $C$ probably don't interact.
 From the last interaction plot which shows the interactions between $A$ and $B$, we can see that the lines appear to be very parallel which would suggest that the assumptions that $A$ and $B$ interact is likely to be false and therefore the model in part (a) might not be the best model to represent the data. 
 
 
@@ -84,7 +83,7 @@ model_AB <- aov(strength ~ A + B + C + A:B, data= paper.towel.strength)
 anova(model_AB)
 ```
 
-From the Anova table above we get a $p$-value of $.8456 > .01$. So we can see that our data shows negligible interactions between amount of liquid and towel brand. The effects of Type of Liquid and Paper Towel averaged over Amount of Liquid do appear to have some effect on mean strength since we obtain a p-value of $.008< .01$ and $.0000028 < .01$ respectively. Lastly, the Amount of Liquid averaged over Paper Towel does not seem to have an effect on mean strength since we obtain a p-value of $.068 > .01$.
+From the ANOVA table above we get a $p$-value of $.8456 > .01$ for the interactions between factor $A$ and $B$. So we can see that our data shows negligible interactions between Amount of Liquid and Towel Brand. The effects of Type of Liquid averaged over Amount of Liquid and Towel Brand appears to have some effect on mean strength since we obtain a p-value of $.008< .01$. The effects of Towel Brand averaged over Amount of Liquid and Type of Liquid appears to have some effect on mean strength since we obtain a p-value of $.0000028< .01$. Lastly, the Amount of Liquid averaged over Towel Brand and Type of Liquid does not seem to have an effect on mean strength since we obtain a p-value of $.068 > .01$.
 
 (e) Construct confidence intervals for each of the treatment contrasts 
 that you listed in part (b), using an appropriate method of multiple comparisons. 
@@ -101,7 +100,7 @@ summary(contrast(em.B, method = "tukey"), infer = c(TRUE,TRUE), level=.99)
 ```
 
 
-
+With 99% confidence, we believe that the true difference between Towel Brand 1 and Towel Brand 2 averaged over Amount of Liquid and Type of Liquid is between 471.87 and 1203.31.
 
 
 
