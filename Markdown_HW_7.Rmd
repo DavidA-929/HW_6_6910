@@ -34,7 +34,7 @@ Let $A, B$ and $C$ be as described with the associated levels $a= 2$, $b = 2$, a
 $$
 Y_{ijk t} = \mu + \alpha_i + \beta_j + \gamma_k + (\alpha \beta)_{ij} + \epsilon_{ijk t}
 $$
-where $i = 1, 2$, $j = 2$, $k= 2$, and $t=3$.
+where $i = 1, 2$, $j =1, 2$, $k= 1,2$, and $t=1,2,3$.
 
 __(b)__ Assume there is only one contrast of primary interest: the one comparing brands of paper towels.
 
@@ -70,7 +70,9 @@ interaction.plot(A,B , strength , col = c(1,2,3), lwd = 2,
 ```
 
 
-The interaction plot of $A$ and $C$, Amounts of Liquid vs. Strength with respect to Type of Liquid, and the interaction plot of $B$ and $C$, Towel Brand vs. Strength with respect to Type of Liquid, both appear to have parallel lines. Furthermore, the three way interaction plot appears to have parallel lines as well but a minor downward shift of the factor $B$ when changing from level 1 to level 2 of factor $C$. However, it still might not be cause for concern since the shift is fairly small. These two results would indicate that factors $A$ and $C$ probably don't interact. Similarly, we can say that factors $B$ and $C$ probably don't interact.
+The interaction plot of $A$ and $C$, Amounts of Liquid vs. Strength with respect to Type of Liquid, and the interaction plot of $B$ and $C$, Towel Brand vs. Strength with respect to Type of Liquid, both appear to have parallel lines. Furthermore, the three way interaction plot appears to have parallel lines as well but a minor downward shift of the factor $B$ when changing from level 1 to level 2 of factor $C$. 
+However, it still might not be cause for concern since the shift is fairly small. 
+These two results would indicate that factors $A$ and $C$, and $B$ and $C$ don't interact. Also, there probably isn't any three-way interaction either.
 From the last interaction plot which shows the interactions between $A$ and $B$, we can see that the lines appear to be very parallel which would suggest that the assumptions that $A$ and $B$ interact is likely to be false and therefore the model in part (a) might not be the best model to represent the data. 
 
 
