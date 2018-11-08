@@ -28,7 +28,7 @@ __(a)__ The experimenters assumed only factors A and B would interact. Specify t
 
 __Solution__
 
-Let $A, B$ and $C$ be as described with the associated level $a= 2$, $b = 2$, and $c= 2$ respecitively with $r=3$. Then we have that the correspoding model is
+Let $A, B$ and $C$ be as described with the associated levels $a= 2$, $b = 2$, and $c= 2$ respectively with $r=3$. Then we have that the corresponding model is
 
 
 $$
@@ -42,7 +42,7 @@ __Solution__
 Assuming that the contrast of primary interest is the one that compares the brands of paper towels, then the following contracts can be used:
 
 $$
-\beta_1^\star -\beta_2^\star.
+\bar{\tau}_{\bullet 1} - \bar{\tau}_{\bullet 2} = \{\beta_1 + (\bar{\alpha \beta})_{\bullet 1} \} - \{\beta_2 + (\bar{\alpha \beta})_{\bullet 2} \}).
 $$
 
 
@@ -56,12 +56,23 @@ __Solution__
 paper.towel.strength <- within(paper.towel.strength,{
   A = factor(A); B = factor(B); C = factor(C); ABC = factor(ABC)})
 
+
+
+
+attach(paper.towel.strength)
+
 interaction.ABC.plot(strength, A, B, C, data = paper.towel.strength)
-interaction.ABC.plot(strength, A, C, B, data = paper.towel.strength)
-interaction.ABC.plot(strength, C, A, B, data = paper.towel.strength)
+interaction.plot(A,C , strength , col = c(1,2,3), lwd = 2, xlab = " Amount of Liquid",
+                 ylab = "Strength", trace.label = "Type of Liquid")
+interaction.plot(B,C , strength , col = c(1,2,3), lwd = 2, xlab = "Towel Brand",
+                 ylab = "Strength", trace.label = "Type of Liquid")
+interaction.plot(A,B , strength , col = c(1,2,3), lwd = 2, xlab = " Amount of Liquid",
+                 ylab = "Strength", trace.label = "Towel Brand")
 ```
 
-From the plots above, the lines appear to be somewhat parrallel in all six plots. Therefore, it appears that the assuptions that $A$ and $B$ interact is likey to be false and therefore the model in part (a) is probably not reasonable.
+
+The interaction plot of $A$ and $C$, Amounts of Liquid vs. Strength with respect to Type of Liquid, and the interaction plot of $B$ and $C$, Towel Brand vs. Strength with respect to Type of Liquid, both appear to have parallel lines. Furthermore, the three way interaction plot appears to have parallel lines as well but a minor downward shift of the factor $B$ when changing from level 1 to level 2 of factor $C$. However, it still might not be cause for concern. These two results would indicate that factors $A$ and $C$ probably don't interact. Similarly, we can say that factors $B$ and $C$ probably don't interact.
+From the last interaction plot which shows the interactions between $A$ and $B$, we can see that the lines appear to be very parallel which would suggest that the assumptions that $A$ and $B$ interact is likely to be false and therefore the model in part (a) might not be the best model to represent the data. 
 
 
 (d) Provide an analysis of variance table for this experiment, test the various effects, show plots of significant main effects and interactions, and draw conclusions.
@@ -72,6 +83,8 @@ For part (d), proceed with the typical ANOVA, without variable transformation, e
 model_AB <- aov(strength ~ A + B + C + A:B, data= paper.towel.strength)
 anova(model_AB)
 ```
+
+From the Anova table above we get a $p$-value of $.8456 > .01$. So we can see that our data shows negligible interactions between amount of liquid and towel brand. The effects of Type of Liquid and Paper Towel averaged over Amount of Liquid do appear to have some effect on mean strength since we obtain a p-value of $.008< .01$ and $.0000028 < .01$ respectively. Lastly, the Amount of Liquid averaged over Paper Towel does not seem to have an effect on mean strength since we obtain a p-value of $.068 > .01$.
 
 (e) Construct confidence intervals for each of the treatment contrasts 
 that you listed in part (b), using an appropriate method of multiple comparisons. 
@@ -84,8 +97,8 @@ For part (e), use a confidence level of 99% for the one primary contrast of inte
 em.B <- emmeans(model_AB, specs = ~B)
 
 summary(contrast(em.B, method = "tukey"), infer = c(TRUE,TRUE), level=.99)
-```
 
+```
 
 
 

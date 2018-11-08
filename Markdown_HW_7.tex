@@ -24,7 +24,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 \hypersetup{unicode=true,
-            pdftitle={STAT 6910: HW 6},
+            pdftitle={STAT 6910: HW 7},
             pdfauthor={David Angeles},
             pdfborder={0 0 0},
             breaklinks=true}
@@ -114,7 +114,7 @@
 
 \setlength{\droptitle}{-2em}
 
-  \title{STAT 6910: HW 6}
+  \title{STAT 6910: HW 7}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
     \author{David Angeles}
@@ -166,9 +166,9 @@ interact. Specify the corresponding model.
 
 \textbf{Solution}
 
-Let \(A, B\) and \(C\) be as described with the associated level
-\(a= 2\), \(b = 2\), and \(c= 2\) respecitively with \(r=3\). Then we
-have that the correspoding model is
+Let \(A, B\) and \(C\) be as described with the associated levels
+\(a= 2\), \(b = 2\), and \(c= 2\) respectively with \(r=3\). Then we
+have that the corresponding model is
 
 \[
 Y_{ijk t} = \mu + \alpha_i + \beta_j + \gamma_k + (\alpha \beta)_{ij} + \epsilon_{ijk t}
@@ -182,7 +182,7 @@ one that compares the brands of paper towels, then the following
 contracts can be used:
 
 \[
-\beta_1^\star -\beta_2^\star.
+\bar{\tau}_{\bullet 1} - \bar{\tau}_{\bullet 2} = \{\beta_1 + (\bar{\alpha \beta})_{\bullet 1} \} - \{\beta_2 + (\bar{\alpha \beta})_{\bullet 2} \}).
 \]
 
 \textbf{(c)} Use residual plots to evaluate the adequacy of the model
@@ -201,6 +201,11 @@ that assumption).
 \NormalTok{paper.towel.strength <-}\StringTok{ }\KeywordTok{within}\NormalTok{(paper.towel.strength,\{}
 \NormalTok{  A =}\StringTok{ }\KeywordTok{factor}\NormalTok{(A); B =}\StringTok{ }\KeywordTok{factor}\NormalTok{(B); C =}\StringTok{ }\KeywordTok{factor}\NormalTok{(C); ABC =}\StringTok{ }\KeywordTok{factor}\NormalTok{(ABC)\})}
 
+
+
+
+\KeywordTok{attach}\NormalTok{(paper.towel.strength)}
+
 \KeywordTok{interaction.ABC.plot}\NormalTok{(strength, A, B, C, }\DataTypeTok{data =}\NormalTok{ paper.towel.strength)}
 \end{Highlighting}
 \end{Shaded}
@@ -209,7 +214,8 @@ that assumption).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{interaction.ABC.plot}\NormalTok{(strength, A, C, B, }\DataTypeTok{data =}\NormalTok{ paper.towel.strength)}
+\KeywordTok{interaction.plot}\NormalTok{(A,C , strength , }\DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{), }\DataTypeTok{lwd =} \DecValTok{2}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{" Amount of Liquid"}\NormalTok{,}
+                 \DataTypeTok{ylab =} \StringTok{"Strength"}\NormalTok{, }\DataTypeTok{trace.label =} \StringTok{"Type of Liquid"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -217,16 +223,36 @@ that assumption).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{interaction.ABC.plot}\NormalTok{(strength, C, A, B, }\DataTypeTok{data =}\NormalTok{ paper.towel.strength)}
+\KeywordTok{interaction.plot}\NormalTok{(B,C , strength , }\DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{), }\DataTypeTok{lwd =} \DecValTok{2}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Towel Brand"}\NormalTok{,}
+                 \DataTypeTok{ylab =} \StringTok{"Strength"}\NormalTok{, }\DataTypeTok{trace.label =} \StringTok{"Type of Liquid"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{Markdown_HW_7_files/figure-latex/unnamed-chunk-2-3.pdf}
 
-From the plots above, the lines appear to be somewhat parrallel in all
-six plots. Therefore, it appears that the assuptions that \(A\) and
-\(B\) interact is likey to be false and therefore the model in part (a)
-is probably not reasonable.
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{interaction.plot}\NormalTok{(A,B , strength , }\DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{), }\DataTypeTok{lwd =} \DecValTok{2}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{" Amount of Liquid"}\NormalTok{,}
+                 \DataTypeTok{ylab =} \StringTok{"Strength"}\NormalTok{, }\DataTypeTok{trace.label =} \StringTok{"Towel Brand"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Markdown_HW_7_files/figure-latex/unnamed-chunk-2-4.pdf}
+
+The interaction plot of \(A\) and \(C\), Amounts of Liquid vs.~Strength
+with respect to Type of Liquid, and the interaction plot of \(B\) and
+\(C\), Towel Brand vs.~Strength with respect to Type of Liquid, both
+appear to have parallel lines. Furthermore, the three way interaction
+plot appears to have parallel lines as well but a minor downward shift
+of the factor \(B\) when changing from level 1 to level 2 of factor
+\(C\). However, it still might not be cause for concern. These two
+results would indicate that factors \(A\) and \(C\) probably don't
+interact. Similarly, we can say that factors \(B\) and \(C\) probably
+don't interact. From the last interaction plot which shows the
+interactions between \(A\) and \(B\), we can see that the lines appear
+to be very parallel which would suggest that the assumptions that \(A\)
+and \(B\) interact is likely to be false and therefore the model in part
+(a) might not be the best model to represent the data.
 
 \begin{enumerate}
 \def\labelenumi{(\alph{enumi})}
@@ -263,6 +289,15 @@ FWER of 0.04). You do not need to produce plots of significant effects.
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
+
+From the Anova table above we get a \(p\)-value of \(.8456 > .01\). So
+we can see that our data shows negligible interactions between amount of
+liquid and towel brand. The effects of Type of Liquid and Paper Towel
+averaged over Amount of Liquid do appear to have some effect on mean
+strength since we obtain a p-value of \(.008< .01\) and
+\(.0000028 < .01\) respectively. Lastly, the Amount of Liquid averaged
+over Paper Towel does not seem to have an effect on mean strength since
+we obtain a p-value of \(.068 > .01\).
 
 \begin{enumerate}
 \def\labelenumi{(\alph{enumi})}
