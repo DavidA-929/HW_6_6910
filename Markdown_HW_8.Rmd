@@ -10,6 +10,8 @@ fontsize: 12pt
 ---
 
 ```{r, echo=FALSE}
+library(png)
+library(grid)
 library(pwr)
 library("emmeans")
 library("dae")
@@ -158,19 +160,79 @@ Taking into account any interactions discovered in part(d), list the contrasts t
 
 ## Problem 2 (11.1 a-c)
 
-(a) For each of the three block designs in Table 11.27, draw the connectivity graph for the design, and determine whether the design is connected.
-(b) If the design is connected, determine whether or not it is a balanced incomplete block design.
-(c) For designs II and III, determine graphically whether or not $\tau_1 - \tau_5$ and $\tau_1 - \tau_6$ are estimable.
+__(a)__ For each of the three block designs in Table 11.27, draw the connectivity graph for the design, and determine whether the design is connected.
 
 
+\begin{center}
+Block Design I
+\end{center}
+```{r fig.width=2.75, fig.height=2.75, fig.align= 'center', echo=FALSE}
+img <- readPNG("block_1.png")
+ grid.raster(img)
+```
+
+Block Design I is not connected.
+
+\begin{center}
+Block Design II
+\end{center}
+```{r fig.width=2.75, fig.height=2.75, fig.align= 'center', echo=FALSE}
+img <- readPNG("block_2.png")
+ grid.raster(img)
+```
+Block Design II is connected.
+
+\begin{center}
+Block Design III
+\end{center}
+```{r fig.width=2.75, fig.height=2.75, fig.align= 'center', echo=FALSE}
+img <- readPNG("block_3.png")
+ grid.raster(img)
+```
+Block Design III is not connected.
+
+
+
+__(b)__ If the design is connected, determine whether or not it is a balanced incomplete block design.
+
+Design II is connected and we have that $v=9$, $b=9$, $k=3$, and $r=3$. However it is not a balanced imcomplete block design by the calculations below.
+
+\begin{center}
+$vr = 9(3) = bk \hspace{.3cm}  \checkmark$\\
+$b= 9 = v \Longrightarrow b \geq v \hspace{.3cm}  \checkmark$\\
+$\frac{r(k-1)}{v-1} = \frac{3(2)}{9-1} = \frac{6}{8} = \frac{3}{4} = \lambda  \notin \mathbb{Z} \Longrightarrow r(k-1) \neq \lambda (v-1)  \hspace{.3cm} \times$
+\end{center}
+
+__(c)__ For designs II and III, determine graphically whether or not $\tau_1 - \tau_5$ and $\tau_1 - \tau_6$ are estimable.
+
+__solution__
+
+Since Block Design II is connected, then all contrasts in the treatment effects are estimable in the design. Hence $\tau_1 - \tau_5$ and $\tau_1 - \tau_6$ are estimable.
+Futhermore, we can see that there doesn't exist a path from 1 to 5, which means that $\tau_1 - \tau_5$ is not estimable. However there is a path from 1 to 6, so $\tau_1 - \tau_6$ is estimable.
 
 ## Problem 3 (11.5)
 
-In the following questions, consider an experiment to compare $v = 7$ treatments in blocks of size k = 5.
+In the following questions, consider an experiment to compare $v = 7$ treatments in blocks of size $k = 5$.
 
 __(a)__ Show that, for this experiment, a necessary condition for a balanced incomplete block design to exist is that $r$ is a multiple of 5 and $b$ is a multiple of 7.
 
-__(b)__ Show that r must be at least 15.
+
+ Suppose that $b= 7n$ for some $n \in \mathbb{N}$ and $r= 5m$ for some $m \in \mathbb{N}$. 
+
+Now we must check the three conditions needed to be an incomplete block design:
+\begin{center}
+$vr = 7(5m) = 35m  \hspace{.3cm} \text{and} \hspace{.3cm} bk = (7n)5 = 35n \Longrightarrow \text{ if } n=m \hspace{.3cm}  \checkmark$\\
+$b= 7n \hspace{.3cm} \text{and} \hspace{.3cm}  v=7 \Longrightarrow b \geq v \hspace{.3cm} \text{if} \hspace{.3cm} n \geq 1 \hspace{.3cm}  \checkmark$\\
+$\frac{r(k-1)}{v-1} = \frac{5m(4)}{6} = \frac{20m}{6} = \frac{10m}{3}  
+ \Longrightarrow  \lambda  \in \mathbb{Z} \hspace{.3cm} \text{if} \hspace{.3cm} m = 3\ell  \hspace{.3cm} \hspace{.3cm}  \checkmark$
+\end{center}
+So we can conclude that a necessary condition for a balanced incomplete block design for this experiment to exist is that $r$ is a multiple of 5 and $b$ is a multiple of 7.
+
+__(b)__ Show that $r$ must be at least 15.
+
+From part (a) we see that that $m$ must be a multiple of 3 in order for $\lambda  \in \mathbb{Z}$. So we must have that $r5 (3\ell) = 15 \ell$ where $\ell \in \mathbb{Z}$ So $r$ must be a multiple of 15. Next we must show that $\ell \in \mathbb{N}$. Notice again from part (a) that it must me true that $n \geq1$ and $m=n$. So $m$ must be psotive and therefore $\ell \in \mathbb{N}$. Hence $r$ must be at least 15.   
 
 __(c)__ Taking all possible combinations of five treatments from seven gives a balanced incomplete block design with $r = 15$. Calculate the number of blocks that must be in this design.
 
+
+Since we are still assuming $k=5$, then we must have that $vr = bk$, so $5(15) = b (5)$. Then $b=5$. So this design must have 5 blocks.
