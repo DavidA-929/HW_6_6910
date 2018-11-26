@@ -71,6 +71,15 @@ where $\mu$ is a constant, $\theta_h$ is the effect of the $h$th block, $\tau_i$
 __solution___
 
 ```{r}
+water.heating = within(water.heating, {
+  # Compute predicted, residual, and standardized residual values
+  new.code= rep(1:12, each =4)
+  C = as.factor(C)
+  D = as.factor(D)
+  E = as.factor(E)
+  trtmt = as.factor(trtmt)
+  block = as.factor(block)
+  })
 two.way_model <- aov(time ~ block+trtmt, data = water.heating)
 
 water.heating = within(water.heating, {
@@ -78,7 +87,7 @@ water.heating = within(water.heating, {
   ypred = fitted(two.way_model)
   e = resid(two.way_model) 
   z = rstandard(two.way_model)
-  new.code= rep(1:12, each =4)})
+  })
 # Display first 10 lines of water.heating, 4 digits per variable
 print(head(water.heating, 5), digits = 4)
 
@@ -118,7 +127,7 @@ interaction.plot(x.factor = new.code, trace.factor = block,
 
 Assumption (b): The error have constant variance:
 
-By plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals, fluctuate as the fitted values increas. There also seems to be an outlier. The outlier may be of interest to inspect. Hence, we can say that the equal variance assumption is not satisfied. 
+By plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals, fluctuate as the fitted values increase. There also seems to be an outlier. The outlier may be of interest to inspect. Hence, we can say that the equal variance assumption is not satisfied. 
 
 Assumption (c): The error are normally distributed:
 
@@ -142,6 +151,7 @@ Using the factorial form of the block–treatment model similar to (10.8.15), p.
 
 (In Part (d), the model they are asking for is still a block-treatment model (not a block-treatment interaction model) so please use the factorial version of the model you considered in Part (c) – so you should have a single term for block, but then all 2-factor and 3-factor interactions of Factors C,D and E. You only need to evaluate the 2-factor interactions.)
 
+__solution___
 
 ```{r}
 block.trtmt.model <- aov(time ~ block+ C*D*E, data = water.heating)
@@ -154,7 +164,15 @@ __(e)__
 
 Taking into account any interactions discovered in part(d), list the contrasts that are of interest to you and, using the Scheffé method, calculate a set of 95% confidence intervals for the contrasts of interest.
 
+
+
 (For Part (e), please provide Scheffé intervals for the two main effects contrasts in levels of C; you are certainly welcome to provide more intervals, but these are the ones that will be graded.)
+
+__solution___
+```{r}
+em.fit <- emmeans(block.trtmt.model,specs =~ C)
+summary(contrast(em.fit, method = "pairwise", adjust ="scheffe"), infer = c(TRUE, FALSE), level= .95)
+```
 
 
 
@@ -171,7 +189,7 @@ img <- readPNG("block_1.png")
  grid.raster(img)
 ```
 
-Block Design I is not connected.
+Block Design I is connected.
 
 \begin{center}
 Block Design II
@@ -195,7 +213,16 @@ Block Design III is not connected.
 
 __(b)__ If the design is connected, determine whether or not it is a balanced incomplete block design.
 
-Design II is connected and we have that $v=9$, $b=9$, $k=3$, and $r=3$. However it is not a balanced imcomplete block design by the calculations below.
+
+Design I is connected and we have that $v=4$, $b=6$, $k=2$, and $r=3$. Furthermore, it is a balanced incomplete block design by the calculations below.
+
+\begin{center}
+$vr = 4(3) = 6(2) = bk \hspace{.3cm}  \checkmark$\\
+$b= 9 > 4 =v \Longrightarrow b \geq v \hspace{.3cm}  \checkmark$\\
+$\frac{r(k-1)}{v-1} = \frac{3(1)}{3} = 1 = \lambda \Longrightarrow r(k-1) = \lambda (v-1)  \hspace{.3cm} \checkmark$
+\end{center}
+
+Design II is connected and we have that $v=9$, $b=9$, $k=3$, and $r=3$. However it is not a balanced incomplete block design by the calculations below.
 
 \begin{center}
 $vr = 9(3) = bk \hspace{.3cm}  \checkmark$\\
@@ -216,8 +243,7 @@ In the following questions, consider an experiment to compare $v = 7$ treatments
 
 __(a)__ Show that, for this experiment, a necessary condition for a balanced incomplete block design to exist is that $r$ is a multiple of 5 and $b$ is a multiple of 7.
 
-
- Suppose that $b= 7n$ for some $n \in \mathbb{N}$ and $r= 5m$ for some $m \in \mathbb{N}$. 
+Suppose that $b= 7n$ for some $n \in \mathbb{N}$ and $r= 5m$ for some $m \in \mathbb{N}$. 
 
 Now we must check the three conditions needed to be an incomplete block design:
 \begin{center}
@@ -235,4 +261,4 @@ From part (a) we see that that $m$ must be a multiple of 3 in order for $\lambda
 __(c)__ Taking all possible combinations of five treatments from seven gives a balanced incomplete block design with $r = 15$. Calculate the number of blocks that must be in this design.
 
 
-Since we are still assuming $k=5$, then we must have that $vr = bk$, so $5(15) = b (5)$. Then $b=5$. So this design must have 5 blocks.
+Since we are still assuming $k=7$, then we must have that $vr = bk$, so $7(15) = b (5)$. Then $b=21$. So this design must have 5 blocks.
