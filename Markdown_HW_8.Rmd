@@ -21,11 +21,9 @@ options(contrasts = c("contr.sum", "contr.poly"))
 ```
 
 
-## Problem 1 (6 in text)
+## Problem 1 
 
-
-The purpose of the experiment run by M. Weber, R. Zielinski, J. Y. Lee, S. Xia, and Y. Guo in 2010 was to determine the best way to heat 3 cups of water (for preparation of boxed meals) to $90^o$F on a kitchen stove as qsuickly as possible. In this experiment, only one stove was used, and the three treatment factors were
-
+The purpose of the experiment run by M. Weber, R. Zielinski, J. Y. Lee, S. Xia, and Y. Guo in 2010 was to determine the best way to heat 3 cups of water (for preparation of boxed meals) to $90^o$F on a kitchen stove as quickly as possible. In this experiment, only one stove was used, and the three treatment factors were
 
 \begin{center}
 C: diameter of pot (5.5, 6.25 and 8.625 inches; coded 1, 2, 3)\\
@@ -40,7 +38,8 @@ __(b)__ A pilot experiment suggested that the error variance $\sigma^2$ would be
 __solution__
 
 ```{r}
-v = 12; sig2 = 318.9; alpha = 0.05; pwr = 0.90; del = c(60); list_of_size <- NULL
+v = 12; sig2 = 318.9; alpha = 0.05; pwr = 0.90; del = c(60)
+list_of_size <- NULL
 for (i in 1) {delta <- del[i]
 x<- pwr.anova.test(k = v, sig.level = alpha , power = pwr ,
 f = sqrt(delta^2/(2*v*sig2)))
@@ -49,7 +48,7 @@ list_of_size <- c(list_of_size, x$n)
 list_of_size
 ```
 
-If we ignore blocking and use $\sigma^2 = 318.9$, $\Delta = 60$, $v=12$, $\pi = .90$, and an $\alpha$-level of $\alpha =.05$ we get that the sample size needd in $5$.
+If we ignore blocking and use $\sigma^2 = 318.9$, $\Delta = 60$, $v=12$, $\pi = .90$, and an $\alpha$-level of $\alpha =.05$ we get that the sample size needed in $5$.
 
 __(c)__
 
@@ -57,6 +56,7 @@ The experimenters ultimately decided that they would use a randomized complete b
 
 (In Part (c), you may detect an outlier – in practice you might run the subsequent analyses with and without the outlier and include both results, commenting on any discrepancies. For this homework, please just proceed with the outlier still in the data set – this may not be the best choice, but it will make everyone’s answers uniform!)
 
+__solution__
 
 Using the block–treatment model (10.4.1) we have:
 
@@ -68,11 +68,8 @@ $h = 1,\ldots, b$; $i = 1, \ldots , v$.
 \end{center}
 where $\mu$ is a constant, $\theta_h$ is the effect of the $h$th block, $\tau_i$ is the effect of the $i$th treatment, $Y_{hi}$ is the random variable representing the measurement on the treatment $i$ observed in the block $h$, and $\epsilon_{hi}$ is the associated random error.
 
-__solution___
-
 ```{r}
 water.heating = within(water.heating, {
-  # Compute predicted, residual, and standardized residual values
   new.code= rep(1:12, each =4)
   C = as.factor(C)
   D = as.factor(D)
@@ -88,7 +85,7 @@ water.heating = within(water.heating, {
   e = resid(two.way_model) 
   z = rstandard(two.way_model)
   })
-# Display first 10 lines of water.heating, 4 digits per variable
+# Display first 5 lines of water.heating, 4 digits per variable
 print(head(water.heating, 5), digits = 4)
 
 
@@ -107,37 +104,21 @@ qqnorm(water.heating$z)
 qqline(water.heating$z) 
 ```
 
-
 Assumption (a): The error have mean 0:
 
-```{r}
-attach(water.heating)
-plot(z ~ block, xaxt = "n", type = "n", xlim = c(0, 5)) # Suppress x-axis, pts
-axis(1, at = c(1, 2, 3,4))
-points(x = as.numeric(block) + as.numeric(new.code) * 0.05, y = z,
-pch = as.character(as.numeric(new.code)), col = as.numeric(new.code)) 
-mtext("block=0,2,4,6", side = 3, adj = 1, line = 1)
-abline(h = 0) # Horizontal line at zero
- # Margin text, top-rt, line 1 abline(h = 0)
-
-interaction.plot(x.factor = new.code, trace.factor = block, 
-                 response= time, xlab="Treatments", ylab="Time", 
-                 trace.label="Block", leg.bty="b", leg.bg="white")
-```
+This model is equivalent to the cell-means model since every treatments is associated with its own mean. Therefore, due to the formulation of the cell-means model this assumption cannot be checked.
 
 Assumption (b): The error have constant variance:
 
-By plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals, fluctuate as the fitted values increase. There also seems to be an outlier. The outlier may be of interest to inspect. Hence, we can say that the equal variance assumption is not satisfied. 
+By plotting the standardized residuals against the fitted values we can see that the spread of the standardized residuals is fairly constant. However, there does seem to be an outlier. The outlier may be of interest to inspect further. Nonetheless, we can say that the equal variance assumption is not approximately satisfied. 
 
 Assumption (c): The error are normally distributed:
 
-From the qq-plot above we see that the data is fairly straight. However, there is just one apparent outliers. Therefore, the normality assumption is fairly reasonable.
+From the qq-plot above we see that the data is fairly straight. Besides the apparent outlier, there are four points that deviated slightly from the qq-line. However this probably isn't cause for concern. Therefore, the normality assumption is fairly reasonable.
 
 Assumption (d): The errors are independent:
 
 From the plot of Order vs. Std. Residuals we can see that there isn't an apparent pattern as time increases. Therefore we feel comfortable to say that the assumption that errors are independent is approximately satisfies.
-
-
 
 ```{r}
 anova(two.way_model)
@@ -158,15 +139,13 @@ block.trtmt.model <- aov(time ~ block+ C*D*E, data = water.heating)
 anova(block.trtmt.model)
 ```
 
-Notice from the table above that we have a single term for block and all 2-factor and 3-factor interactions of Factors C,D and E. Thus, at the $\alpha = .01$ level, we fail to reject test the hypotheses of no interactions between pairs of treatment factors, since the $p$-value for the interactions between C and D is $.11$. The $p$-value for the interactions between C and E is $.82$. And the $p$-value for the interactions between D and E is $.44$.
+Notice from the table above that we have a single term for block and all 2-factor and 3-factor interactions of Factors C,D and E. Thus, at the $\alpha = .01$ level, we fail to reject test the hypotheses of no interactions between pairs of treatment factors, since the $p$-value for the interactions between C and D is $.0969$. The $p$-value for the interactions between C and E is $.917$. And the $p$-value for the interactions between D and E is $.44$.
 
 __(e)__
 
 Taking into account any interactions discovered in part(d), list the contrasts that are of interest to you and, using the Scheffé method, calculate a set of 95% confidence intervals for the contrasts of interest.
 
-
-
-(For Part (e), please provide Scheffé intervals for the two main effects contrasts in levels of C; you are certainly welcome to provide more intervals, but these are the ones that will be graded.)
+(For Part (e), please provide Scheffé intervals for the two-way main effects contrasts in levels of C; you are certainly welcome to provide more intervals, but these are the ones that will be graded.)
 
 __solution___
 ```{r}
@@ -174,6 +153,10 @@ em.fit <- emmeans(block.trtmt.model,specs =~ C)
 summary(contrast(em.fit, method = "pairwise", adjust ="scheffe"), infer = c(TRUE, FALSE), level= .95)
 ```
 
+From the table above we can see that a 95% confidence interval using scheffes method for pairwise comparision for the true effect of pot size on heating speed is between minus 11.32  and 41.22 seconds when changing from a 5.5in diameter pot to a 6.25in diamter pot averaged over D,E, and block.
+Similarly, the true effect of pot size on heating speed is between 113.13 and 165.68 seconds when changing from a 5.5in diameter pot to an 8.625in diamter pot averaged over D,E, and block.
+Lastly, the true effect of pot size on heating speed is between 98.18 and 150.73 seconds when changing from a 6.25in diameter pot to an 8.625in diamter pot averaged over D,E, and block.
+Hence, the contrast of interest are: The change from a 5.5in diameter pot to an 8.625in diamter and the change from a 6.25in diameter pot to an 8.625in diamter
 
 
 ## Problem 2 (11.1 a-c)
@@ -235,7 +218,7 @@ __(c)__ For designs II and III, determine graphically whether or not $\tau_1 - \
 __solution__
 
 Since Block Design II is connected, then all contrasts in the treatment effects are estimable in the design. Hence $\tau_1 - \tau_5$ and $\tau_1 - \tau_6$ are estimable.
-Futhermore, we can see that there doesn't exist a path from 1 to 5, which means that $\tau_1 - \tau_5$ is not estimable. However there is a path from 1 to 6, so $\tau_1 - \tau_6$ is estimable.
+Furthermore, for Block Design III we can see that there doesn't exist a path from 1 to 5, which means that $\tau_1 - \tau_5$ is not estimable. However there is a path from 1 to 6, so $\tau_1 - \tau_6$ is estimable.
 
 ## Problem 3 (11.5)
 
@@ -256,7 +239,7 @@ So we can conclude that a necessary condition for a balanced incomplete block de
 
 __(b)__ Show that $r$ must be at least 15.
 
-From part (a) we see that that $m$ must be a multiple of 3 in order for $\lambda  \in \mathbb{Z}$. So we must have that $r5 (3\ell) = 15 \ell$ where $\ell \in \mathbb{Z}$ So $r$ must be a multiple of 15. Next we must show that $\ell \in \mathbb{N}$. Notice again from part (a) that it must me true that $n \geq1$ and $m=n$. So $m$ must be psotive and therefore $\ell \in \mathbb{N}$. Hence $r$ must be at least 15.   
+From part (a) we see that that $m$ must be a multiple of 3 in order for $\lambda  \in \mathbb{Z}$. So we must have that $r5 (3\ell) = 15 \ell$ where $\ell \in \mathbb{Z}$ So $r$ must be a multiple of 15. Next we must show that $\ell \in \mathbb{N}$. Notice again from part (a) that it must me true that $n \geq1$ and $m=n$. So $m$ must be positive and therefore $\ell \in \mathbb{N}$. Hence $r$ must be at least 15.   
 
 __(c)__ Taking all possible combinations of five treatments from seven gives a balanced incomplete block design with $r = 15$. Calculate the number of blocks that must be in this design.
 

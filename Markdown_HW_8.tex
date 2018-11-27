@@ -149,12 +149,12 @@
 ## Warning: package 'ggplot2' was built under R version 3.4.4
 \end{verbatim}
 
-\subsection{Problem 1 (6 in text)}\label{problem-1-6-in-text}
+\subsection{Problem 1}\label{problem-1}
 
 The purpose of the experiment run by M. Weber, R. Zielinski, J. Y. Lee,
 S. Xia, and Y. Guo in 2010 was to determine the best way to heat 3 cups
 of water (for preparation of boxed meals) to \(90^o\)F on a kitchen
-stove as qsuickly as possible. In this experiment, only one stove was
+stove as quickly as possible. In this experiment, only one stove was
 used, and the three treatment factors were
 
 \begin{center}
@@ -180,7 +180,8 @@ similar, assuming b = 4 blocks.)
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{v =}\StringTok{ }\DecValTok{12}\NormalTok{; sig2 =}\StringTok{ }\FloatTok{318.9}\NormalTok{; alpha =}\StringTok{ }\FloatTok{0.05}\NormalTok{; pwr =}\StringTok{ }\FloatTok{0.90}\NormalTok{; del =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{60}\NormalTok{); list_of_size <-}\StringTok{ }\OtherTok{NULL}
+\NormalTok{v =}\StringTok{ }\DecValTok{12}\NormalTok{; sig2 =}\StringTok{ }\FloatTok{318.9}\NormalTok{; alpha =}\StringTok{ }\FloatTok{0.05}\NormalTok{; pwr =}\StringTok{ }\FloatTok{0.90}\NormalTok{; del =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{60}\NormalTok{)}
+\NormalTok{list_of_size <-}\StringTok{ }\OtherTok{NULL}
 \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\NormalTok{) \{delta <-}\StringTok{ }\NormalTok{del[i]}
 \NormalTok{x<-}\StringTok{ }\KeywordTok{pwr.anova.test}\NormalTok{(}\DataTypeTok{k =}\NormalTok{ v, }\DataTypeTok{sig.level =}\NormalTok{ alpha , }\DataTypeTok{power =}\NormalTok{ pwr ,}
 \DataTypeTok{f =} \KeywordTok{sqrt}\NormalTok{(delta}\OperatorTok{^}\DecValTok{2}\OperatorTok{/}\NormalTok{(}\DecValTok{2}\OperatorTok{*}\NormalTok{v}\OperatorTok{*}\NormalTok{sig2)))}
@@ -196,7 +197,7 @@ similar, assuming b = 4 blocks.)
 
 If we ignore blocking and use \(\sigma^2 = 318.9\), \(\Delta = 60\),
 \(v=12\), \(\pi = .90\), and an \(\alpha\)-level of \(\alpha =.05\) we
-get that the sample size needd in \(5\).
+get that the sample size needed in \(5\).
 
 \textbf{(c)}
 
@@ -213,6 +214,8 @@ results, commenting on any discrepancies. For this homework, please just
 proceed with the outlier still in the data set -- this may not be the
 best choice, but it will make everyone's answers uniform!)
 
+\textbf{solution}
+
 Using the block--treatment model (10.4.1) we have:
 
 \begin{center}
@@ -228,12 +231,9 @@ the random variable representing the measurement on the treatment \(i\)
 observed in the block \(h\), and \(\epsilon_{hi}\) is the associated
 random error.
 
-\textbf{solution}\_
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{water.heating =}\StringTok{ }\KeywordTok{within}\NormalTok{(water.heating, \{}
-  \CommentTok{# Compute predicted, residual, and standardized residual values}
 \NormalTok{  new.code=}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{12}\NormalTok{, }\DataTypeTok{each =}\DecValTok{4}\NormalTok{)}
 \NormalTok{  C =}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(C)}
 \NormalTok{  D =}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(D)}
@@ -249,7 +249,7 @@ random error.
 \NormalTok{  e =}\StringTok{ }\KeywordTok{resid}\NormalTok{(two.way_model) }
 \NormalTok{  z =}\StringTok{ }\KeywordTok{rstandard}\NormalTok{(two.way_model)}
 \NormalTok{  \})}
-\CommentTok{# Display first 10 lines of water.heating, 4 digits per variable}
+\CommentTok{# Display first 5 lines of water.heating, 4 digits per variable}
 \KeywordTok{print}\NormalTok{(}\KeywordTok{head}\NormalTok{(water.heating, }\DecValTok{5}\NormalTok{), }\DataTypeTok{digits =} \DecValTok{4}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -285,45 +285,24 @@ random error.
 
 Assumption (a): The error have mean 0:
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{attach}\NormalTok{(water.heating)}
-\KeywordTok{plot}\NormalTok{(z }\OperatorTok{~}\StringTok{ }\NormalTok{block, }\DataTypeTok{xaxt =} \StringTok{"n"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"n"}\NormalTok{, }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{)) }\CommentTok{# Suppress x-axis, pts}
-\KeywordTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DataTypeTok{at =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{))}
-\KeywordTok{points}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{as.numeric}\NormalTok{(block) }\OperatorTok{+}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(new.code) }\OperatorTok{*}\StringTok{ }\FloatTok{0.05}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ z,}
-\DataTypeTok{pch =} \KeywordTok{as.character}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(new.code)), }\DataTypeTok{col =} \KeywordTok{as.numeric}\NormalTok{(new.code)) }
-\KeywordTok{mtext}\NormalTok{(}\StringTok{"block=0,2,4,6"}\NormalTok{, }\DataTypeTok{side =} \DecValTok{3}\NormalTok{, }\DataTypeTok{adj =} \DecValTok{1}\NormalTok{, }\DataTypeTok{line =} \DecValTok{1}\NormalTok{)}
-\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h =} \DecValTok{0}\NormalTok{) }\CommentTok{# Horizontal line at zero}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Markdown_HW_8_files/figure-latex/unnamed-chunk-4-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
- \CommentTok{# Margin text, top-rt, line 1 abline(h = 0)}
-
-\KeywordTok{interaction.plot}\NormalTok{(}\DataTypeTok{x.factor =}\NormalTok{ new.code, }\DataTypeTok{trace.factor =}\NormalTok{ block, }
-                 \DataTypeTok{response=}\NormalTok{ time, }\DataTypeTok{xlab=}\StringTok{"Treatments"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Time"}\NormalTok{, }
-                 \DataTypeTok{trace.label=}\StringTok{"Block"}\NormalTok{, }\DataTypeTok{leg.bty=}\StringTok{"b"}\NormalTok{, }\DataTypeTok{leg.bg=}\StringTok{"white"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Markdown_HW_8_files/figure-latex/unnamed-chunk-4-2.pdf}
+This model is equivalent to the cell-means model since every treatments
+is associated with its own mean. Therefore, due to the formulation of
+the cell-means model this assumption cannot be checked.
 
 Assumption (b): The error have constant variance:
 
 By plotting the standardized residuals against the fitted values we can
-see that the spread of the standardized residuals, fluctuate as the
-fitted values increas. There also seems to be an outlier. The outlier
-may be of interest to inspect. Hence, we can say that the equal variance
-assumption is not satisfied.
+see that the spread of the standardized residuals is fairly constant.
+However, there does seem to be an outlier. The outlier may be of
+interest to inspect further. Nonetheless, we can say that the equal
+variance assumption is not approximately satisfied.
 
 Assumption (c): The error are normally distributed:
 
-From the qq-plot above we see that the data is fairly straight. However,
-there is just one apparent outliers. Therefore, the normality assumption
-is fairly reasonable.
+From the qq-plot above we see that the data is fairly straight. Besides
+the apparent outlier, there are four points that deviated slightly from
+the qq-line. However this probably isn't cause for concern. Therefore,
+the normality assumption is fairly reasonable.
 
 Assumption (d): The errors are independent:
 
@@ -368,6 +347,8 @@ should have a single term for block, but then all 2-factor and 3-factor
 interactions of Factors C,D and E. You only need to evaluate the
 2-factor interactions.)
 
+\textbf{solution}\_
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{block.trtmt.model <-}\StringTok{ }\KeywordTok{aov}\NormalTok{(time }\OperatorTok{~}\StringTok{ }\NormalTok{block}\OperatorTok{+}\StringTok{ }\NormalTok{C}\OperatorTok{*}\NormalTok{D}\OperatorTok{*}\NormalTok{E, }\DataTypeTok{data =}\NormalTok{ water.heating)}
@@ -397,9 +378,9 @@ Notice from the table above that we have a single term for block and all
 2-factor and 3-factor interactions of Factors C,D and E. Thus, at the
 \(\alpha = .01\) level, we fail to reject test the hypotheses of no
 interactions between pairs of treatment factors, since the \(p\)-value
-for the interactions between C and D is \(.11\). The \(p\)-value for the
-interactions between C and E is \(.82\). And the \(p\)-value for the
-interactions between D and E is \(.44\).
+for the interactions between C and D is \(.0969\). The \(p\)-value for
+the interactions between C and E is \(.917\). And the \(p\)-value for
+the interactions between D and E is \(.44\).
 
 \textbf{(e)}
 
@@ -408,9 +389,51 @@ contrasts that are of interest to you and, using the Scheffé method,
 calculate a set of 95\% confidence intervals for the contrasts of
 interest.
 
-(For Part (e), please provide Scheffé intervals for the two main effects
-contrasts in levels of C; you are certainly welcome to provide more
-intervals, but these are the ones that will be graded.)
+(For Part (e), please provide Scheffé intervals for the two-way main
+effects contrasts in levels of C; you are certainly welcome to provide
+more intervals, but these are the ones that will be graded.)
+
+\textbf{solution}\_
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{em.fit <-}\StringTok{ }\KeywordTok{emmeans}\NormalTok{(block.trtmt.model,}\DataTypeTok{specs =}\OperatorTok{~}\StringTok{ }\NormalTok{C)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: Results may be misleading due to involvement in interactions
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(}\KeywordTok{contrast}\NormalTok{(em.fit, }\DataTypeTok{method =} \StringTok{"pairwise"}\NormalTok{, }\DataTypeTok{adjust =}\StringTok{"scheffe"}\NormalTok{), }\DataTypeTok{infer =} \KeywordTok{c}\NormalTok{(}\OtherTok{TRUE}\NormalTok{, }\OtherTok{FALSE}\NormalTok{), }\DataTypeTok{level=}\NormalTok{ .}\DecValTok{95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  contrast estimate      SE df  lower.CL  upper.CL
+##  1 - 2     14.9500 10.2506 33 -11.32402  41.22402
+##  1 - 3    139.4062 10.2506 33 113.13223 165.68027
+##  2 - 3    124.4563 10.2506 33  98.18223 150.73027
+## 
+## Results are averaged over the levels of: block, D, E 
+## Confidence level used: 0.95 
+## Conf-level adjustment: scheffe method with dimensionality 2
+\end{verbatim}
+
+From the table above we can see that a 95\% confidence interval using
+scheffes method for pairwise comparision for the true effect of pot size
+on heating speed is between minus 11.32 and 41.22 seconds when changing
+from a 5.5in diameter pot to a 6.25in diamter pot averaged over D,E, and
+block. Similarly, the true effect of pot size on heating speed is
+between 113.13 and 165.68 seconds when changing from a 5.5in diameter
+pot to an 8.625in diamter pot averaged over D,E, and block. Lastly, the
+true effect of pot size on heating speed is between 98.18 and 150.73
+seconds when changing from a 6.25in diameter pot to an 8.625in diamter
+pot averaged over D,E, and block. Hence, the contrast of interest are:
+The change from a 5.5in diameter pot to an 8.625in diamter and the
+change from a 6.25in diameter pot to an 8.625in diamter
 
 \subsection{Problem 2 (11.1 a-c)}\label{problem-2-11.1-a-c}
 
@@ -424,7 +447,7 @@ Block Design I
 
 \begin{center}\includegraphics{Markdown_HW_8_files/figure-latex/unnamed-chunk-7-1} \end{center}
 
-Block Design I is not connected.
+Block Design I is connected.
 
 \begin{center}
 Block Design II
@@ -445,8 +468,18 @@ Block Design III is not connected.
 \textbf{(b)} If the design is connected, determine whether or not it is
 a balanced incomplete block design.
 
+Design I is connected and we have that \(v=4\), \(b=6\), \(k=2\), and
+\(r=3\). Furthermore, it is a balanced incomplete block design by the
+calculations below.
+
+\begin{center}
+$vr = 4(3) = 6(2) = bk \hspace{.3cm}  \checkmark$\\
+$b= 9 > 4 =v \Longrightarrow b \geq v \hspace{.3cm}  \checkmark$\\
+$\frac{r(k-1)}{v-1} = \frac{3(1)}{3} = 1 = \lambda \Longrightarrow r(k-1) = \lambda (v-1)  \hspace{.3cm} \checkmark$
+\end{center}
+
 Design II is connected and we have that \(v=9\), \(b=9\), \(k=3\), and
-\(r=3\). However it is not a balanced imcomplete block design by the
+\(r=3\). However it is not a balanced incomplete block design by the
 calculations below.
 
 \begin{center}
@@ -462,10 +495,10 @@ not \(\tau_1 - \tau_5\) and \(\tau_1 - \tau_6\) are estimable.
 
 Since Block Design II is connected, then all contrasts in the treatment
 effects are estimable in the design. Hence \(\tau_1 - \tau_5\) and
-\(\tau_1 - \tau_6\) are estimable. Futhermore, we can see that there
-doesn't exist a path from 1 to 5, which means that \(\tau_1 - \tau_5\)
-is not estimable. However there is a path from 1 to 6, so
-\(\tau_1 - \tau_6\) is estimable.
+\(\tau_1 - \tau_6\) are estimable. Furthermore, for Block Design III we
+can see that there doesn't exist a path from 1 to 5, which means that
+\(\tau_1 - \tau_5\) is not estimable. However there is a path from 1 to
+6, so \(\tau_1 - \tau_6\) is estimable.
 
 \subsection{Problem 3 (11.5)}\label{problem-3-11.5}
 
@@ -500,15 +533,15 @@ for \(\lambda \in \mathbb{Z}\). So we must have that
 \(r5 (3\ell) = 15 \ell\) where \(\ell \in \mathbb{Z}\) So \(r\) must be
 a multiple of 15. Next we must show that \(\ell \in \mathbb{N}\). Notice
 again from part (a) that it must me true that \(n \geq1\) and \(m=n\).
-So \(m\) must be psotive and therefore \(\ell \in \mathbb{N}\). Hence
+So \(m\) must be positive and therefore \(\ell \in \mathbb{N}\). Hence
 \(r\) must be at least 15.
 
 \textbf{(c)} Taking all possible combinations of five treatments from
 seven gives a balanced incomplete block design with \(r = 15\).
 Calculate the number of blocks that must be in this design.
 
-Since we are still assuming \(k=5\), then we must have that \(vr = bk\),
-so \(5(15) = b (5)\). Then \(b=5\). So this design must have 5 blocks.
+Since we are still assuming \(k=7\), then we must have that \(vr = bk\),
+so \(7(15) = b (5)\). Then \(b=21\). So this design must have 5 blocks.
 
 
 \end{document}
