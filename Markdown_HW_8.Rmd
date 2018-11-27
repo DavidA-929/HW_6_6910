@@ -132,7 +132,7 @@ Using the factorial form of the block–treatment model similar to (10.8.15), p.
 
 (In Part (d), the model they are asking for is still a block-treatment model (not a block-treatment interaction model) so please use the factorial version of the model you considered in Part (c) – so you should have a single term for block, but then all 2-factor and 3-factor interactions of Factors C,D and E. You only need to evaluate the 2-factor interactions.)
 
-__solution___
+__solution__
 
 ```{r}
 block.trtmt.model <- aov(time ~ block+ C*D*E, data = water.heating)
@@ -147,7 +147,7 @@ Taking into account any interactions discovered in part(d), list the contrasts t
 
 (For Part (e), please provide Scheffé intervals for the two-way main effects contrasts in levels of C; you are certainly welcome to provide more intervals, but these are the ones that will be graded.)
 
-__solution___
+__solution__
 ```{r}
 em.fit <- emmeans(block.trtmt.model,specs =~ C)
 summary(contrast(em.fit, method = "pairwise", adjust ="scheffe"), infer = c(TRUE, FALSE), level= .95)
@@ -161,7 +161,9 @@ Hence, the contrast of interest are: The change from a 5.5in diameter pot to an 
 
 ## Problem 2 (11.1 a-c)
 
-__(a)__ For each of the three block designs in Table 11.27, draw the connectivity graph for the design, and determine whether the design is connected.
+__(a)__ 
+
+For each of the three block designs in Table 11.27, draw the connectivity graph for the design, and determine whether the design is connected.
 
 
 \begin{center}
