@@ -283,26 +283,27 @@ random error.
 
 \includegraphics{Markdown_HW_8_files/figure-latex/unnamed-chunk-3-1.pdf}
 
-Assumption (a): The error have mean 0:
+Assumption (a): The errors have mean 0:
 
 This model is equivalent to the cell-means model since every treatments
 is associated with its own mean. Therefore, due to the formulation of
 the cell-means model this assumption cannot be checked.
 
-Assumption (b): The error have constant variance:
+Assumption (b): The errors have constant variance:
 
 By plotting the standardized residuals against the fitted values we can
 see that the spread of the standardized residuals is fairly constant.
-However, there does seem to be an outlier. The outlier may be of
+However, there does appear to be one big outlier. The outlier may be of
 interest to inspect further. Nonetheless, we can say that the equal
-variance assumption is not approximately satisfied.
+variance assumption is approximately satisfied.
 
-Assumption (c): The error are normally distributed:
+Assumption (c): The errors are normally distributed:
 
 From the qq-plot above we see that the data is fairly straight. Besides
 the apparent outlier, there are four points that deviated slightly from
-the qq-line. However this probably isn't cause for concern. Therefore,
-the normality assumption is fairly reasonable.
+the qq-line. However this probably isn't cause for concern because the
+large outlier probably shifted the slop of the line more. Therefore, the
+normality assumption is fairly reasonable.
 
 Assumption (d): The errors are independent:
 
@@ -344,10 +345,20 @@ level 0.01.
 model (not a block-treatment interaction model) so please use the
 factorial version of the model you considered in Part (c) -- so you
 should have a single term for block, but then all 2-factor and 3-factor
-interactions of Factors C,D and E. You only need to evaluate the
+interactions of Factors C, D and E. You only need to evaluate the
 2-factor interactions.)
 
 \textbf{solution}
+
+Using an overall \(\alpha\)-level of \(\alpha=.01\) and the following
+test:
+
+\[
+\begin{aligned}
+H_0& : \text{ Null Hypothesis of No Interactions Between Pairs of Treatment Factors}\\
+\text{vs. } H_A& : \text{ Alternative Hypothesis of Some Interactions Between Pairs of Treatment Factors}\\
+\end{aligned}
+\]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -375,12 +386,12 @@ interactions of Factors C,D and E. You only need to evaluate the
 \end{verbatim}
 
 Notice from the table above that we have a single term for block and all
-2-factor and 3-factor interactions of Factors C,D and E. Thus, at the
-\(\alpha = .01\) level, we fail to reject test the hypotheses of no
-interactions between pairs of treatment factors, since the \(p\)-value
+2-factor and 3-factor interactions of Factors C, D and E. Thus, at the
+\(\alpha = .01\) level, we fail to reject the null hypotheses of no
+interactions between pairs of treatment factors since the \(p\)-value
 for the interactions between C and D is \(.0969\). The \(p\)-value for
 the interactions between C and E is \(.917\). And the \(p\)-value for
-the interactions between D and E is \(.44\).
+the interactions between D and E is \(.298\).
 
 \textbf{(e)}
 
@@ -389,9 +400,9 @@ contrasts that are of interest to you and, using the Scheffé method,
 calculate a set of 95\% confidence intervals for the contrasts of
 interest.
 
-(For Part (e), please provide Scheffé intervals for the two-way main
-effects contrasts in levels of C; you are certainly welcome to provide
-more intervals, but these are the ones that will be graded.)
+(For Part (e), please provide Scheffé intervals for the two effects
+contrasts in levels of C; you are certainly welcome to provide more
+intervals, but these are the ones that will be graded.)
 
 \textbf{solution}
 
@@ -407,7 +418,8 @@ more intervals, but these are the ones that will be graded.)
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(}\KeywordTok{contrast}\NormalTok{(em.fit, }\DataTypeTok{method =} \StringTok{"pairwise"}\NormalTok{, }\DataTypeTok{adjust =}\StringTok{"scheffe"}\NormalTok{), }\DataTypeTok{infer =} \KeywordTok{c}\NormalTok{(}\OtherTok{TRUE}\NormalTok{, }\OtherTok{FALSE}\NormalTok{), }\DataTypeTok{level=}\NormalTok{ .}\DecValTok{95}\NormalTok{)}
+\KeywordTok{summary}\NormalTok{(}\KeywordTok{contrast}\NormalTok{(em.fit, }\DataTypeTok{method =} \StringTok{"pairwise"}\NormalTok{, }\DataTypeTok{adjust =}\StringTok{"scheffe"}\NormalTok{), }
+        \DataTypeTok{infer =} \KeywordTok{c}\NormalTok{(}\OtherTok{TRUE}\NormalTok{, }\OtherTok{FALSE}\NormalTok{), }\DataTypeTok{level=}\NormalTok{ .}\DecValTok{95}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -422,26 +434,26 @@ more intervals, but these are the ones that will be graded.)
 ## Conf-level adjustment: scheffe method with dimensionality 2
 \end{verbatim}
 
-From the table above we can see that a 95\% confidence interval using
-scheffes method for pairwise comparision for the true effect of pot size
-on heating speed is between minus 11.32 and 41.22 seconds when changing
-from a 5.5in diameter pot to a 6.25in diamter pot averaged over D,E, and
-block. Similarly, the true effect of pot size on heating speed is
-between 113.13 and 165.68 seconds when changing from a 5.5in diameter
-pot to an 8.625in diamter pot averaged over D,E, and block. Lastly, the
-true effect of pot size on heating speed is between 98.18 and 150.73
-seconds when changing from a 6.25in diameter pot to an 8.625in diamter
-pot averaged over D,E, and block. Hence, the contrast of interest are:
-The change from a 5.5in diameter pot to an 8.625in diamter and the
-change from a 6.25in diameter pot to an 8.625in diamter
+From the table above we can see that a family wise 95\% confidence
+interval using scheffes method for pairwise comparison for the true
+effect of pot size on heating speed is between minus 11.32 and 41.22
+seconds when changing from a 5.5in diameter pot to a 6.25in diameter pot
+averaged over D, E, and block. Similarly, the true effect of pot size on
+heating speed is between 113.13 and 165.68 seconds when changing from a
+5.5in diameter pot to an 8.625in diameter pot averaged over D, E, and
+block. Lastly, the true effect of pot size on heating speed is between
+98.18 and 150.73 seconds when changing from a 6.25in diameter pot to an
+8.625in diameter pot averaged over D, E, and block.
 
-\subsection{Problem 2 (11.1 a-c)}\label{problem-2-11.1-a-c}
+\subsection{Problem 2}\label{problem-2}
 
 \textbf{(a)}
 
 For each of the three block designs in Table 11.27, draw the
 connectivity graph for the design, and determine whether the design is
 connected.
+
+\textbf{solution}
 
 \begin{center}
 Block Design I
@@ -450,6 +462,8 @@ Block Design I
 \begin{center}\includegraphics{Markdown_HW_8_files/figure-latex/unnamed-chunk-7-1} \end{center}
 
 Block Design I is connected.
+
+\newpage
 
 \begin{center}
 Block Design II
@@ -498,21 +512,44 @@ not \(\tau_1 - \tau_5\) and \(\tau_1 - \tau_6\) are estimable.
 Since Block Design II is connected, then all contrasts in the treatment
 effects are estimable in the design. Hence \(\tau_1 - \tau_5\) and
 \(\tau_1 - \tau_6\) are estimable. Furthermore, for Block Design III we
-can see that there doesn't exist a path from 1 to 5, which means that
+can see that there does not exist a path from 1 to 5, which means that
 \(\tau_1 - \tau_5\) is not estimable. However there is a path from 1 to
 6, so \(\tau_1 - \tau_6\) is estimable.
 
-\subsection{Problem 3 (11.5)}\label{problem-3-11.5}
+\subsection{Problem 3}\label{problem-3}
 
 In the following questions, consider an experiment to compare \(v = 7\)
 treatments in blocks of size \(k = 5\).
 
-\textbf{(a)} Show that, for this experiment, a necessary condition for a
-balanced incomplete block design to exist is that \(r\) is a multiple of
-5 and \(b\) is a multiple of 7.
+\textbf{(a)}
 
-Suppose that \(b= 7n\) for some \(n \in \mathbb{N}\) and \(r= 5m\) for
-some \(m \in \mathbb{N}\).
+Show that, for this experiment, a necessary condition for a balanced
+incomplete block design to exist is that \(r\) is a multiple of 5 and
+\(b\) is a multiple of 7.
+
+\textbf{solution}
+
+From Abstract Algebra we have a theorem that states:
+
+If \(a\) and \(b\) are relatively prime but \(a| bc\) then \(a|c\).
+
+A necessary condition for a balanced incomplete block design to exist is
+that \(vr = bk\). Since \(k = 5\) and \(v= 7\) then \(7r= 5b\) must be
+true. Notice that \(gcd(7,5)=1\). So 7 and 5 are relatively prime.
+Furthermore, \(7|5b\), so by the theorem above this implies that
+\(7|b\), which means that \(b\) is a multiple of 7. Next we have that
+\(5|7r\), so by the theorem above this implies that \(5|r\), which means
+that \(r\) is a multiple of 5.
+
+\textbf{(b)}
+
+Show that \(r\) must be at least 15.
+
+\textbf{solution}
+
+From part (a) we know that \(b\) is a multiple of 7 and \(r\) is a
+multiple of 5. So let \(b= 7n\) for some \(n \in \mathbb{N}\) and
+\(r= 5m\) for some \(m \in \mathbb{N}\).
 
 Now we must check the three conditions needed to be an incomplete block
 design:
@@ -524,26 +561,23 @@ $\frac{r(k-1)}{v-1} = \frac{5m(4)}{6} = \frac{20m}{6} = \frac{10m}{3}
  \Longrightarrow  \lambda  \in \mathbb{Z} \hspace{.3cm} \text{if} \hspace{.3cm} m = 3\ell  \hspace{.3cm} \hspace{.3cm}  \checkmark$
 \end{center}
 
-So we can conclude that a necessary condition for a balanced incomplete
-block design for this experiment to exist is that \(r\) is a multiple of
-5 and \(b\) is a multiple of 7.
+We see that that \(m\) must be a multiple of 3 in order for
+\(\lambda \in \mathbb{Z}\). So we must have that
+\(r= 5 (3\ell) = 15 \ell\) where \(\ell \in \mathbb{Z}\) So \(r\) must
+be a multiple of 15. Since we also must have that \(m=n\) and
+\(n \geq 1\), then \(\ell \in \mathbb{N}\). Hence \(r\) must be at least
+15.
 
-\textbf{(b)} Show that \(r\) must be at least 15.
+\textbf{(c)}
 
-From part (a) we see that that \(m\) must be a multiple of 3 in order
-for \(\lambda \in \mathbb{Z}\). So we must have that
-\(r5 (3\ell) = 15 \ell\) where \(\ell \in \mathbb{Z}\) So \(r\) must be
-a multiple of 15. Next we must show that \(\ell \in \mathbb{N}\). Notice
-again from part (a) that it must me true that \(n \geq1\) and \(m=n\).
-So \(m\) must be positive and therefore \(\ell \in \mathbb{N}\). Hence
-\(r\) must be at least 15.
+Taking all possible combinations of five treatments from seven gives a
+balanced incomplete block design with \(r = 15\). Calculate the number
+of blocks that must be in this design.
 
-\textbf{(c)} Taking all possible combinations of five treatments from
-seven gives a balanced incomplete block design with \(r = 15\).
-Calculate the number of blocks that must be in this design.
+\textbf{solution}
 
 Since we are still assuming \(k=7\), then we must have that \(vr = bk\),
-so \(7(15) = b (5)\). Then \(b=21\). So this design must have 5 blocks.
+so \(7(15) = b (5)\). Then \(b=21\). So this design must have 21 blocks.
 
 
 \end{document}
